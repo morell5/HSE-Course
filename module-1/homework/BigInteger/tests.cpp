@@ -49,31 +49,26 @@ TEST(ToAssignment, Test1) {
 
 TEST(Arithmetic, Test1) {
     int a = 42;
-    int b = 431;
+    int b = 11;
     BigInteger bigint_a = a;
     BigInteger bigint_b = b;
 
     ++bigint_a -= bigint_b++;
     ++a -= b++;
 
-    std::ostringstream oss;
-    oss << bigint_a;
-    ASSERT_EQ(oss.str(), std::to_string(a));
 
-    ++bigint_a *= bigint_a *= bigint_b;
-    ++a *= a *= b;
-    oss << bigint_a;
-    ASSERT_EQ(oss.str(), std::to_string(a));
-    
+    bigint_b -= bigint_a *= bigint_a *= bigint_b;
+    b -= a *= a *= b;
+
     bigint_a /= 42;
     a /= 42;
-    oss << bigint_a;
-    ASSERT_EQ(oss.str(), std::to_string(a));
-
+    
     bigint_a %= 100;
     a %= 100;
-    oss << bigint_a;
-    ASSERT_EQ(oss.str(), std::to_string(a));
+
+    std::ostringstream oss;
+    oss << bigint_a << bigint_b;
+    ASSERT_EQ(oss.str(), std::to_string(a) + std::to_string(b));
 }
 
 TEST(TypeCast, Test1) {
@@ -94,6 +89,19 @@ TEST(InStream, Test1) {
     oss << bigint_val;
 
     ASSERT_EQ(oss.str(), std::to_string(value));
+}
+
+TEST(Comparison, Test1) {
+
+   std::istringstream iss("9325492345983274589758023847509283745827349587212938129"
+                              "348762838512387487213648172639471269348172397461297");
+    BigInteger a;
+    BigInteger b;
+    iss >> a >> b;
+
+    std::ostringstream oss;
+    oss << (a <= b) << (a >= b) << (a == b) << (a != b) << (a < b) << (a > b);
+    ASSERT_EQ(oss.str(), "010101");
 }
 
 int main(int argc, char** argv) {

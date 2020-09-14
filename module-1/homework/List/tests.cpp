@@ -163,18 +163,17 @@ int main() {
 
     {
         const size_t LIST_COUNT = 5;
-        const size_t ITER_COUNT = 4000;
-        const size_t MAX_SIZE = 500;
+        const size_t ITER_COUNT = 30000;
 
         std::vector<task::list> lists_task(LIST_COUNT);
         std::vector<std::list<int>> lists_std(LIST_COUNT);
 
         for (size_t iter = 0; iter < ITER_COUNT; ++iter) {
             for (size_t list = 0; list < LIST_COUNT; ++list) {
-                if (TossCoin()) {
-                    // Random Push
-                    size_t count = RandomUInt(0, MAX_SIZE - lists_task[list].size());
-                    for (; count; --count) {
+                size_t case_type = lists_task[list].empty() ? 0 : RandomUInt(3);
+                switch (case_type) {
+                    case 0 : {
+                        // Random Push
                         auto val = RandomUInt();
                         if (TossCoin()) {
                             lists_task[list].push_back(val);
@@ -183,11 +182,10 @@ int main() {
                             lists_task[list].push_front(val);
                             lists_std[list].push_front(val);
                         }
+                        break;
                     }
-                } else {
-                    // Random Pop
-                    size_t count = RandomUInt(0, lists_task[list].size());
-                    for (; count; --count) {
+                    case 1: {
+                        // Random Pop
                         if (TossCoin()) {
                             lists_task[list].pop_back();
                             lists_std[list].pop_back();
@@ -195,23 +193,20 @@ int main() {
                             lists_task[list].pop_front();
                             lists_std[list].pop_front();
                         }
+                        break;
                     }
-                }
-
-                switch (RandomUInt(3)) {
-                    case 0:
+                    case 2: {
                         lists_task[list].remove(lists_task[list].back());
                         lists_std[list].remove(lists_std[list].back());
                         break;
-                    case 1:
+                    } 
+                    case 3: {
                         lists_task[list].sort();
                         lists_std[list].sort();
                         break;
+                    }
                 }
-
-                ASSERT_EQUAL_MSG(ToStdList(lists_task[list]), lists_std[list], "Stress test")
             }
         }
     }
-
 }

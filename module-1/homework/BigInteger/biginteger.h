@@ -23,6 +23,8 @@ public:
 
     BigInteger(int number);
 
+    BigInteger(std::string const &number);
+
     BigInteger(BigInteger const &number);
 
     BigInteger &operator=(int number);

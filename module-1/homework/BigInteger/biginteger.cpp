@@ -1,6 +1,7 @@
 #include "biginteger.h"
 
-BigInteger BigInteger::sub(const BigInteger &_this, const BigInteger &number, int sign) {//не учитывает знаки и считает что первое число больше второго
+BigInteger BigInteger::sub(const BigInteger &_this, const BigInteger &number,
+                           int sign) {//не учитывает знаки и считает что первое число больше второго
     BigInteger res;
     int digit = 0;
     for (int i = 0; i < _this._data.size(); i++) {
@@ -25,7 +26,7 @@ std::pair<BigInteger, int> BigInteger::div(const BigInteger &_this, int number) 
     res.sign = res.sign * number_sign;
     number = abs(number);
     for (auto num_ptr = res._data.rbegin(); num_ptr != res._data.rend(); num_ptr++) {
-        uint64_t cur = *num_ptr + (uint64_t)remainder * base;
+        uint64_t cur = *num_ptr + (uint64_t) remainder * base;
         *num_ptr = int(cur / number);
         remainder = int(cur % number);
     }
@@ -44,6 +45,34 @@ BigInteger::BigInteger(int number) {
     while (number > 0) {
         _data.push_back(number % base);
         number /= base;
+    }
+}
+
+BigInteger::BigInteger(std::string const &number) {
+    std::string tmp;
+    for (auto ptr = number.rbegin(); ptr != number.rend(); ptr++) {
+        tmp.push_back(*ptr);
+    }
+    if (tmp.back() == '-') {
+        tmp.pop_back();
+        sign = -1;
+    } else {
+        sign = 1;
+    }
+    while (tmp.back() == '0') {
+        tmp.pop_back();
+    }
+    if (tmp.empty()) {
+        _data.push_back(0);
+        return;
+    }
+    while (!tmp.empty()) {
+        std::string base_num;
+        for (int i = 0; i < 9 && !tmp.empty(); i++){
+            base_num.push_back(tmp.back());
+            tmp.pop_back();
+        }
+        _data.push_back(std::stoi(base_num));
     }
 }
 
@@ -263,7 +292,7 @@ std::ostream &operator<<(std::ostream &out, const BigInteger &number) {
 }
 
 std::istream &operator>>(std::istream &in, BigInteger &number) {
-    int tmp;
+    std::string tmp;
     in >> tmp;
     number = BigInteger(tmp);
     return in;

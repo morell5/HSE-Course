@@ -4,6 +4,9 @@ include(GoogleTest)
 
 project("BigInteger")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -41,4 +44,8 @@ endif()
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(biginteger tests.cpp biginteger.h biginteger.cpp)
 target_link_libraries(biginteger gtest_main)
+
+add_executable(unit_tests unit_tests.cpp biginteger.h biginteger.cpp)
+target_link_libraries(unit_tests gtest_main)
+
 add_test(NAME biginteger_test COMMAND biginteger)

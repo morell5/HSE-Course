@@ -415,7 +415,6 @@ const BigInteger operator*(const BigInteger &a, const BigInteger &b) // деле
         BigInteger c3 = a12 * b12;
         BigInteger c312 = c3 - c1 - c2;
         c = c1.baseinn(k + k) + c312.baseinn(k) + c2;
-        //std::cout << a << " " << b << " " << a1 << " " << a2 << " " << b1 << " " << b2 << " " << c1 << " " << c2 << " " << c3 << " " << c312 << " " << c << std::endl;
     }
     c.remove_zeros();
 

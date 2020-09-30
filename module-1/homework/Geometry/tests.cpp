@@ -39,6 +39,113 @@ TEST(Polygon, EqualOperator) {
     ASSERT_TRUE(actual == expected);
 }
 
+TEST(Polygon, PolygonPerimeter) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    ASSERT_NEAR(poly.perimeter(), 8, 1e-3);
+}
+
+TEST(Polygon, PolygonArea) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    ASSERT_NEAR(poly.area(), 4, 1e-3);
+}
+
+TEST(Polygon, PolygonRotate) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    poly.rotate({0, 0}, 45);
+    vec = poly.getVertices();
+    ASSERT_NEAR(vec[0].x, 0, 1e-4);
+    ASSERT_NEAR(vec[0].y, sqrt(2), 1e-4);
+    ASSERT_NEAR(vec[1].x, -sqrt(2), 1e-4);
+    ASSERT_NEAR(vec[1].y, 0, 1e-4);
+}
+
+TEST(Polygon, PolygonReflexPoint) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    poly.reflex({0, 0});
+    vec = poly.getVertices();
+    ASSERT_NEAR(vec[0].x, -1, 1e-4);
+    ASSERT_NEAR(vec[0].y, -1, 1e-4);
+    ASSERT_NEAR(vec[1].x, 1, 1e-4);
+    ASSERT_NEAR(vec[1].y, -1, 1e-4);
+}
+
+TEST(Polygon, PolygonReflexLine) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    poly.reflex({{-7, 0}, {-6, 0}});
+    vec = poly.getVertices();
+    ASSERT_NEAR(vec[0].x, 1, 1e-4);
+    ASSERT_NEAR(vec[0].y, -1, 1e-4);
+    ASSERT_NEAR(vec[1].x, -1, 1e-4);
+    ASSERT_NEAR(vec[1].y, -1, 1e-4);
+    ASSERT_NEAR(vec[2].x, -1, 1e-4);
+    ASSERT_NEAR(vec[2].y, 1, 1e-4);
+    ASSERT_NEAR(vec[3].x, 1, 1e-4);
+    ASSERT_NEAR(vec[3].y, 1, 1e-4);
+}
+
+TEST(Polygon, PolygonReflexLine2) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    poly.reflex({{-5, -5}, {5, 5}});
+    vec = poly.getVertices();
+    ASSERT_NEAR(vec[0].x, 1, 1e-4);
+    ASSERT_NEAR(vec[0].y, 1, 1e-4);
+    ASSERT_NEAR(vec[1].x, 1, 1e-4);
+    ASSERT_NEAR(vec[1].y, -1, 1e-4);
+    ASSERT_NEAR(vec[2].x, -1, 1e-4);
+    ASSERT_NEAR(vec[2].y, -1, 1e-4);
+    ASSERT_NEAR(vec[3].x, -1, 1e-4);
+    ASSERT_NEAR(vec[3].y, 1, 1e-4);
+}
+
+TEST(Polygon, PolygonContains) {
+    Point a(1, 1);
+    Point b(-1, 1);
+    Point c(-1, -1);
+    Point d(1, -1);
+
+    std::vector<Point> vec = {a, b, c, d};
+    Polygon poly(vec);
+    ASSERT_FALSE(poly.containsPoint({1, 1.5}));
+    ASSERT_TRUE(poly.containsPoint({0, 0}));
+    ASSERT_TRUE(poly.containsPoint({1, 1}));
+}
+
 TEST(Polygon, PolygonConvexity) {
     Point a(0, 1);
     Point b(-1, 0);
@@ -48,6 +155,44 @@ TEST(Polygon, PolygonConvexity) {
     std::vector<Point> vec = {a, b, c, d};
     Polygon poly(vec);
     ASSERT_TRUE(poly.isConvex());
+}
+
+TEST(Polygon, PolygonConvexity2) {
+    Point a(0, 0);
+    Point b(-1, 1);
+    Point c(-1, 2);
+    Point d(0, 3);
+    Point e(1, 2);
+    Point f(1, 1);
+
+    std::vector<Point> vec = {a, b, c, d, e, f};
+    Polygon poly(vec);
+    ASSERT_TRUE(poly.isConvex());
+}
+
+TEST(Polygon, PolygonConvexity3) {
+    Point a(0, 0);
+    Point b(-1, 1);
+    Point c(-1, 2);
+    Point d(0, 3);
+    Point e(1, 2);
+    Point f(-1, 0);
+
+    std::vector<Point> vec = {a, b, c, d, e, f};
+    Polygon poly(vec);
+    ASSERT_FALSE(poly.isConvex());
+}
+
+TEST(Polygon, PolygonConvexity4) {
+    Point a(0, 0);
+    Point b(0, 2);
+    Point c(1, 1);
+    Point d(2, 2);
+    Point e(2, 0);
+
+    std::vector<Point> vec = {a, b, c, d, e};
+    Polygon poly(vec);
+    ASSERT_FALSE(poly.isConvex());
 }
 
 TEST(Similarity, Test1) {
@@ -138,7 +283,7 @@ TEST(Area, TrianglePolygons) {
 
     std::vector<Point> vec = {a, b, d, c};
     Polygon poly(vec);
-    
+
     ASSERT_NEAR(poly.area(), triangle1.area() + triangle2.area(),1e-6);
 }
 
@@ -152,7 +297,7 @@ TEST(Transformations, Test1) {
 
         vec = {a, b, c, d};
     }
-  
+
     Polygon actual(vec);
     actual.rotate(Point(0,0), 45);
     actual.scale(Point(0,0), 20);
@@ -165,7 +310,7 @@ TEST(Transformations, Test1) {
 
         vec = {a, b, c, d};
     }
-  
+
     Polygon expected(vec);
 
     ASSERT_TRUE(actual == expected);
@@ -187,7 +332,7 @@ TEST(Transformations, Test2) {
     actual.rotate(a , 45);
     Line line(a, {1, 1});
     actual.reflex(line);
-    actual.scale(a, 0.05);   
+    actual.scale(a, 0.05);
 
     ASSERT_TRUE(actual == expected);
 }
@@ -197,11 +342,21 @@ TEST(Rectangle, Test1) {
     Point b(2.5, 3.0);
     Point c(1.0, 3.0);
     double ratio = 0.5;
-    
+
     Rectangle rectangle(a, b, ratio);
     Triangle triangle(a, b, c);
     ASSERT_NEAR(rectangle.area(), 2 * triangle.area(), 1e-6);
 }
+
+TEST(Rectangle, Test2) {
+    Point a(1.0, 0.0);
+    Point b(2.5, 3.0);
+    double ratio = 0.5;
+
+    Rectangle rectangle(a, b, ratio);
+    ASSERT_NEAR(rectangle.area(), 4.5, 1e-6);
+}
+
 
 TEST(ContainsPoint, Test1) {
     Point a(1.0, 0.0);
@@ -255,9 +410,42 @@ TEST(Ellipse, Area) {
     Point p2(c, 0.0);
     Ellipse ellipse(p1, p2, 2 * a);
     double pi = 3.1415926;
-    
+
     double area = pi * a * b;
     ASSERT_NEAR(ellipse.area(), area, 1e-6);
+}
+
+TEST(Cirlce, Equality) {
+    ASSERT_TRUE(Circle({0, 0}, 1) == Ellipse({0,0}, {0,0}, 2));
+    Ellipse ellipse{{0, -1}, {0, 1}, 2};
+    ellipse.scale({0, 0}, 4);
+    ASSERT_TRUE(ellipse == Ellipse({0, -4}, {0, 4}, 8));
+}
+
+TEST(Triangle, Circles) {
+    Triangle triangle({0, 0}, {1, 0}, {0, 1});
+    Circle circle = triangle.inscribedCircle();
+    ASSERT_NEAR(circle.center().x, 1 / (2 + sqrt(2)), 1e-3);
+    ASSERT_NEAR(circle.center().y, 1 / (2 + sqrt(2)), 1e-3);
+    ASSERT_NEAR(circle.radius(), 1 / (2 + sqrt(2)), 1e-3);
+
+    circle = triangle.circumscribedCircle();
+    ASSERT_NEAR(circle.center().x, 0.5, 1e-3);
+    ASSERT_NEAR(circle.center().y, 0.5, 1e-3);
+    ASSERT_NEAR(circle.radius(), sqrt(2) / 2, 1e-3);
+}
+
+TEST(Square, Circles) {
+    Square square{{1, 0}, {0, 1}};
+    Circle circle = square.inscribedCircle();
+    ASSERT_NEAR(circle.center().x, 0.5, 1e-3);
+    ASSERT_NEAR(circle.center().y, 0.5, 1e-3);
+    ASSERT_NEAR(circle.radius(), 0.5, 1e-3);
+
+    circle = square.circumscribedCircle();
+    ASSERT_NEAR(circle.center().x, 0.5, 1e-3);
+    ASSERT_NEAR(circle.center().y, 0.5, 1e-3);
+    ASSERT_NEAR(circle.radius(), sqrt(2) / 2, 1e-3);
 }
 
 int main(int argc, char** argv) {

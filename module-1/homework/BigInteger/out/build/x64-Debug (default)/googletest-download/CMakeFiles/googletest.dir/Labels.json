@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/CMakeFiles/googletest"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/CMakeFiles/googletest.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/CMakeFiles/googletest-complete.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-install.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-mkdir.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-download.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-update.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-patch.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-configure.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-build.rule"
+		},
+		{
+			"file" : "B:/Documents/HSE/HSE-Course/module-1/homework/BigInteger/out/build/x64-Debug (default)/googletest-download/googletest-prefix/src/googletest-stamp/googletest-test.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest"
+		],
+		"name" : "googletest"
+	}
+}

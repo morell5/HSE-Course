@@ -17,10 +17,6 @@ public:
 
 	static void swap(BigInteger& a, BigInteger& b);
 
-	static const BigInteger StringToBigInteger(std::string& strNumber);
-
-	static std::string BigIntegerToString(const BigInteger& bigInt);
-
 	std::string toString();
 
 	BigInteger& operator=(const BigInteger& bigInt);
@@ -79,6 +75,10 @@ private:
 	std::vector <uint32_t> number;
 	bool is_neg;
 
+	static const BigInteger StringToBigInteger(std::string& strNumber);
+
+	static std::string BigIntegerToString(const BigInteger& bigInt);
+
 	static void set_left_null(BigInteger& bigInt);
 
 	static const BigInteger abs_with_copy(const BigInteger& bigInt);
@@ -93,9 +93,9 @@ private:
 
 	static const BigInteger& substraction_from_right(BigInteger& a, const BigInteger& b);
 
-	static const std::vector<BigInteger> split(const BigInteger& bitInt, const std::size_t& size);	
+	static const std::vector<BigInteger> split(const BigInteger& bitInt, const std::size_t size);	
 
-	static const BigInteger mult10(const BigInteger& bigInt, const std::size_t& exponent);
+	static const BigInteger mult10(const BigInteger& bigInt, const std::size_t exponent);
 
 	static const BigInteger mult(const std::size_t size, BigInteger x, BigInteger y);
 

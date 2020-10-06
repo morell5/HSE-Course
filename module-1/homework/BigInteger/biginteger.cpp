@@ -287,7 +287,13 @@ BigInteger& BigInteger::operator+=(const BigInteger& bigInt) {
 }
 
 BigInteger& BigInteger::operator-=(const BigInteger& bigInt) {
-	return *this += (-bigInt);	
+	if (this->is_neg != bigInt.is_neg)
+		*this = BigInteger::sum_abs(*this, bigInt);
+	else if (this->is_neg == false && bigInt.is_neg == false)
+		*this = ((this->is_neg = BigInteger::less(*this, bigInt)) ? BigInteger::substraction_from_right(*this, bigInt) : BigInteger::substraction_from_left(*this, bigInt));
+	else if (this->is_neg == true && bigInt.is_neg == true)
+		*this = ((this->is_neg = BigInteger::less(bigInt, *this)) ? BigInteger::substraction_from_left(*this, bigInt) : BigInteger::substraction_from_right(*this, bigInt));
+	return *this;
 }
 
 BigInteger& BigInteger::operator*=(const BigInteger& bigInt) {
@@ -404,3 +410,9 @@ bool operator<=(const BigInteger& a, const BigInteger& b) {
 bool operator>=(const BigInteger& a, const BigInteger& b) {
 	return !(a < b);
 }
+
+// int main() {
+// 	BigInteger a, b;
+// 	std::cin >> a >> b;
+// 	std::cout << a - b << std::endl;
+// }

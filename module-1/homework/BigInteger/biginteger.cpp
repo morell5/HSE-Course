@@ -410,9 +410,3 @@ bool operator<=(const BigInteger& a, const BigInteger& b) {
 bool operator>=(const BigInteger& a, const BigInteger& b) {
 	return !(a < b);
 }
-
-// int main() {
-// 	BigInteger a, b;
-// 	std::cin >> a >> b;
-// 	std::cout << a - b << std::endl;
-// }

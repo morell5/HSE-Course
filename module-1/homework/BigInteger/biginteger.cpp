@@ -3,7 +3,7 @@
 BigInteger::operator int() const {
     int res = 0;
     int mult = 1;
-    for (int i = 1; i < _digits->size(); ++i) {
+    for (size_t i = 1; i < _digits->size(); ++i) {
         res += (*_digits)[i] * mult;
         mult *= BASE;
     }
@@ -41,7 +41,7 @@ bool BigInteger::operator==(const BigInteger& other) const {
     }
 
     int len = _digits->size();
-    for (int i = 0; i < len; ++i) {
+    for (size_t i = 0; i < len; ++i) {
         if ((*_digits)[i] != (*other._digits)[i]) {
             return false;
         }
@@ -54,13 +54,11 @@ bool BigInteger::operator!=(const BigInteger &other) const {
 }
 
 bool BigInteger::operator<=(const BigInteger& other) const{
-    // this number is positive and other is negative
-    if ((*_digits)[0] == 0 && (*other._digits)[0] == 1) {
+    if (isPositive() && !other.isPositive()) {
         return false;
     }
 
-    // this number is negative and other is positive
-    if ((*_digits)[0] == 1 && (*other._digits)[0] == 0) {
+    if (!isPositive() && other.isPositive()) {
         return true;
     }
 
@@ -69,11 +67,9 @@ bool BigInteger::operator<=(const BigInteger& other) const{
         case 0:
             return true;
         case 1:
-            if (isPositive()) return false;
-            return true;
+            return !isPositive();
         case -1:
-            if (isPositive()) return true;
-            return false;
+            return isPositive();
     }
 }
 
@@ -301,7 +297,7 @@ std::string BigInteger::toString() {
     if ((*_digits)[0]) {
         outstr += "-";
     }
-    for (int i = _digits->size() - 1; i > 0; --i) {
+    for (size_t i = _digits->size() - 1; i > 0; --i) {
         outstr += std::to_string((*_digits)[i]);
     }
     return outstr;
@@ -323,7 +319,7 @@ int BigInteger::compareModulus(const BigInteger &other) const {
     }
 
     int len = _digits->size();
-    for (int i = len - 1; i > 0; --i) {
+    for (size_t i = len - 1; i > 0; --i) {
         if ((*_digits)[i] == (*other._digits)[i]) {
             continue;
         }
@@ -348,7 +344,7 @@ BigInteger BigInteger::sum(const BigInteger& lhs, const BigInteger& rhs, bool si
     res._digits->push_back(sign);
     int len = std::max(lhs._digits->size(), rhs._digits->size());
     bool extra = false;
-    for (int i = 1; i < len; ++i) {
+    for (size_t i = 1; i < len; ++i) {
         int summand1 = 0, summand2 = 0;
         if (i < lhs._digits->size()) {
             summand1 = (*lhs._digits)[i];
@@ -383,7 +379,7 @@ BigInteger BigInteger::substract(const BigInteger& lhs, const BigInteger& rhs, b
     res._digits->push_back(sign);
     int len = lhs._digits->size();
     bool extra = false;
-    for (int i = 1; i < len; ++i) {
+    for (size_t i = 1; i < len; ++i) {
         int minuend = (*lhs._digits)[i];
         int subtrahend = 0;
         if (i < rhs._digits->size()) {

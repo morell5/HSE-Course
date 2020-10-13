@@ -1,10 +1,7 @@
 #include "biginteger.h"
 
 std::string setlen(int len, std::string s) {
-  std::string out = "";
-  for (std::size_t i = 0; i < len - s.size(); i++) {
-    out += "0";
-  }
+  std::string out(len - s.size(), '0');
   return out + s;
 }
 
@@ -58,7 +55,7 @@ BigInteger::BigInteger(int number) {
 }
 
 BigInteger::BigInteger(std::string number) {
-  if (number.size() == 0) {
+  if (number.empty()) {
     negative_flag = 0;
     data = std::vector<int>(1, 0);
   } else {
@@ -83,7 +80,7 @@ BigInteger::BigInteger(std::string number) {
 BigInteger::BigInteger(std::vector<int> arr) {
   data = arr;
   negative_flag = 0;
-  if (data.size() == 0) {
+  if (data.empty()) {
     data.push_back(0);
   }
   remove_zeros();

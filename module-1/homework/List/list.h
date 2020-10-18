@@ -4,16 +4,23 @@
 
 namespace task {
 
+    struct ListNode {
+        int val;
+        ListNode* next = nullptr;
+        ListNode* prev = nullptr;
+        ListNode(int elem): val(elem) {}
+    };
 
 class list {
-
 public:
-
     list();
     list(size_t count, const int& value = int());
+    list(const list& tmp);
+    list(list&& tmp);
 
     ~list();
     list& operator=(const list& other);
+    list& operator=(list&& other);
 
 
     int& front();
@@ -36,15 +43,18 @@ public:
     void swap(list& other);
 
 
-    void remove(const int& value);
+    void remove(const int value);
     void unique();
     void sort();
 
     // Your code goes here?..
 
 private:
+    size_t size_;
+    ListNode* head_ = nullptr;
+    ListNode* tail_ = nullptr;
 
-    // Your code goes here...
+    void remove_node_(ListNode* node);
 
 };
 

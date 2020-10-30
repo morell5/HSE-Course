@@ -21,35 +21,35 @@ class UnsignedBigInteger
 
 	~UnsignedBigInteger();
 
-	friend bool operator<(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator<(const UnsignedBigInteger& b) const;
 
-	friend bool operator==(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator==(const UnsignedBigInteger& b) const;
 
-	friend bool operator!=(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator!=(const UnsignedBigInteger& b) const;
 
-	friend bool operator>(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator>(const UnsignedBigInteger& b) const;
 
-	friend bool operator<=(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator<=(const UnsignedBigInteger& b) const;
 
-	friend bool operator>=(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	bool operator>=(const UnsignedBigInteger& b) const;
 
 	UnsignedBigInteger& operator=(const UnsignedBigInteger& copy);
 
-	friend UnsignedBigInteger operator+(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	UnsignedBigInteger operator+(const UnsignedBigInteger& b) const;
 
-	friend UnsignedBigInteger operator-(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	UnsignedBigInteger operator-(const UnsignedBigInteger& b) const;
 
-//	friend UnsignedBigInteger operator*(const UnsignedBigInteger& a, const UnsignedBigInteger& b);
+	UnsignedBigInteger operator*(const UnsignedBigInteger& b) const;
 
 //  friend UnsignedBigInteger operator/(const UnsignedBigInteger &a, const UnsignedBigInteger& b);
 //
 //  friend UnsignedBigInteger operator%(const UnsignedBigInteger &a, const UnsignedBigInteger& b);
 
-	UnsignedBigInteger& operator+=(const UnsignedBigInteger& a);
+	UnsignedBigInteger& operator+=(const UnsignedBigInteger& b);
 
-	UnsignedBigInteger& operator-=(const UnsignedBigInteger& a);
+	UnsignedBigInteger& operator-=(const UnsignedBigInteger& b);
 
-//	UnsignedBigInteger& operator*=(const UnsignedBigInteger& a);
+	UnsignedBigInteger& operator*=(const UnsignedBigInteger& b);
 
 //  UnsignedBigInteger &operator/=(const UnsignedBigInteger &a);
 //

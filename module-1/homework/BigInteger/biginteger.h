@@ -17,24 +17,26 @@ class BigInteger : protected UnsignedBigInteger
 
 	BigInteger(const BigInteger& copy);
 
+	BigInteger(const UnsignedBigInteger& copy);
+
 	BigInteger& operator=(const BigInteger& copy);
 
-//  BigInteger operator+(const BigInteger &a);
+	BigInteger operator+(const BigInteger& b) const;
+
+	BigInteger operator-(const BigInteger& b) const;
+
+	BigInteger operator*(const BigInteger& b) const;
+
+//	friend BigInteger operator/(const BigInteger& a, const BigInteger& b);
 //
-//  BigInteger operator-(const BigInteger &a);
-//
-//  BigInteger operator*(const BigInteger &a);
-//
-//  BigInteger operator/(const BigInteger &a);
-//
-//  BigInteger operator%(const BigInteger &a);
-//
-//  BigInteger &operator+=(const BigInteger &a);
-//
-//  BigInteger &operator-=(const BigInteger &a);
-//
-//  BigInteger &operator*=(const BigInteger &a);
-//
+//	friend BigInteger operator%(const BigInteger& a, const BigInteger& b);
+
+	BigInteger& operator+=(const BigInteger& b);
+
+	BigInteger& operator-=(const BigInteger& b);
+
+	BigInteger& operator*=(const BigInteger& b);
+
 //  BigInteger &operator/=(const BigInteger &a);
 //
 //  BigInteger &operator%=(const BigInteger &a);
@@ -49,17 +51,17 @@ class BigInteger : protected UnsignedBigInteger
 
 	const BigInteger operator--(int);
 
-	friend bool operator<(const BigInteger& a, const BigInteger& b);
+	bool operator<(const BigInteger& b) const;
 
-	friend bool operator==(BigInteger& a, const BigInteger& b);
+	bool operator==(const BigInteger& b) const;
 
-	friend bool operator!=(BigInteger& a, const BigInteger& b);
+	bool operator!=(const BigInteger& b) const;
 
-	friend bool operator>(BigInteger& a, const BigInteger& b);
+	bool operator>(const BigInteger& b) const;
 
-	friend bool operator<=(BigInteger& a, const BigInteger& b);
+	bool operator<=(const BigInteger& b) const;
 
-	friend bool operator>=(BigInteger& a, const BigInteger& b);
+	bool operator>=(const BigInteger& b) const;
 
 	friend std::ostream& operator<<(std::ostream& out, const BigInteger& number);
 

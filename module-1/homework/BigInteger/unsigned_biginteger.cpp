@@ -397,8 +397,8 @@ UnsignedBigInteger& UnsignedBigInteger::operator-=(const UnsignedBigInteger& b)
 
 UnsignedBigInteger UnsignedBigInteger::operator*(const UnsignedBigInteger& b) const
 {
-	//TODO : Fix this shit
 	UnsignedBigInteger newNumber;
+
 	if ((b.digits.size() == 1 && b.digits[0] == '0') || (digits.size() == 1 && digits[0] == '0'))
 	{
 		return newNumber;
@@ -408,32 +408,29 @@ UnsignedBigInteger UnsignedBigInteger::operator*(const UnsignedBigInteger& b) co
 		newNumber.digits.clear();
 	}
 
-	char dopNum = 0;
-	size_t i = 0;
+	UnsignedBigInteger bufNumber;
 
-	for (; i < std::min(digits.size(), b.digits.size()); ++i)
+	for (size_t i = 0; i < digits.size(); ++i)
 	{
-		char buf = (digits[i] - '0') * (b.digits[i] - '0');
-		newNumber.digits.push_back((buf + dopNum) % 10 + '0');
-		dopNum = (buf + dopNum) / 10;
-	}
+		bufNumber.digits.clear();
+		char dopNum = 0;
 
-	while (i < digits.size()) {
-		char buf = (digits[i] - '0') + dopNum;
-		newNumber.digits.push_back(buf % 10 + '0');
-		dopNum = buf / 10;
-		++i;
-	}
+		for (size_t k = 0; k < i; ++k) {
+			bufNumber.digits.push_back('0');
+		}
 
-	while (i < b.digits.size()) {
-		char buf = (b.digits[i] - '0') + dopNum;
-		newNumber.digits.push_back(buf % 10 + '0');
-		dopNum = buf / 10;
-		++i;
-	}
+		for (size_t j = 0; j < b.digits.size(); ++j)
+		{
+			char buf = (digits[i] - '0') * (b.digits[j] - '0') + dopNum;
+			bufNumber.digits.push_back(buf % 10 + '0');
+			dopNum = buf / 10;
+		}
 
-	if (dopNum != 0)
-		newNumber.digits.push_back(dopNum + '0');
+		if (dopNum != 0)
+			bufNumber.digits.push_back(dopNum + '0');
+
+		newNumber += bufNumber;
+	}
 
 	return newNumber;
 }
@@ -447,34 +444,61 @@ UnsignedBigInteger& UnsignedBigInteger::operator*=(const UnsignedBigInteger& b)
 		return *this;
 	}
 
-	char dopNum = 0;
-	size_t i = 0;
+	UnsignedBigInteger newNumber;
+	newNumber.digits.clear();
+	UnsignedBigInteger bufNumber;
 
-	for (; i < std::min(digits.size(), b.digits.size()); ++i)
+	for (size_t i = 0; i < digits.size(); ++i)
 	{
-		char buf = (digits[i] - '0') * (b.digits[i] - '0');
-		digits[i] = (buf + dopNum) % 10 + '0';
-		dopNum = (buf + dopNum) / 10;
+		bufNumber.digits.clear();
+		char dopNum = 0;
+
+		for (size_t k = 0; k < i; ++k) {
+			bufNumber.digits.push_back('0');
+		}
+
+		for (size_t j = 0; j < b.digits.size(); ++j)
+		{
+			char buf = (digits[i] - '0') * (b.digits[j] - '0') + dopNum;
+			bufNumber.digits.push_back(buf % 10 + '0');
+			dopNum = buf / 10;
+		}
+
+		if (dopNum != 0)
+			bufNumber.digits.push_back(dopNum + '0');
+
+		newNumber += bufNumber;
 	}
 
-	while (i < digits.size()) {
-		char buf = (digits[i] - '0') + dopNum;
-		digits[i] = buf % 10 + '0';
-		dopNum = buf / 10;
-		++i;
-	}
-
-	while (i < b.digits.size()) {
-		char buf = (b.digits[i] - '0') + dopNum;
-		digits[i] = buf % 10 + '0';
-		dopNum = buf / 10;
-		++i;
-	}
-
-	if (dopNum != 0)
-		digits.push_back(dopNum + '0');
-
+	digits = newNumber.digits;
 	return *this;
+}
+
+UnsignedBigInteger UnsignedBigInteger::operator/(const UnsignedBigInteger& b) const
+{
+	UnsignedBigInteger newNum;
+	newNum.digits.clear();
+	UnsignedBigInteger current;
+	current.digits.clear();
+
+	for(size_t i = digits.size() - 1; i >= 0; ++i) {
+		current.digits.push_back(digits[i]);
+		if(current >= b) {
+			UnsignedBigInteger buf = b;
+			size_t j = 1;
+			while (current < buf)
+			{
+				buf += b;
+				++j;
+			}
+			newNum.digits.push_back(j + '0');
+			current = current - (buf + b);
+
+			if(current.digits.size() == 0 && current.digits[0] == '0')
+				current.digits.pop_back();
+		}
+	}
+
 }
 
 

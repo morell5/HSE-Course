@@ -302,15 +302,15 @@ BigInteger& BigInteger::operator-=(const BigInteger& b)
 
 BigInteger BigInteger::operator*(const BigInteger& b) const
 {
-	BigInteger newNum = UnsignedBigInteger::operator*(b);
-	newNum.sign = sign ^ b.sign;
+	BigInteger newNum = (BigInteger)UnsignedBigInteger::operator*(b);
+	newNum.sign = !(sign ^ b.sign);
 	return newNum;
 }
 
 BigInteger& BigInteger::operator*=(const BigInteger& b)
 {
 	UnsignedBigInteger::operator*=(b);
-	sign^=b.sign;
+	sign = !(sign ^ b.sign);
 	return *this;
 }
 

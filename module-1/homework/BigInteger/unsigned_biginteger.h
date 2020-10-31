@@ -41,8 +41,8 @@ class UnsignedBigInteger
 
 	UnsignedBigInteger operator*(const UnsignedBigInteger& b) const;
 
-//  friend UnsignedBigInteger operator/(const UnsignedBigInteger &a, const UnsignedBigInteger& b);
-//
+  UnsignedBigInteger operator/(const UnsignedBigInteger& b) const;
+
 //  friend UnsignedBigInteger operator%(const UnsignedBigInteger &a, const UnsignedBigInteger& b);
 
 	UnsignedBigInteger& operator+=(const UnsignedBigInteger& b);
@@ -51,8 +51,8 @@ class UnsignedBigInteger
 
 	UnsignedBigInteger& operator*=(const UnsignedBigInteger& b);
 
-//  UnsignedBigInteger &operator/=(const UnsignedBigInteger &a);
-//
+  UnsignedBigInteger &operator/=(const UnsignedBigInteger &a);
+
 //  UnsignedBigInteger &operator%=(const UnsignedBigInteger &a);
 
 	const UnsignedBigInteger& operator++();

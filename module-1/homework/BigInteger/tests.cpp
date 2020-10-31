@@ -102,11 +102,21 @@ TEST(MinusEq, Test1)
 
 TEST(Multiply, Test1)
 {
-	int a = 43;
-	int b = -23;
+	int a = 2332;
+	int b = 54;
 	BigInteger big_value_a = a;
 	BigInteger big_value_b = b;
 	big_value_a = big_value_a * big_value_b;
+	ASSERT_EQ(big_value_a.toString(), std::to_string(a * b));
+}
+
+TEST(MultiplyEq, Test1)
+{
+	int a = 564;
+	int b = 2;
+	BigInteger big_value_a = a;
+	BigInteger big_value_b = b;
+	big_value_a *=  big_value_b;
 	ASSERT_EQ(big_value_a.toString(), std::to_string(a * b));
 }
 

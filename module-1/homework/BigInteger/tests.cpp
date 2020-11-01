@@ -140,6 +140,24 @@ TEST(DivideEq, Test1)
 	ASSERT_EQ(big_value_a.toString(), std::to_string(a / b));
 }
 
+TEST(DivideZero, Test1)
+{
+	int a = 127456;
+	int b = 0;
+	BigInteger big_value_a = a;
+	BigInteger big_value_b = b;
+	ASSERT_THROW(big_value_a / big_value_b, UnsignedBigInteger::divide_by_zero);
+}
+
+TEST(DivideEqZero, Test1)
+{
+	int a = 127456;
+	int b = 0;
+	BigInteger big_value_a = a;
+	BigInteger big_value_b = b;
+	ASSERT_THROW(big_value_a /= big_value_b, UnsignedBigInteger::divide_by_zero);
+}
+
 TEST(Mod, Test1)
 {
 	int a = 4423412;

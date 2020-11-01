@@ -21,6 +21,10 @@ class UnsignedBigInteger
 
 	~UnsignedBigInteger();
 
+	class divide_by_zero : public std::exception
+	{
+	};
+
 	bool operator<(const UnsignedBigInteger& b) const;
 
 	bool operator==(const UnsignedBigInteger& b) const;
@@ -41,9 +45,9 @@ class UnsignedBigInteger
 
 	UnsignedBigInteger operator*(const UnsignedBigInteger& b) const;
 
-  UnsignedBigInteger operator/(const UnsignedBigInteger& b) const;
+	UnsignedBigInteger operator/(const UnsignedBigInteger& b) const;
 
-//  friend UnsignedBigInteger operator%(const UnsignedBigInteger &a, const UnsignedBigInteger& b);
+	UnsignedBigInteger operator%(const UnsignedBigInteger& b) const;
 
 	UnsignedBigInteger& operator+=(const UnsignedBigInteger& b);
 
@@ -51,9 +55,9 @@ class UnsignedBigInteger
 
 	UnsignedBigInteger& operator*=(const UnsignedBigInteger& b);
 
-  UnsignedBigInteger &operator/=(const UnsignedBigInteger &a);
+	UnsignedBigInteger& operator/=(const UnsignedBigInteger& b);
 
-//  UnsignedBigInteger &operator%=(const UnsignedBigInteger &a);
+	UnsignedBigInteger& operator%=(const UnsignedBigInteger& b);
 
 	const UnsignedBigInteger& operator++();
 

@@ -27,9 +27,9 @@ class BigInteger : protected UnsignedBigInteger
 
 	BigInteger operator*(const BigInteger& b) const;
 
-//	friend BigInteger operator/(const BigInteger& a, const BigInteger& b);
-//
-//	friend BigInteger operator%(const BigInteger& a, const BigInteger& b);
+	BigInteger operator/(const BigInteger& b) const;
+
+	BigInteger operator%(const BigInteger& b) const;
 
 	BigInteger& operator+=(const BigInteger& b);
 
@@ -37,19 +37,19 @@ class BigInteger : protected UnsignedBigInteger
 
 	BigInteger& operator*=(const BigInteger& b);
 
-//  BigInteger &operator/=(const BigInteger &a);
-//
-//  BigInteger &operator%=(const BigInteger &a);
+	BigInteger& operator/=(const BigInteger& b);
+
+	BigInteger& operator%=(const BigInteger& b);
 
 	BigInteger operator-();
 
-	const BigInteger& operator++();
+	BigInteger& operator++();
 
-	const BigInteger operator++(int);
+	BigInteger operator++(int);
 
-	const BigInteger& operator--();
+	BigInteger& operator--();
 
-	const BigInteger operator--(int);
+	BigInteger operator--(int);
 
 	bool operator<(const BigInteger& b) const;
 
@@ -70,6 +70,8 @@ class BigInteger : protected UnsignedBigInteger
 	std::string toString() const override;
 
 	operator bool();
+
+	bool isZero() const;
  protected:
 	bool sign;
 };

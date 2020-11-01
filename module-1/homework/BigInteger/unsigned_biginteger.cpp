@@ -306,7 +306,7 @@ UnsignedBigInteger UnsignedBigInteger::operator-(const UnsignedBigInteger& b) co
 		}
 	}
 
-	while (i < digits.size() - 1)
+	while (i < digits.size())
 	{
 		if (nextRank)
 		{
@@ -326,18 +326,8 @@ UnsignedBigInteger UnsignedBigInteger::operator-(const UnsignedBigInteger& b) co
 		++i;
 	}
 
-	if (i < digits.size())
-	{
-		if (nextRank)
-		{
-			if (digits[i] != '1')
-				newNumber.digits.push_back(digits[i] - nextRank);
-		}
-		else
-		{
-			newNumber.digits.push_back(digits[i]);
-		}
-	}
+	while (newNumber.digits[newNumber.digits.size() - 1] == '0')
+		newNumber.digits.erase(newNumber.digits.end() - 1);
 
 	return newNumber;
 }
@@ -368,7 +358,7 @@ UnsignedBigInteger& UnsignedBigInteger::operator-=(const UnsignedBigInteger& b)
 		}
 	}
 
-	while (i < digits.size() - 1)
+	while (i < digits.size())
 	{
 		if (nextRank)
 		{
@@ -387,10 +377,8 @@ UnsignedBigInteger& UnsignedBigInteger::operator-=(const UnsignedBigInteger& b)
 		++i;
 	}
 
-	if (digits[i] != '1')
-		digits[i] = digits[i] - nextRank;
-	else
-		digits.pop_back();
+	while (digits[digits.size() - 1] == '0')
+		digits.erase(digits.end() - 1);
 
 	return *this;
 }
@@ -415,7 +403,8 @@ UnsignedBigInteger UnsignedBigInteger::operator*(const UnsignedBigInteger& b) co
 		bufNumber.digits.clear();
 		char dopNum = 0;
 
-		for (size_t k = 0; k < i; ++k) {
+		for (size_t k = 0; k < i; ++k)
+		{
 			bufNumber.digits.push_back('0');
 		}
 
@@ -453,7 +442,8 @@ UnsignedBigInteger& UnsignedBigInteger::operator*=(const UnsignedBigInteger& b)
 		bufNumber.digits.clear();
 		char dopNum = 0;
 
-		for (size_t k = 0; k < i; ++k) {
+		for (size_t k = 0; k < i; ++k)
+		{
 			bufNumber.digits.push_back('0');
 		}
 
@@ -477,28 +467,127 @@ UnsignedBigInteger& UnsignedBigInteger::operator*=(const UnsignedBigInteger& b)
 UnsignedBigInteger UnsignedBigInteger::operator/(const UnsignedBigInteger& b) const
 {
 	UnsignedBigInteger newNum;
-	newNum.digits.clear();
+
+	if (b.digits.size() == 1 && b.digits[0] == '0')
+	{
+		throw UnsignedBigInteger::divide_by_zero();
+	}
+
 	UnsignedBigInteger current;
+	newNum.digits.clear();
 	current.digits.clear();
 
-	for(size_t i = digits.size() - 1; i >= 0; ++i) {
-		current.digits.push_back(digits[i]);
-		if(current >= b) {
+	for (int i = digits.size() - 1; i >= 0; --i)
+	{
+		current.digits.insert(current.digits.begin(), digits[i]);
+		if (current >= b)
+		{
 			UnsignedBigInteger buf = b;
 			size_t j = 1;
-			while (current < buf)
+			while (current > buf)
 			{
 				buf += b;
 				++j;
 			}
-			newNum.digits.push_back(j + '0');
-			current = current - (buf + b);
 
-			if(current.digits.size() == 0 && current.digits[0] == '0')
-				current.digits.pop_back();
+			if (current == buf)
+			{
+				newNum.digits.push_back(j + '0');
+				current.digits.clear();
+			}
+			else
+			{
+				newNum.digits.push_back(j - 1 + '0');
+				current = current - (buf - b);
+			}
+		}
+		else
+		{
+			if (newNum.digits.size() != 0)
+				newNum.digits.push_back('0');
 		}
 	}
 
+	if (newNum.digits.size() == 0)
+	{
+		newNum.digits.push_back('0');
+	}
+	else
+	{
+		std::reverse(newNum.digits.begin(), newNum.digits.end());
+	}
+
+	return newNum;
+}
+
+UnsignedBigInteger& UnsignedBigInteger::operator/=(const UnsignedBigInteger& b)
+{
+	UnsignedBigInteger newNum;
+
+	if (b.digits.size() == 1 && b.digits[0] == '0')
+	{
+		throw UnsignedBigInteger::divide_by_zero();
+	}
+
+	UnsignedBigInteger current;
+	newNum.digits.clear();
+	current.digits.clear();
+
+	for (int i = digits.size() - 1; i >= 0; --i)
+	{
+		current.digits.insert(current.digits.begin(), digits[i]);
+		if (current >= b)
+		{
+			UnsignedBigInteger buf = b;
+			size_t j = 1;
+			while (current > buf)
+			{
+				buf += b;
+				++j;
+			}
+
+			if (current == buf)
+			{
+				newNum.digits.push_back(j + '0');
+				current.digits.clear();
+			}
+			else
+			{
+				newNum.digits.push_back(j - 1 + '0');
+				current = current - (buf - b);
+			}
+		}
+		else
+		{
+			if (newNum.digits.size() != 0)
+				newNum.digits.push_back('0');
+		}
+	}
+
+	if (newNum.digits.size() == 0)
+	{
+		newNum.digits.push_back('0');
+	}
+	else
+	{
+		std::reverse(newNum.digits.begin(), newNum.digits.end());
+	}
+
+	digits = newNum.digits;
+
+	return *this;
+}
+
+UnsignedBigInteger UnsignedBigInteger::operator%(const UnsignedBigInteger& b) const
+{
+	UnsignedBigInteger newNum = operator-(operator/(b).operator*(b));
+	return newNum;
+}
+
+UnsignedBigInteger& UnsignedBigInteger::operator%=(const UnsignedBigInteger& b)
+{
+	operator-=(operator/(b).operator*(b));
+	return *this;
 }
 
 

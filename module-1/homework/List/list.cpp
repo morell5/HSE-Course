@@ -523,6 +523,8 @@ void list::unique()
     }
     arr_to_list(element->next, arr2, 0, ind);
     rebuild(element);
+    delete[] arr;
+    delete[] arr2;
     /*unique_back(element->next);
     this->next = element->next;
     unique_front(element->last);

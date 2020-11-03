@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <set>
 
 namespace task {
 
@@ -29,9 +30,9 @@ namespace task {
         void copy_front(list*& element, int* arr, int& n);
 
         // find front | back elements
-        void find_back_element(list*& element);
+        int find_back_element(list*& element, int counter); // return all back
 
-        void find_front_element(list*& element);
+        int find_front_element(list*& element, int counter); // return all front
 
         // functions for destructor
         void destructor_clear_back(list*& element);
@@ -55,18 +56,15 @@ namespace task {
 
         void remove_last(list*& element, const int& value);
 
-        // delete unique front and back
-        void unique_back(list*& element);
-
-        void unique_front(list*& element);
-
         // my code
         void walk(list* element);
 
         void out();
 
-    public:
+        void rebuild(list*& element);
 
+    public:
+        
         // constructors
         list();
 
@@ -85,9 +83,9 @@ namespace task {
 
         // return back element
         int& back();
-       
+
         const int& back() const;
-        
+
         // check on empty
         bool empty();
 

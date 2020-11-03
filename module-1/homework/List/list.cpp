@@ -3,30 +3,46 @@
 using namespace task;
 
 // find front | back elements
-void list::find_back_element(list*& element)
+int list::find_back_element(list*& element, int counter)
 {
+    if (counter == 0 && element->next == nullptr)
+    {
+       if (element->last != nullptr)
+       {
+        this->back_element = element->last->value;
+       }
+       return counter;
+    }
     if (element->next == nullptr)
     {
         this->back_element = element->value;
-        return;
+        return counter;
     }
     else
     {
-        find_back_element(element->next);
+        find_back_element(element->next, counter + 1);
     }
 }
 
-void list::find_front_element(list*& element)
+int list::find_front_element(list*& element, int counter)
 {
-
-    if (element->last == nullptr)
+    if (counter == 0 && element->last == nullptr)
     {
+        if (element->next != nullptr) 
+        {
+            this->front_element = element->next->value;
+        }
+        return counter;
+    }
+    if (element->last == nullptr) 
+    {
+    
         this->front_element = element->value;
-        return;
+        return counter;
     }
     else
     {
-        find_front_element(element->last);
+        find_front_element(element->last, counter + 1);
     }
 }
 
@@ -56,18 +72,6 @@ void list::walk(list* element)
 void list::merge(int left_1, int right_1, int left_2, int right_2, int* arr)
 {
     int* sort_arr = new int[right_1 - left_1 + right_2 - left_2 + 2];
-    /*std::cout << left_1 << ' ' << right_1 << ' ' << left_2 << ' ' << right_2 << std::endl;
-    std::cout << "start\n";
-    for (int i = left_1; i <= right_1; i++)
-    {
-        std::cout << arr[i] << ' ';
-    }
-    std::cout << std::endl;
-    for (int i = left_2; i <= right_2; i++)
-    {
-        std::cout << arr[i] << ' ';
-    }
-    std::cout << "\nend\n";*/
     int left = left_1;
     int right = right_2;
     for (int index = 0; left_1 <= right_1 || left_2 <= right_2; index++)
@@ -166,8 +170,7 @@ void list::sort()
     this->last = nullptr;
     arr_to_list(element->next, arr, 0, n);
     delete[] arr;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
 // constructor
@@ -257,7 +260,7 @@ const int& list::front() const
 // return back element
 int& list::back()
 {
-    return this->front_element;
+    return this->back_element;
 }
 
 const int& list::back() const
@@ -273,6 +276,21 @@ bool list::empty()
         return true;
     }
     return false;
+}
+
+// rebuild
+void list::rebuild(list*& element)
+{
+    this->next = element->next;
+    this->last = element->last;
+    int size_front = find_front_element(element, 0);
+    int size_back = find_back_element(element, 0);
+    this->size_list = size_front + size_back;
+    if (this->size_list == 0)
+    {
+        this->back_element = -1e9;
+        this->front_element = -1e9;
+    }
 }
 
 // return size
@@ -314,9 +332,7 @@ void list::push_back(const int& value)
     list* element = this;
     add_back(element, value);
     this->next = element->next;
-    this->size_list++;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
 // push_front
@@ -338,10 +354,7 @@ void list::push_front(const int& value)
 {
     list* element = this;
     add_front(element, value);
-    this->last = element->last;
-    this->size_list++;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
 // pop_back
@@ -349,6 +362,10 @@ void list::delete_back(list*& element)
 {
     if (element->next == nullptr)
     {
+        if (element->last != nullptr)
+        {
+            element->last = element->last->last;
+        }
         return;
     }
     if (element->next->next == nullptr)
@@ -363,10 +380,7 @@ void list::pop_back()
 {
     list* element = this;
     delete_back(element);
-    this->next = element->next;
-    this->size_list--;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
 // pop_front
@@ -374,6 +388,10 @@ void list::delete_front(list*& element)
 {
     if (element->last == nullptr)
     {
+        if (element->next != nullptr)
+        {
+            element->next = element->next->next;
+        }
         return;
     }
     if (element->last->last == nullptr)
@@ -388,10 +406,7 @@ void list::pop_front()
 {
     list* element = this;
     delete_front(element);
-    this->last = element->last;
-    this->size_list--;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
 // resize
@@ -409,12 +424,12 @@ void list::resize(size_t count)
 
 // swap
 
-void swap_p(list* &first, list* &second)
+void swap_p(list*& first, list*& second)
 {
     list* third = first;
     first = second;
     second = third;
-    
+
 }
 
 void swap_i(int& first, int& second)
@@ -444,7 +459,10 @@ void list::remove_next(list*& element, const int& value)
             element->next = element->next->next;
             remove_next(element, value);
         }
-        remove_next(element->next, value);
+        else 
+        {
+            remove_next(element->next, value);
+        }
     }
     else
     {
@@ -463,7 +481,10 @@ void list::remove_last(list*& element, const int& value)
             element->last = element->last->last;
             remove_last(element, value);
         }
-        remove_last(element->last, value);
+        else
+        {
+            remove_last(element->last, value);
+        }
     }
     else
     {
@@ -477,58 +498,37 @@ void list::remove(const int& value)
     list* element = this;
     remove_last(element, value);
     remove_next(element, value);
-    this->next = element->next;
-    this->last = element->last;
-    find_front_element(element);
-    find_back_element(element);
+    rebuild(element);
 }
 
-// delete unique front and back
-void list::unique_back(list*& element)
-{
-    if (element->next == nullptr)
-    {
-        return;
-    }
-    if (element->value == element->next->value)
-    {
-        element->next = element->next->next;
-        unique_back(element);
-    }
-    else
-    {
-        unique_back(element->next);
-    }
-}
-
-void list::unique_front(list*& element)
-{
-    if (element->last == nullptr)
-    {
-        return;
-    }
-    if (element->value == element->last->value)
-    {
-        element->last = element->last->last;
-        unique_front(element);
-    }
-    else
-    {
-        unique_front(element->last);
-    }
-}
-
+// delete unique
 void list::unique()
 {
+    int* arr = new int[this->size_list];
     list* element = this;
-    unique_back(element);
+    int n = this->size_list - 1;
+    copy_back(element->next, arr, n);
+    copy_front(element->last, arr, n); 
+    int* arr2 = new int[this->size_list];
+    std :: set<int> rep;
+    int ind = 0;
+    for (int i = 0; i < this->size_list; i++)
+    {
+        if (rep.find(arr[i]) == rep.end())
+        {
+            arr2[ind] = arr[i];
+            ind++;
+        }
+        rep.insert(arr[i]);
+    }
+    arr_to_list(element->next, arr2, 0, ind);
+    rebuild(element);
+    /*unique_back(element->next);
     this->next = element->next;
-    unique_front(element);
+    unique_front(element->last);
     this->last = element->last;
     if (this->last != nullptr && this->next != nullptr && this->next->value == this->last->value)
     {
         this->last = this->last->last;
-    }
-    find_front_element(element);
-    find_back_element(element);
+    }*/
 }

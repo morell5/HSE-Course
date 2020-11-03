@@ -7,22 +7,23 @@
     public:
 
         struct element {
-            int value;
-            element* p; //previous - предыдущий элемент
-            element* n; //next - следующий элемент
+            int value = 0;
+            element* p; //previous 
+            element* n; //next 
         };
 
         list();
-
         list(size_t count, const int& value = int());
 
         ~list();
-        list& operator=(list& other);
+        list& operator=(const list& other);
 
 
         int& front();
+        const int& front() const;
 
         int& back();
+        const int& back() const;
 
 
         bool empty() const;
@@ -41,7 +42,6 @@
         void remove(const int& value);
         void unique();
         void sort();
-
         int num = 0;
         element be;//begin/end
 

@@ -6,11 +6,6 @@
 
 class BigInteger {
  public:
-  static const int BASE = 100;
-  static const int LG = 2;
-  bool sign{false};
- 
-  std::vector<int> poly;
   class ArithmeticsException : public std::exception {};
 
   BigInteger();
@@ -47,7 +42,7 @@ class BigInteger {
   BigInteger& operator+=(const BigInteger&);
   const BigInteger operator-(const BigInteger&) const;
   BigInteger& operator-=(const BigInteger&);
-  const BigInteger operator*(const BigInteger&) const;
+  const BigInteger operator*(const BigInteger&)const;
   BigInteger& operator*=(const BigInteger&);
   const BigInteger operator/(const BigInteger&) const;
   BigInteger& operator/=(const BigInteger&);
@@ -77,4 +72,18 @@ class BigInteger {
    */
   void trim();
   void shright();
+
+  /**
+   * Other math (static)
+   */
+  static const BigInteger slowMultiply(const BigInteger& lhs,
+                                       const BigInteger& rhs);
+  static const BigInteger shortPower(const BigInteger& a, int n);
+
+ private:
+  static const int BASE = 100;
+  static const int LG = 2;
+  bool sign{false};
+
+  std::vector<int> poly;
 };

@@ -1,0 +1,3 @@
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/build/CMakeFiles/rebuild_cache.dir
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/build/CMakeFiles/list.dir
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/build/CMakeFiles/edit_cache.dir

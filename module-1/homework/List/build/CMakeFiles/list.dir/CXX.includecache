@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/list.cpp
+list.h
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/list.h
+iostream
+-
+
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/list.h
+cstddef
+-
+
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/tests.cpp
+algorithm
+-
+iostream
+-
+list
+-
+random
+-
+string
+-
+vector
+-
+list.h
+/home/dmitry/Рабочий стол/HSE-Course/module-1/homework/List/list.h
+

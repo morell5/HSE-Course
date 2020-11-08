@@ -9,39 +9,35 @@ class BigInteger {
 public:
     // C++ standard behaviour for uninitialized variables is undefined value, so not assigning a value here
     BigInteger() {
-        _digits = new std::vector<int>();
+        _digits = std::vector<int>();
     }
 
     BigInteger(int num): BigInteger() {
         // special case: 0
         if (num == 0) {
-            _digits->push_back(0);
+            _digits.push_back(0);
             return;
         }
 
         // sign
-        _digits->push_back(num < 0);
+        _digits.push_back(num < 0);
         if (num < 0) {
             num = -num;
         }
 
         while (num) {
-            _digits->push_back(num % BASE);
+            _digits.push_back(num % BASE);
             num /= BASE;
         }
     }
 
     BigInteger(const BigInteger& other): BigInteger() {
-        if (other._digits) {
-            for (int el: *other._digits) {
-                _digits->push_back(el);
-            }
+        for (int el: other._digits) {
+            _digits.push_back(el);
         }
     }
 
-    ~BigInteger() {
-        delete _digits;
-    }
+    ~BigInteger() {}
 
     explicit operator int() const;
 
@@ -111,7 +107,7 @@ private:
     // storing the digits in reversed order for conveniency
     // first element is the sign (0 for +, 1 for -)
     // if the number is 0, the vector consists of one element = 0
-    std::vector<int>* _digits = nullptr;
+    std::vector<int> _digits;
 
     // returns -1 if this is smaller than other
     // 0 if equal

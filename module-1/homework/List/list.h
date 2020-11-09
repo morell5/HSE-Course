@@ -1,51 +1,81 @@
 #pragma once
 #include <cstddef>
-
+#include <iostream>
 
 namespace task {
 
-
 class list {
+ public:
+  list();
+  list(size_t count, const int& value = int());
+  list(std::initializer_list<int>);
+  list(const list& other);
 
-public:
+  ~list();
+  list& operator=(const list& other);
 
-    list();
-    list(size_t count, const int& value = int());
+  int& front();
+  const int& front() const;
 
-    ~list();
-    list& operator=(const list& other);
+  int& back();
+  const int& back() const;
 
+  bool empty() const;
+  size_t size() const;
+  void clear();
 
-    int& front();
-    const int& front() const;
+  void push_back(const int& value);
+  void pop_back();
+  void push_front(const int& value);
+  void pop_front();
+  void resize(size_t count);
+  void swap(list& other);
 
-    int& back();
-    const int& back() const;
+  void remove(const int& value);
+  void unique();
+  void sort();
 
+  friend std::ostream& operator<<(std::ostream& o, task::list& l) {
+    auto current = l.head;
+    o << "list{size=" << l.m_size << ",nodes={";
+    while (current != nullptr) {
+      o << " {" << (current == l.head ? "$ " : "") << current->data
+        << (current == l.tail || (current->next == nullptr && l.tail == nullptr)
+                ? " #} "
+                : "");
 
-    bool empty() const;
-    size_t size() const;
-    void clear();
+      if (current->next != nullptr)
+        o << "} <->";
+      current = current->next;
+    }
+    o << "}}";
 
+    return o;
+  }
 
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
+ private:
+  struct Node {
+    Node(int data) : data(data), next(nullptr), prev(nullptr) {}
+    Node(const Node& o) : data(o.data), next(o.next), prev(o.prev) {}
+    ~Node() = default;
 
+    Node& operator=(const Node& other) {
+      data = other.data;
+      next = other.next;
+      prev = other.prev;
 
-    void remove(const int& value);
-    void unique();
-    void sort();
+      return *this;
+    }
 
-    // Your code goes here?..
+    int data;
+    Node* next;
+    Node* prev;
+  } * head, *tail;
 
-private:
+  size_t m_size;
 
-    // Your code goes here...
-
+  // Remove node. Mess with links and free memory
+  void _remove_node(Node*& node);
 };
 
 }  // namespace task

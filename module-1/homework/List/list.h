@@ -18,6 +18,7 @@ namespace task {
     public:
 
         list();
+        list(const list& other);
         list(size_t count, const int& value = int());
 
         ~list();
@@ -47,6 +48,7 @@ namespace task {
         void remove(const int& value);
         void unique();
         void sort();
+		void print();
 
         // Your code goes here?..
 

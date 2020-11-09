@@ -3,19 +3,29 @@
 #include <iostream>
 
 using namespace task;
+using namespace std;
+#define F(x)\
+cout << x << endl;
 
 list::list() {
     first = nullptr;
     last = nullptr;
     length = 0;
 }
-
-list:: ~list() {
-    while (first != nullptr) {
-        Node* n = first->next;
-        delete first;
-        first = n;
+list::list(const list& other) {
+    first = nullptr;
+    last = nullptr;
+    length = 0;
+    Node* curNow = other.first;
+    while (curNow != nullptr) {
+        this->push_back(curNow->cur);
+        curNow = curNow->next;
     }
+
+}
+
+list::~list() {
+   this->clear();
 }
 
 struct Node {
@@ -24,12 +34,26 @@ struct Node {
 };
    
 list::list(size_t count, const int& value) {
-        while (count > length) {
+    first = nullptr;
+    last = nullptr;
+    length = 0;
+        while (count > this->length) {
             this->push_back(value);
         }
     }
+
 list& list::operator=(const list& other) {
-    *this = other;
+    if (this == &other) {
+        return *this;
+    }
+    this->resize(other.size());
+    Node* curNow1 = this->first;
+    Node* curNow2 = other.first;
+    while (curNow2 != nullptr) {
+        curNow1->cur = curNow2->cur;
+        curNow1 = curNow1->next;
+        curNow2 = curNow2->next;
+    }
     return *this;
 }
 
@@ -76,6 +100,7 @@ void list::push_back(const int& cur) {
         newNode->cur = cur;
         last->next = newNode;
         last = newNode;
+        newNode->prev = first;
     }
     else {
         Node* newNode = new Node;
@@ -88,9 +113,16 @@ void list::push_back(const int& cur) {
     length++;
 }
 void list::pop_back() {
-    Node* futureLast = last->prev;
-    delete last;
-    last = futureLast;
+    if (length != 1) {
+        Node* lastlast = last;
+		last = last->prev;
+		delete lastlast;
+        last->next = nullptr;	
+    } else {
+		delete last;
+        last = nullptr;
+        first = nullptr;
+    }
     length--;
 }
 void list::push_front(const int& cur) {
@@ -117,11 +149,16 @@ void list::push_front(const int& cur) {
 
 }
 void list::pop_front() {
-    Node* futureFirst = first->next;
-    delete first;
-    first = futureFirst;
+    if (length != 1) {
+	first = first->next;
+	delete first->prev;	
+    first->prev = nullptr;
+    } else {
+	    delete first;
+        first = nullptr;
+        last = nullptr;
+    }
     length--;
-
 }
 void list::resize(size_t count) {
     while (count > length) {
@@ -133,55 +170,49 @@ void list::resize(size_t count) {
 }
 void list::swap(list& other) {
     list& a = *this, & b = other;
-    Node* cfirst = b.first;
-    Node* clast = b.last;
-    size_t clength = b.length;
-    b.first = a.first;
-    b.length = a.length;
-    b.last = a.last;
-    a.first = cfirst;
-    a.length = clength;
-    a.last = clast;
+    size_t l1 = a.size(), l2 = b.size();
+    a.length = l2;
+    b.length = l1;
+    Node* f1 = a.first, *f2 = b.first;
+    a.first = f2;
+    b.first = f1;
+    Node* la1 = a.last, *la2 = b.last;
+    a.last = la2;
+    b.last = la1;
 
 
 
 }
 
 void list::remove(const int& value) {
+    const int delcur = value;
     Node* curNow = first;
     while (curNow != nullptr) {
-        if (curNow->cur == value) {
-            if (length == 1) {
-                delete first;
-            }
-            else if (curNow == first) {
-                first = first->next;
-                delete first->prev;
-                curNow = first;
-                if (length == 2) {
-                    last = first;
-                }
+        if (curNow->cur == delcur) {
+            if (curNow == first) {
+                curNow = curNow->next;
+                pop_front();
             }
             else if (curNow == last) {
-                last = last->prev;
-                delete last->next;
-                if (length == 2) {
-                    first = last;
-                }
+                pop_back();
+                break;
             }
-            else {
-                curNow->prev->next = curNow->next;
-                curNow->next->prev = curNow->prev;
-                Node* oldCur = curNow;
+            else
+            {
+                Node* delCur = curNow;
                 curNow = curNow->next;
-                delete oldCur;
+                delCur->prev->next = curNow;
+                curNow->prev = delCur->prev;
+                delete delCur;
+                delCur = nullptr;
+                length--;
             }
-        }
-        else {
+        } else {
             curNow = curNow->next;
         }
     }
 }
+
 void list::unique() {
     Node* curNow = first;
     while (curNow != nullptr && curNow->next != nullptr) {
@@ -190,9 +221,10 @@ void list::unique() {
             if (delCur == last) {
                 this->pop_back();
             }
+            
             else {
                 curNow->next = delCur->next;
-                delCur->next = curNow;
+                delCur->next->prev = curNow;
                 delete delCur;
                 length--;
             }
@@ -216,5 +248,3 @@ void list::sort() {
         }
     }
 }
-
-// Your code goes here?..

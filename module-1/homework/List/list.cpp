@@ -1,63 +1,85 @@
 #include "List.h"
 
-list::list() {
-	be.n = &be;
-	be.p = &be;
+
+task::list::list() {
+
 }
 
-int& list::front() {
+int& task::list::front() {
+	
+	if (!num) be.value;
 	return be.p->value;
 }
 
-int& list::back() {
+int& task::list::back() {
+	if (!num) be.value;
 	return be.n->value;
 }
 
-bool list::empty() const {
+bool task::list::empty() const {
 	return (num == 0) ? true : false;
 }
 
-size_t list::size() const {
+size_t task::list::size() const {
 	return num;	
 }
 
-void list::clear() {
-	element* a = be.p->n;
+void task::list::clear() {
+	if (!num) return;
+	element* a;
+	a = be.p->n;
 	while (!empty() && be.n != be.p) {
 		a = be.p->n;
 		delete be.p;
 		be.p = a;
 	}
 	if (be.n == be.p) {
-		delete &be;
+		delete be.n;
 	}
 	num = 0;
-	delete a;
 }
 
-void list::push_back(const int& value) {
-	element pb{ value, be.n, be.p };
-	*be.n = pb;
-	*be.n->p->n = *be.n;
-	num++;
+void task::list::push_back(const int& value) {
+	if (num == 0) {
+		element* pb = new element{ value, pb, pb };
+		be.n = pb;
+		be.p = pb;
+		num++;
+	}
+	else{
+		element* pb = new element{ value, be.n, be.p };
+		be.n = pb;
+		be.n->p->n = be.n;
+		num++;
+	}
 }
 
-void list::pop_back() {
-	element* a = be.n->p;
-	delete be.n;
-	*be.n = *a;
-	delete a;
-	num--;
+void task::list::pop_back() {
+	if (num > 0){
+		element* a = be.n->p;
+		delete be.n;
+		*be.n = *a;
+		delete a;
+		num--;
+	}
 }
 
-void list::push_front(const int& value) {
-	element pb{ value, be.n, be.p };
-	*be.p = pb;
-	*be.p->n->p = *be.p;
-	num++;
+void task::list::push_front(const int& value) {
+	if (num==0){
+		element* pb = new element{ value, pb, pb };
+		be.p = pb;
+		be.n = pb;
+		num++;
+	}
+	else {
+		element* pb = new element{ value, be.n, be.p };
+		be.n = pb;
+		be.p->n->p = be.p;
+		num++;
+	}
 }
 
-void list::pop_front() {
+void task::list::pop_front() {
 	element* a = be.p->n;
 	delete be.p;
 	*be.p = *a;
@@ -65,34 +87,42 @@ void list::pop_front() {
 	num--;
 }
 
-void list::resize(size_t count) {
+void task::list::resize(size_t count) {
 	if (num < (int)count) {
 		while (num != count) {
-			list::push_back(0);
+			task::list::push_back(0);
 		}
 	}
 	else {
 		while (num != count) {
-			list::pop_back();
+			task::list::pop_back();
 		}
 	}
 }
 
-void list::swap(list& other) {
+void task::list::swap(list& other) {
 	list b = other;
 	other.be = this->be;
 	this->be = b.be;
 }
 
-list::~list() {
-	list::clear();
+task::list::~list() {
+	task::list::clear();
 }
 
-list& list::operator=(list& other) {
-	return other;
+ task::list& task::list::operator=(const list& other) {
+	clear();
+	element * b = other.be.n;
+	element * c = other.be.p;
+	do {
+		this->push_back(c->value);
+		c=c->n;
+	} while (b != c);
+	delete c,b;
+	return *this;
 }
 
-void list::remove(const int& value) {
+void task::list::remove(const int& value) {
 	element* s = be.p->n;
 	while (s != be.p) {
 		if (s->value == value) {
@@ -107,7 +137,7 @@ void list::remove(const int& value) {
 	delete s;
 }
 
-void list::unique() {
+void task::list::unique() {
 	element* s = be.p->n;
 	while (s != be.p) {
 		if (s->value == s->n->value) {
@@ -122,7 +152,7 @@ void list::unique() {
 	delete s;
 }
 
-void list::sort() {
+void task::list::sort() {
 	bool don = false;
 		while (don == false) {
 		don = true;
@@ -143,14 +173,8 @@ void list::sort() {
 	}
 }
 
-list::list(size_t count, const int& value) {
+task::list::list(size_t count, const int& value) {
 	while (num < (int)count) {
 		push_back(value);
 	}
-}
-
-int main() {
-	list qwe;
-	qwe.push_back(1);
-	std::cout << qwe.front();
 }

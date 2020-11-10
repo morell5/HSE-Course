@@ -152,7 +152,7 @@ int main() {
         list_task2.remove(list_task2.front());
         list_std2.remove(list_std2.front());
 
-        ASSERT_EQUAL_MSG(ToStdList(list_task), list_std, "list::remove")
+        ASSERT_EQUAL_MSG(ToStdList(list_task2), list_std2, "list::remove")
 
         list_task.swap(list_task2);
         list_std.swap(list_std2);

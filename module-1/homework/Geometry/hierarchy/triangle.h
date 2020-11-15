@@ -1,16 +1,11 @@
 #ifndef TGEO_TRIANGLE_H
 #define TGEO_TRIANGLE_H
 
-#include "polygon.h"
 #include "circle.h"
+#include "polygon.h"
 
 class Triangle : public Polygon {
-private:
-  Point a;
-  Point b;
-  Point c;
-
-public:
+ public:
   Triangle(Point a, Point b, Point c);
 
   Circle circumscribedCircle() const;
@@ -20,6 +15,11 @@ public:
   Point getInnerCenter() const;
 
   Point getOuterCenter() const;
+
+ private:
+  Point a;
+  Point b;
+  Point c;
 };
 
 #endif

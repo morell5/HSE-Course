@@ -1,11 +1,11 @@
 #ifndef TGEO_SQUARE_H
 #define TGEO_SQUARE_H
 
-#include "rectangle.h"
 #include "circle.h"
+#include "rectangle.h"
 
 class Square : public Rectangle {
-public:
+ public:
   Square(Point top, Point bottom);
   Circle circumscribedCircle() const;
   Circle inscribedCircle() const;

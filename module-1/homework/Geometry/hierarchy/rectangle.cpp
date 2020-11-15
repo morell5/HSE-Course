@@ -1,11 +1,10 @@
-#include <utility>
+#include "rectangle.h"
 #include <array>
 #include <cmath>
-#include "rectangle.h"
+#include <utility>
 
 Rectangle::Rectangle(Point top, Point bottom, double sideRatio)
     : top(top), bottom(bottom), sideRatio(sideRatio) {
-
   double diagonal = Point::distanceBetween(top, bottom);
   double height = diagonal / sqrt(1 + sideRatio * sideRatio);
   double width = sqrt(diagonal * diagonal - height * height);
@@ -28,10 +27,10 @@ std::pair<Line, Line> Rectangle::diagonals() const {
 }
 
 double Rectangle::getHeight() const {
-  return Point::distanceBetween(top, bottom) * sqrt((1.0 - 1.0 / (1.0 + sideRatio)));
+  return Point::distanceBetween(top, bottom) *
+         sqrt((1.0 - 1.0 / (1.0 + sideRatio)));
 }
 
 double Rectangle::getWidth() const {
   return Point::distanceBetween(top, bottom) / sqrt(1 + sideRatio);
 }
-

@@ -18,17 +18,14 @@ struct Vector {
   // Length of the vector
   double length() const;
 
-  // Length squared (x * x + y * y)
-  double squaredLength() const;
-
   // Normalize vector
   Vector normalized() const;
 
   // Scalar product
-  double operator^(const Vector &o) const;
+  double operator^(const Vector& o) const;
 
   // Cross product
-  double operator%(const Vector &o) const;
+  double operator%(const Vector& o) const;
 
   // Multiply (scale)
   Vector operator*(double value) const;
@@ -37,7 +34,7 @@ struct Vector {
   explicit operator Point() const;
 
   // Angle between self and other vector
-  static double angleBetween(const Vector &a, const Vector &b);
+  static double angleBetween(const Vector& a, const Vector& b);
 };
 
 #endif

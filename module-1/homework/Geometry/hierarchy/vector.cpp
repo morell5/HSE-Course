@@ -9,19 +9,15 @@ double Vector::length() const {
   return sqrt(x * x + y * y);
 }
 
-double Vector::squaredLength() const {
-  return x * x + y * y;
-}
-
-double Vector::angleBetween(const Vector &a, const Vector &b) {
+double Vector::angleBetween(const Vector& a, const Vector& b) {
   return atan2(a % b, a ^ b);
 }
 
-double Vector::operator^(const Vector &o) const {
+double Vector::operator^(const Vector& o) const {
   return x * o.x + y * o.y;
 }
 
-double Vector::operator%(const Vector &o) const {
+double Vector::operator%(const Vector& o) const {
   return x * o.y - y * o.x;
 }
 

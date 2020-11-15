@@ -5,16 +5,16 @@
 #include "point.h"
 
 class Shape {
-public:
+ public:
   virtual ~Shape() = default;
 
   virtual double perimeter() const = 0;
 
   virtual double area() const = 0;
 
-  virtual bool isCongruentTo(const Shape &o) const = 0;
+  virtual bool isCongruentTo(const Shape& o) const = 0;
 
-  virtual bool isSimilarTo(const Shape &o) const = 0;
+  virtual bool isSimilarTo(const Shape& o) const = 0;
 
   virtual bool containsPoint(Point point) const = 0;
 

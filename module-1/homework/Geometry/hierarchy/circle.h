@@ -4,12 +4,13 @@
 #include "ellipse.h"
 
 class Circle : public Ellipse {
-private:
-  double m_radius{};
-public:
+ public:
   Circle(Point center, double radius);
 
   double radius() const;
+
+ private:
+  double m_radius{};
 };
 
 #endif

@@ -1,27 +1,20 @@
 #ifndef TGEO_ELLIPSE_H
 #define TGEO_ELLIPSE_H
 
-#include "shape.h"
 #include <vector>
+#include "shape.h"
 
 class Ellipse : public Shape {
-private:
-  Point focusA;
-  Point focusB;
-  double a;
-  double b;
-  double c;
-
-public:
+ public:
   Ellipse(Point a, Point b, double radius);
 
   double perimeter() const override;
 
   double area() const override;
 
-  bool isCongruentTo(const Shape &o) const override;
+  bool isCongruentTo(const Shape& o) const override;
 
-  bool isSimilarTo(const Shape &o) const override;
+  bool isSimilarTo(const Shape& o) const override;
 
   bool containsPoint(Point point) const override;
 
@@ -42,6 +35,13 @@ public:
   Point center() const;
 
   bool operator==(const Shape& o) const override;
+
+ private:
+  Point focusA;
+  Point focusB;
+  double a;
+  double b;
+  double c;
 };
 
 #endif

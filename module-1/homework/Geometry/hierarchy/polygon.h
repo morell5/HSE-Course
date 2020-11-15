@@ -1,25 +1,25 @@
 #ifndef TGEO_POLYGON_H
 #define TGEO_POLYGON_H
 
-#include "shape.h"
-#include "point.h"
 #include <vector>
+#include "point.h"
+#include "shape.h"
 
 class Polygon : public Shape {
-public:
+ public:
   Polygon() = default;
 
   explicit Polygon(std::vector<Point> points);
 
-  Polygon(const std::initializer_list<Point> &points);
+  Polygon(const std::initializer_list<Point>& points);
 
   double perimeter() const override;
 
   double area() const override;
 
-  bool isCongruentTo(const Shape &o) const override;
+  bool isCongruentTo(const Shape& o) const override;
 
-  bool isSimilarTo(const Shape &o) const override;
+  bool isSimilarTo(const Shape& o) const override;
 
   bool containsPoint(Point point) const override;
 
@@ -33,7 +33,7 @@ public:
 
   std::size_t verticesCount() const;
 
-  const std::vector<Point> &getVertices() const;
+  const std::vector<Point>& getVertices() const;
 
   bool isConvex() const;
 
@@ -41,9 +41,9 @@ public:
 
   std::vector<double> getAngles() const;
 
-  bool operator==(const Shape &o) const override;
+  bool operator==(const Shape& o) const override;
 
-protected:
+ protected:
   std::vector<Point> vtx;
 };
 

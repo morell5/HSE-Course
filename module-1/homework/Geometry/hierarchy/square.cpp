@@ -1,5 +1,5 @@
-#include <cmath>
 #include "square.h"
+#include <cmath>
 
 Square::Square(Point top, Point bottom) : Rectangle(top, bottom, 1) {}
 

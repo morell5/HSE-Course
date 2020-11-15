@@ -1,9 +1,8 @@
 #include "line.h"
-#include "constants.h"
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
-#include <cstdio>
+#include "constants.h"
 
 Line Line::normalized() const {
   Line line = {a, b, c};
@@ -15,7 +14,7 @@ Line Line::normalized() const {
   return line;
 }
 
-bool Line::operator==(const Line &o) const {
+bool Line::operator==(const Line& o) const {
   Line normalizedSelf = normalized();
   Line normalizedOther = o.normalized();
 
@@ -24,7 +23,7 @@ bool Line::operator==(const Line &o) const {
          normalizedSelf.c == normalizedOther.c;
 }
 
-bool Line::operator!=(const Line &o) const {
+bool Line::operator!=(const Line& o) const {
   return !(*this == o);
 }
 
@@ -36,10 +35,6 @@ Line::Line(Point f, Point t) {
   c = f.x * t.y - t.x * f.y;
 }
 
-Vector Line::getLeadingVector() const {
-  return {b, -a};
-}
-
 Vector Line::getNormalVector() const {
   return {a, b};
 }
@@ -49,15 +44,17 @@ Point Line::operator()(double x) const {
 }
 
 double Line::pointDistance(Point point, Line line) {
-  return std::abs(line.a * point.x + line.b * point.y + line.c) / std::sqrt(line.a * line.a + line.b * line.b);
+  return std::abs(line.a * point.x + line.b * point.y + line.c) /
+         std::sqrt(line.a * line.a + line.b * line.b);
 }
 
 std::int8_t Line::pointRelation(Point point, Line line) {
-  if (fabs(line(point.x).y - point.y) < GeometryConstants::EPS) return 0;
+  if (fabs(line(point.x).y - point.y) < GeometryConstants::EPS)
+    return 0;
   return point.y < line(point.x).y ? 1 : -1;
 }
 
-void Line::reflexPoint(Point &point, Line line) {
+void Line::reflexPoint(Point& point, Line line) {
   auto distance = Line::pointDistance(point, line);
   Vector normal = line.getNormalVector().normalized();
   point += Point{normal * Line::pointRelation(point, line) * 2.0 * distance};
@@ -68,9 +65,11 @@ Line::IntersectResult Line::intersectLines(Line f, Line s) {
     return {EQUAL, nullptr};
   } else {
     auto det = Vector{f.a, f.b} % Vector{s.a, s.b};
-    if (fabs(det) < GeometryConstants::EPS) return {NONE, nullptr};
+    if (fabs(det) < GeometryConstants::EPS)
+      return {NONE, nullptr};
 
-    auto *result = new Point(Vector{-f.c, f.b} % Vector{-s.c, s.b}, Vector{f.a, -f.c} % Vector{s.a, -s.c});
+    auto* result = new Point(Vector{-f.c, f.b} % Vector{-s.c, s.b},
+                             Vector{f.a, -f.c} % Vector{s.a, -s.c});
     return {POINT, result};
   }
 }
@@ -80,9 +79,6 @@ Line Line::findBisector(Point p, Point a, Point b) {
   auto lengthPB = Point::distanceBetween(p, b);
   auto lambda = lengthPA / lengthPB;
   return {p,
-          {
-              (a.x + lambda * b.x) / (1 + lambda),
-              (a.y + lambda * b.y) / (1 + lambda)
-          }
-  };
+          {(a.x + lambda * b.x) / (1 + lambda),
+           (a.y + lambda * b.y) / (1 + lambda)}};
 }

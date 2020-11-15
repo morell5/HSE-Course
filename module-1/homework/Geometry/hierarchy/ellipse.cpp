@@ -1,6 +1,6 @@
 #include "ellipse.h"
-#include "constants.h"
 #include <cmath>
+#include "constants.h"
 
 Ellipse::Ellipse(Point focusA, Point focusB, double radius)
     : focusA(focusA), focusB(focusB), a(radius / 2) {
@@ -16,7 +16,6 @@ double Ellipse::area() const {
   return GeometryConstants::PI * a * b;
 }
 
-
 std::pair<Point, Point> Ellipse::focuses() const {
   return {focusA, focusB};
 }
@@ -29,24 +28,29 @@ Point Ellipse::center() const {
   return (focusA + focusB) * 0.5;
 }
 
-bool Ellipse::isCongruentTo(const Shape &o) const {
-  const auto *ellipse = dynamic_cast<const Ellipse *>(&o);
-  if (ellipse == nullptr) return false;
+bool Ellipse::isCongruentTo(const Shape& o) const {
+  const auto* ellipse = dynamic_cast<const Ellipse*>(&o);
+  if (ellipse == nullptr)
+    return false;
   return (fabs(Point::distanceBetween(focusA, focusB) -
-               Point::distanceBetween(ellipse->focusA, ellipse->focusB)) < GeometryConstants::EPS) &&
+               Point::distanceBetween(ellipse->focusA, ellipse->focusB)) <
+          GeometryConstants::EPS) &&
          (fabs(a - ellipse->a) < GeometryConstants::EPS);
 }
 
-bool Ellipse::isSimilarTo(const Shape &o) const {
-  const auto *ellipse = dynamic_cast<const Ellipse *>(&o);
-  if (ellipse == nullptr) return false;
-  double factor =
-      Point::distanceBetween(focusA, focusB) / Point::distanceBetween(ellipse->focusA, ellipse->focusB);
+bool Ellipse::isSimilarTo(const Shape& o) const {
+  const auto* ellipse = dynamic_cast<const Ellipse*>(&o);
+  if (ellipse == nullptr)
+    return false;
+  double factor = Point::distanceBetween(focusA, focusB) /
+                  Point::distanceBetween(ellipse->focusA, ellipse->focusB);
   return fabs(a - ellipse->a * factor) < GeometryConstants::EPS;
 }
 
 bool Ellipse::containsPoint(Point point) const {
-  return Point::distanceBetween(focusA, point) + Point::distanceBetween(focusB, point) <= 2 * a;
+  return Point::distanceBetween(focusA, point) +
+             Point::distanceBetween(focusB, point) <=
+         2 * a;
 }
 
 void Ellipse::rotate(Point center, double angle) {
@@ -66,16 +70,15 @@ void Ellipse::scale(Point center, double coefficient) {
 
 std::pair<Line, Line> Ellipse::directries() const {
   auto focalParam = b * b / a;
-  auto common = focalParam / (eccentricity() * (1 - eccentricity() * eccentricity()));
-  return {
-      {1, 0, common},
-      {1, 0, -common}
-  };
+  auto common =
+      focalParam / (eccentricity() * (1 - eccentricity() * eccentricity()));
+  return {{1, 0, common}, {1, 0, -common}};
 }
 
-bool Ellipse::operator==(const Shape &o) const {
-  const auto *ellipse = dynamic_cast<const Ellipse *>(&o);
-  if (ellipse == nullptr) return false;
+bool Ellipse::operator==(const Shape& o) const {
+  const auto* ellipse = dynamic_cast<const Ellipse*>(&o);
+  if (ellipse == nullptr)
+    return false;
   return ((focusA == ellipse->focusA && focusB == ellipse->focusB) ||
           (focusA == ellipse->focusB && focusB == ellipse->focusA)) &&
          fabs(a - ellipse->a) < GeometryConstants::EPS;

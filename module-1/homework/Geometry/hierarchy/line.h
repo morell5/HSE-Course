@@ -1,9 +1,9 @@
 #ifndef TGEO_LINE_H
 #define TGEO_LINE_H
 
+#include <cstdint>
 #include "point.h"
 #include "vector.h"
-#include <cstdint>
 
 struct Line {
   // Line coefficients: a * x + b * y = c
@@ -20,32 +20,26 @@ struct Line {
   // Normalized form of line
   Line normalized() const;
 
-  // Get leading vector of the line
-  // (-b, a)
-  Vector getLeadingVector() const;
-
   // Get normal to leading vector
   // (a, b)
   Vector getNormalVector() const;
 
-  bool operator==(const Line &o) const;
+  bool operator==(const Line& o) const;
 
-  bool operator!=(const Line &o) const;
+  bool operator!=(const Line& o) const;
 
   // Returns point on line for arbitrary x
   Point operator()(double x) const;
 
   static double pointDistance(Point point, Line line);
 
-  static void reflexPoint(Point &point, Line line);
+  static void reflexPoint(Point& point, Line line);
 
-  enum IntersectResultType {
-    NONE, EQUAL, POINT
-  };
+  enum IntersectResultType { NONE, EQUAL, POINT };
 
   struct IntersectResult {
     IntersectResultType type;
-    Point * point;
+    Point* point;
   };
 
   static IntersectResult intersectLines(Line first, Line second);

@@ -17,9 +17,9 @@ namespace task {
 
             list();
             list(size_t count, const int& value = int());
-
             ~list();
             list& operator=(const list& other);
+            list(const list&);
 
 
             int& front();

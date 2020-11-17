@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # именуем проект: значение сохраняется в переменную PROJECT_NAME
-project("seminar1")
+project("seminar9")
 
 # включаем файлы в поддиректория в сборку проекта
 add_subdirectory(index_of)

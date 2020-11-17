@@ -1,51 +1,72 @@
 #pragma once
+
 #include <cstddef>
 
 
 namespace task {
+    class list {
+    private:
+        struct node {
+            node(int value, node *p = nullptr, node *n = nullptr);
 
+            int value;
+            node *prev = nullptr;
+            node *next = nullptr;
+        };
 
-class list {
+        node *begin = nullptr;
+        node *end = nullptr;
+        size_t size_ = 0;
 
-public:
+        static node *sort_move_node(node *from, node *dest);
 
-    list();
-    list(size_t count, const int& value = int());
+        static void swap(node *&first, node *&second);
 
-    ~list();
-    list& operator=(const list& other);
+        static void merge_sort(node *&l, node *&r, size_t size);
 
+    public:
 
-    int& front();
-    const int& front() const;
+        list() = default;
 
-    int& back();
-    const int& back() const;
+        list(list const &other);
 
+        list(size_t count, const int &value = int());
 
-    bool empty() const;
-    size_t size() const;
-    void clear();
+        ~list();
 
+        list &operator=(const list &other);
 
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
+        int &front();
 
+        const int &front() const;
 
-    void remove(const int& value);
-    void unique();
-    void sort();
+        int &back();
 
-    // Your code goes here?..
+        const int &back() const;
 
-private:
+        bool empty() const;
 
-    // Your code goes here...
+        size_t size() const;
 
-};
+        void clear();
+
+        void push_back(const int &value);
+
+        void pop_back();
+
+        void push_front(const int &value);
+
+        void pop_front();
+
+        void resize(size_t count);
+
+        void swap(list &other);
+
+        void remove(int value);
+
+        void unique();
+
+        void sort();
+    };
 
 }  // namespace task

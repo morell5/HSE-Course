@@ -88,11 +88,9 @@ struct Multiplicator {
 };
 
 class BigInteger {
-    private:
+    public:
         std::vector<int> base;
         bool negative = 0;
-
-    public:
 
         BigInteger() = default;
 
@@ -236,11 +234,9 @@ class BigInteger {
                 if(i < b.base.size()) {
                     if(a.base[i] - add >= b.base[i]) {
                         answer.base.push_back(a.base[i] - add - b.base[i]);
-                        // std::cerr << a.base[i] - add - b.base[i];
                     }
                     else {
                         answer.base.push_back(a.base[i] - add - b.base[i] + 10);
-                        // std::cerr << a.base[i] - add - b.base[i] + 10;
                         add = 1;
                     }
                 }
@@ -369,23 +365,11 @@ class BigInteger {
             return answer;
         }
 
-        bool operator== (BigInteger int2) {
-            if(base.size() != int2.base.size()) {
-                return false;
-            }
-            for(int i = 0; i < base.size(); i++) {
-                if(base[i] != int2.base[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         bool operator!= (BigInteger int2) {
             return !(*this == int2);
         }
 
-        bool operator< (BigInteger int2) {
+        bool isLess(BigInteger int2) {
             if(base.size() < int2.base.size()) {
                 return true;
             }
@@ -401,6 +385,21 @@ class BigInteger {
                 }
             }
             return false;
+        }
+
+        bool operator< (BigInteger int2) {
+            if(*this == BigInteger(0)) {
+                negative = false;
+            }
+            if(int2 == BigInteger(0)) {
+                int2.negative = false;
+            }
+            if(negative != int2.negative) {
+                return ((negative) ? true : false);
+            }
+            else {
+                return (isLess(int2) != negative);
+            }
         }
 
         bool operator> (BigInteger int2) {
@@ -433,7 +432,8 @@ class BigInteger {
         }
 
         operator bool() const {
-            return !(*this == 0);
+            std::cerr << *this << '\n';
+            return !(BigInteger(*this) == BigInteger(0));
         }
 
         std::string toString() {
@@ -468,7 +468,29 @@ class BigInteger {
 
         friend std::ostream& operator<<(std::ostream& os, BigInteger integer);
 
+        friend std::istringstream& operator>>(std::istringstream& is, BigInteger &integer);
+
+        friend bool operator== (BigInteger int1, BigInteger int2);
+
 };
+
+bool operator== (BigInteger int1, BigInteger int2) {
+    if(int1.getBase().size() != int2.getBase().size()) {
+        return false;
+    }
+    if(int1.getBase().size() == 1 && int1.getBase()[0] == 0 && int2.getBase()[0] == 0) {
+        return true;
+    }
+    if(int1.getNegative() != int2.getNegative()) {
+        return false;
+    }
+    for(int i = 0; i < int1.getBase().size(); i++) {
+        if(int1.getBase()[i] != int2.getBase()[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 
 std::ostringstream& operator<<(std::ostringstream& os, BigInteger &integer) {
     os << ((integer.getNegative()) ? "-" : "");
@@ -487,13 +509,12 @@ std::ostream& operator<<(std::ostream& os, BigInteger integer) {
 }
 
 std::istringstream& operator>>(std::istringstream& is, BigInteger &integer) {
+    integer.base.clear();
     std::string s;
     is >> s;
+    for(int i = s.size() - 1; i >= 0; i--) {
+        integer.base.push_back(s[i] - '0');
+    }
     return is;
 }
 
-std::istream& operator>>(std::istream& is, BigInteger integer) {
-    std::string s;
-    is >> s;
-    return is;
-}

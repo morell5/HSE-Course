@@ -1,16 +1,6 @@
 #include "list.h"
 #include <iostream>
-class List {
-private:
-	struct Element {
-		int data;
-		Element* prev;
-		Element* next;
-		
-	};
-		Element* first;
-public:
-	void swap(Element* a, Element* b) {
+void swap(Element* a, Element* b) {
 		if (a == nullptr) {
 			a = b;
 			b = nullptr;
@@ -214,8 +204,3 @@ public:
 			else e = e->next;
 		}
 	}
-};
-int main()
-{
-	return 0;
-}

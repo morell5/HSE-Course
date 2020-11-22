@@ -8,7 +8,6 @@ namespace task {
 class list {
 
 public:
-
     list();
     list(size_t count, const int& value = int());
 
@@ -39,11 +38,19 @@ public:
     void remove(const int& value);
     void unique();
     void sort();
-
+    
     // Your code goes here?..
+        void swap(Element* a, Element* b);
+    void swap(int& a, int& b);
 
 private:
-
+struct Element {
+		int data;
+		Element* prev;
+		Element* next;
+		
+	};
+		Element* first;
     // Your code goes here...
 
 };

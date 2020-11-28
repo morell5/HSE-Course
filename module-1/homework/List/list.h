@@ -1,51 +1,90 @@
 #pragma once
-#include <cstddef>
+#ifndef LIST_H
+#define LIST_H
 
+#include <cstddef>
+#include <iostream>
+#include <set>
 
 namespace task {
+    
+    class node
+    {
+    public:
+        int value;
+        node* back_element;
+        node* next_element;
+        node();
+    };
+    class list { 
+    private:
+        node main_element;
+        node *first_element;
+        node *last_element;
+        int size_list = 0;
+        
+    public:
+        void out();
+        // constructorr
+        list();
 
+        list(int value);
 
-class list {
+        list(size_t count, const int& value = int());
+        // destructor
+        ~list();
 
-public:
+        // equals
+        list& operator=(const list& other);
 
-    list();
-    list(size_t count, const int& value = int());
+        list(const list& other);
 
-    ~list();
-    list& operator=(const list& other);
+        // return front element
+        int& front();
 
+        const int& front() const;
 
-    int& front();
-    const int& front() const;
+        // return back element
+        int& back();
 
-    int& back();
-    const int& back() const;
+        const int& back() const;
 
+        // check on empty
+        bool empty();
 
-    bool empty() const;
-    size_t size() const;
-    void clear();
+        // return size
+        size_t size();
 
+        // clear list
+        void clear();
 
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
+        // push_back
+        void push_back(const int& value);
 
+        // pop_back
+        void pop_back();
 
-    void remove(const int& value);
-    void unique();
-    void sort();
+        // push_front
+        void push_front(const int& value);
 
-    // Your code goes here?..
+        // pop_front
+        void pop_front();
+        // resize
+        void resize(size_t count);
 
-private:
+        // swap
+        void swap(list& other);
 
-    // Your code goes here...
+        // delete elements value
+        void remove(const int& value);
 
-};
+        // delete unique front and back
+        void unique();
+
+        // sort
+        void sort();
+
+    };
 
 }  // namespace task
+#endif

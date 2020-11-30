@@ -109,9 +109,9 @@ TEST(Replace, Test2) {
     testing::StaticAssertTypeEq<Replace<NullType, double, std::string>::NewTypeList, NullType>();
 }
 
-// TEST(TypeAt, Test1) {
-//     typedef TypeList<int, TypeList<double, NullType>> actual;
-//     typedef double expected;
-    
-//     ASSERT_TRUE(std::is_same<TypeAt<actual, 1>::TargetType, expected>::value);
-// }
+TEST(TypeAt, Test1) {
+    typedef TypeList<int, TypeList<double, NullType>> actual;
+    typedef double expected;
+ 
+    ASSERT_TRUE((std::is_same<TypeAt<actual, 1>::TargetType, expected>::value));
+}

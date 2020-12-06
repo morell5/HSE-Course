@@ -1,9 +1,16 @@
 #pragma once
 #include <cstddef>
 
-
 namespace task {
 
+class Node{
+    public:
+    int value;
+    Node* next;
+    Node* prev;
+    Node();
+    explicit Node(const int& value);
+};
 
 class list {
 
@@ -11,7 +18,7 @@ public:
 
     list();
     list(size_t count, const int& value = int());
-
+    list(const list& other);
     ~list();
     list& operator=(const list& other);
 
@@ -21,7 +28,6 @@ public:
 
     int& back();
     const int& back() const;
-
 
     bool empty() const;
     size_t size() const;
@@ -40,12 +46,11 @@ public:
     void unique();
     void sort();
 
-    // Your code goes here?..
-
+    void print();
 private:
-
-    // Your code goes here...
-
+    size_t count = 0;
+    Node* head = nullptr;
+    Node* tail = nullptr;
 };
 
 }  // namespace task

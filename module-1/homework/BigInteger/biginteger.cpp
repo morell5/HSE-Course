@@ -1,11 +1,7 @@
 #include "biginteger.h"
 
 // function to_vector -> to_string
-<<<<<<< HEAD
 std::string BigInteger::toString()
-=======
-std::string BigInteger::toString() 
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 {
     to_string = "";
     for (int i = 0; i < to_vector.size(); i++)
@@ -109,11 +105,7 @@ BigInteger& BigInteger::operator = (const long long& number) // convert int to B
 }
 
 // convert to bool
-<<<<<<< HEAD
 BigInteger::operator bool() const
-=======
-BigInteger::operator bool() const 
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 {
     if (this->to_vector.size() != 1 || this->to_vector.size() == 1 && this->to_vector[0] != max_num)
     {
@@ -252,20 +244,13 @@ const bool BigInteger::operator != (const BigInteger& number_2)
 std::ostream& operator << (std::ostream& out, const BigInteger& number)
 {
     BigInteger num = number;
-<<<<<<< HEAD
     BigInteger zero = 0;
-=======
->>>>>>> afb229787fb1876a76394e283821776d41348be4
     num.toString();
     std::string res = num.to_string;
     if (res.size() == 0)
         res = "0";
     //std :: cout << 1 << std :: endl;
-<<<<<<< HEAD
     if (!number.sign && res != "0")
-=======
-    if (!number.sign)
->>>>>>> afb229787fb1876a76394e283821776d41348be4
     {
         res = "-" + res;
     }
@@ -284,52 +269,7 @@ std::istream& operator >> (std::istream& in, BigInteger& number)
 BigInteger BigInteger::operator + (BigInteger& number_2)
 {
     BigInteger number_1 = *this;
-<<<<<<< HEAD
     return (number_1 += number_2);
-=======
-    if (number_1.sign == 1 && number_2.sign == 1)
-    {
-        BigInteger sum;
-        LL new_sum;
-        LL ost = 0;
-        for (int i = 0; i < number_1.to_vector.size() || i < number_2.to_vector.size(); i++)
-        {
-            new_sum = ost;
-            if (i < number_1.to_vector.size()) new_sum = new_sum + number_1.to_vector[i] - max_num;
-            if (i < number_2.to_vector.size()) new_sum = new_sum + number_2.to_vector[i] - max_num;
-            ost = new_sum / max_num;
-            sum.to_vector.push_back((new_sum % max_num) + max_num);
-        }
-        if (ost != 0) {
-            sum.to_vector.push_back(ost);
-        }
-        sum.sign = 1;
-        return sum;
-    }
-    else if (number_1.sign == 1 && number_2.sign == 0)
-    {
-        BigInteger sum;
-        BigInteger copy_2 = number_2;
-        copy_2.sign = 1;
-        sum = number_1 - copy_2;
-        return sum;
-    }
-    else if (number_1.sign == 0 && number_2.sign == 1)
-    {
-        return number_2 + number_1;
-    }
-    else
-    {
-        BigInteger sum;
-        BigInteger copy_1 = number_1;
-        BigInteger copy_2 = number_2;
-        copy_1.sign = 1;
-        copy_2.sign = 1;
-        sum = copy_1 + copy_2;
-        sum.sign = 0;
-        return sum;
-    }
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator * (BigInteger& number_2)
@@ -381,78 +321,8 @@ BigInteger BigInteger::operator * (BigInteger& number_2)
 
 BigInteger BigInteger::operator - (BigInteger& number_2)
 {
-<<<<<<< HEAD
     BigInteger number_1 = *this;
     return (number_1 -= number_2);
-=======
-    // make copy of numbers
-    BigInteger copy_1 = *this;
-    BigInteger copy_2 = number_2;
-    BigInteger result;
-
-    // check signs
-    if (copy_1.sign == 0 && copy_2.sign == 1)
-    {
-        copy_1.sign = 1;
-        copy_2.sign = 1;
-        result = copy_1 + copy_2;
-        result.sign = 0;
-        return result;
-    }
-    else if (copy_1.sign == 1 && copy_2.sign == 1)
-    {
-        result.sign = 1;
-        if (copy_1 < copy_2)
-        {
-            result = copy_2 - copy_1;
-            result.sign = 0;
-            return result;
-        }
-        if (copy_1 == copy_2) {
-            result = 0;
-            return result;
-        }
-        int part_1, part_2, res, ost = 0;
-        for (int i = 0; i < copy_1.to_vector.size(); i++)
-        {
-            part_1 = copy_1.to_vector[i] - max_num;
-            part_2 = 0;
-            if (i < copy_2.to_vector.size())
-            {
-                part_2 = copy_2.to_vector[i] - max_num;
-            }
-            part_1 = part_1 - part_2 - ost;
-            if (part_1 < 0)
-            {
-                part_1 += max_num;
-                ost = 1;
-            }
-            else {
-                ost = 0;
-            }
-            part_1 += max_num;
-            result.to_vector.push_back(part_1);
-        }
-        int result_siz = result.to_vector.size();
-        while (result.to_vector[result_siz - 1] == max_num && result_siz != 1)
-        {
-            result.to_vector.pop_back();
-            result_siz--;
-        }
-        return result;
-    }
-    else if (copy_1.sign == 1 && copy_2.sign == 0)
-    {
-        copy_2.sign = 1;
-        return copy_1 + copy_2;
-    }
-    else
-    {
-        copy_2.sign = 1;
-        copy_1.sign = 1;
-        return copy_2 - copy_1;
-    }
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator / (BigInteger& number_2)
@@ -546,18 +416,13 @@ BigInteger BigInteger::operator % (BigInteger& number_2)
     if (this->sign == 0 && number_2.sign == 1)
     {
         part_dividend = number_2 - part_dividend;
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> afb229787fb1876a76394e283821776d41348be4
     }
     return part_dividend;
 }
 
 BigInteger& BigInteger::operator += (BigInteger number_2)
 {
-<<<<<<< HEAD
     BigInteger number_1 = *this;
     if (number_1.sign == 1 && number_2.sign == 1)
     {
@@ -610,15 +475,10 @@ BigInteger& BigInteger::operator += (BigInteger number_2)
         this->sign = 0;
         return *this;
     }
-=======
-    *this = *this + number_2;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger& BigInteger::operator -= (BigInteger number_2)
 {
-<<<<<<< HEAD
     // make copy of numbers
     BigInteger copy_1 = *this;
     BigInteger copy_2 = number_2;
@@ -690,10 +550,6 @@ BigInteger& BigInteger::operator -= (BigInteger number_2)
         this->sign = ((this->sign + 1) % 2);
         return *this;
     }
-=======
-    *this = *this - number_2;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger& BigInteger::operator *= (BigInteger number_2)
@@ -783,123 +639,60 @@ BigInteger& BigInteger::operator - ()
 // operations with integer
 BigInteger BigInteger::operator + (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = *this;
     return (number += Const);
-=======
-    BigInteger copy_const = Const;
-    BigInteger result = *this + copy_const;
-    return result;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator - (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = *this;
     return (number -= Const);
-=======
-    BigInteger copy_const = Const;
-    BigInteger result = *this - copy_const;
-    return result;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator * (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = *this;
     return (number *= Const);
-=======
-    BigInteger result;
-    result.sign = true;
-    LL composition = 0;
-    for (int i = 0; i < this->to_vector.size(); i++)
-    {
-        composition = (this->to_vector[i] - max_num) * Const + composition;
-        result.to_vector.push_back((composition % max_num) + max_num);
-        composition /= max_num;
-    }
-    return result;
-
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator / (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = *this;
     return (number /= Const);
-=======
-    BigInteger copy_const = Const;
-    BigInteger result = *this / copy_const;
-    return result;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator % (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = *this;
     return (number %= Const);
-=======
-    BigInteger copy_const = Const;
-    BigInteger result = *this % copy_const;
-    return result;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator += (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = Const;
     return (*this += number);
-=======
-    *this = *this + Const;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator -= (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = Const;
     return (*this -= number);
-=======
-    *this = *this - Const;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator *= (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = Const;
     return (*this *= number);
-=======
-    *this = *this * Const;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator /= (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = Const;
     return (*this /= number);
-=======
-    *this = *this / Const;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }
 
 BigInteger BigInteger::operator %= (const int& Const)
 {
-<<<<<<< HEAD
     BigInteger number = Const;
     return (*this %= number);
-=======
-    *this = *this % Const;
-    return *this;
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 }

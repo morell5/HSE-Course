@@ -1,0 +1,14 @@
+# Target labels
+ googletest
+# Source files and their labels
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/CMakeFiles/googletest
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/CMakeFiles/googletest.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/CMakeFiles/googletest-complete.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-install.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-mkdir.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-download.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-update.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-patch.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-configure.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-build.rule
+/home/dikson/HSE-Course/module-1/homework/BigInteger/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-test.rule

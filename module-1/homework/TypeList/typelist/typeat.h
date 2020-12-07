@@ -13,4 +13,4 @@ struct TypeAt<TypeList<Head, Tail>, 0> {
 template<typename Head, typename Tail, unsigned int index>
 struct TypeAt<TypeList<Head, Tail>, index>{
     typedef typename TypeAt<Tail, index - 1>::TargetType TargetType;
-}
+};

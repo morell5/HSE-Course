@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhierarchy.a CMakeFiles/hierarchy.dir/circle.cpp.o CMakeFiles/hierarchy.dir/ellipse.cpp.o CMakeFiles/hierarchy.dir/line.cpp.o CMakeFiles/hierarchy.dir/point.cpp.o CMakeFiles/hierarchy.dir/polygon.cpp.o CMakeFiles/hierarchy.dir/rectangle.cpp.o CMakeFiles/hierarchy.dir/shape.cpp.o CMakeFiles/hierarchy.dir/square.cpp.o CMakeFiles/hierarchy.dir/triangle.cpp.o
+/usr/bin/ranlib libhierarchy.a

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/geometry.dir/tests.cpp.o -o geometry  hierarchy/libhierarchy.a lib/libgtest_main.a lib/libgtest.a -lpthread 

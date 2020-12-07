@@ -13,23 +13,15 @@ const LL max_num = 1000000000;
 class BigInteger
 {
 
-<<<<<<< HEAD
 private:
-=======
-public:
-
->>>>>>> afb229787fb1876a76394e283821776d41348be4
     std::vector<int> to_vector; // value to vector
     std::string to_string; // value to string
     bool sign = true; // sign before value
     int value = 0; // value for integer
 
-<<<<<<< HEAD
 public:
 
 
-=======
->>>>>>> afb229787fb1876a76394e283821776d41348be4
     std::string toString(); // function to_vector -> to_string
     std::vector<int> toVector(); // function to_string -> to_vector
 
@@ -77,11 +69,8 @@ public:
     BigInteger operator *= (const int& Const);
     BigInteger operator /= (const int& Const);
     BigInteger operator %= (const int& Const);
-<<<<<<< HEAD
     friend std::ostream& operator << (std::ostream& out, const BigInteger& number);
     friend std::istream& operator >> (std::istream& in, BigInteger& number);
-=======
->>>>>>> afb229787fb1876a76394e283821776d41348be4
 };
 
 std::ostream& operator << (std::ostream& out, const BigInteger& number);

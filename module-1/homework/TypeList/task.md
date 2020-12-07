@@ -136,6 +136,36 @@
     struct Replace;
     ```
 
+* `Reverse` : структура для разворачивания списка
+
+    Параметры:
+    * `TList` : Список типов
+
+    Поля
+    * `NewTypeList` : Новый список типов
+
+    Предобъявление:
+
+    ```c++
+    template <typename TList>
+    struct Reverse;
+    ```
+
+* `Count` : Структура для подсчета вхождения типа в список
+
+    Параметры:
+    * `TargetType` : Целевой тип
+
+    Поля:
+    * `count` : Количество повторейний целевого типа в списке типов
+  
+    Предобъявление:
+
+    ```c++
+    template <typename TList, typename TargetType>
+    struct Count;
+    ```
+ 
 ## В помощь
 
 [Modern C++ Design: Generic Programming and Design Patterns Applied](https://drive.google.com/drive/folders/1jeZCxdpFG0cA0PVwRW3kXThitbQnHUSn) 

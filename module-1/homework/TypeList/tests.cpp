@@ -10,6 +10,8 @@
 #include "typelist/noduplicates.h"
 #include "typelist/replace.h"
 #include "typelist/typeat.h"
+#include "typelist/reverse.h"
+#include "typelist/count.h"
 
 #include "gtest/gtest.h"
 
@@ -114,4 +116,35 @@ TEST(TypeAt, Test1) {
     typedef double expected;
  
     ASSERT_TRUE((std::is_same<TypeAt<actual, 1>::TargetType, expected>::value));
+}
+
+TEST(Reverse, Test1) {
+    typedef TypeList<int, TypeList<double, TypeList<char, NullType>>> actual;
+    typedef TypeList<char, TypeList<double, TypeList<int, NullType>>> expected;
+
+    testing::StaticAssertTypeEq<Reverse<actual>::NewTypeList, expected>();
+}
+
+TEST(Reverse, Test2) {
+    typedef TypeList<int, TypeList<double, TypeList<int, NullType>>> actual;
+
+    testing::StaticAssertTypeEq<Reverse<actual>::NewTypeList, actual>();
+}
+
+TEST(Count, Test1) {
+    typedef TypeList<int, TypeList<double, TypeList<int, NullType>>> actual;
+
+    static_assert(Count<actual, int>::count == 2, "expected count=2");
+}
+
+TEST(Count, Test2) {
+    typedef TypeList<int, TypeList<double, TypeList<int, NullType>>> actual;
+
+    static_assert(Count<actual, double>::count == 1, "expected count=1");
+}
+
+TEST(Count, Test3) {
+    typedef TypeList<int, TypeList<double, TypeList<int, NullType>>> actual;
+
+    static_assert(Count<actual, std::string>::count == 0, "expected count=0");
 }

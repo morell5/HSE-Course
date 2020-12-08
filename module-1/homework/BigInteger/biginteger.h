@@ -23,9 +23,9 @@
         BigInteger& operator=(int other);
 
         BigInteger& operator++();
-        BigInteger& operator++(int);
+        BigInteger operator++(int);
         BigInteger& operator--();
-        BigInteger& operator--(int);
+        BigInteger operator--(int);
         BigInteger& operator-();
 
         BigInteger& operator+=(BigInteger& other);

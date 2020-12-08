@@ -1,5 +1,5 @@
 #include "biginteger.h"
-BigInteger kostil;
+
 //stringy
 BigInteger& BigInteger::operator=(std::string other){
     this->numb.clear();
@@ -294,12 +294,12 @@ bool BigInteger::operator!=(BigInteger& other){
 }
 
 //Unarniye operatory
-BigInteger& BigInteger::operator--(int){
-    BigInteger h;
+BigInteger BigInteger::operator--(int){
+    BigInteger h, g;
     h.numb = {1};
-    kostil = *this;
+    g = *this;
     *this -= h;
-    return (kostil);
+    return (*g);
 }
 
 BigInteger& BigInteger::operator--(){
@@ -314,12 +314,12 @@ BigInteger& BigInteger::operator-(){
     return *this;
 }
 
-BigInteger& BigInteger::operator++(int){
-    BigInteger h;
+BigInteger BigInteger::operator++(int){
+    BigInteger h, g;
     h.numb = {1};
-    kostil = *this;
+    g = *this;
     *this += h;
-    return (kostil);
+    return (g);
 }
 
 BigInteger& BigInteger::operator++() {

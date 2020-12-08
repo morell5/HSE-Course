@@ -1,5 +1,5 @@
 #include "biginteger.h"
-
+BigInteger kostil;
 //stringy
 BigInteger& BigInteger::operator=(std::string other){
     this->numb.clear();
@@ -116,7 +116,7 @@ BigInteger& BigInteger::operator*=(BigInteger& other){
     return *this;
 }
 
-BigInteger& BigInteger::operator-=(BigInteger other){
+BigInteger& BigInteger::operator-=(BigInteger& other){
     *this = *this - other;
     return *this;
 }
@@ -294,18 +294,19 @@ bool BigInteger::operator!=(BigInteger& other){
 }
 
 //Unarniye operatory
-BigInteger BigInteger::operator--(int){
-    BigInteger h, g;
+BigInteger& BigInteger::operator--(int){
+    BigInteger h;
     h.numb = {1};
-    g = *this;
+    kostil = *this;
     *this -= h;
-    return (g);
+    return (kostil);
 }
 
 BigInteger& BigInteger::operator--(){
     BigInteger h;
     h.numb = {1};
-    return (*this -= h);
+    *this = *this - h;
+    return (*this);
 }
 
 BigInteger& BigInteger::operator-(){
@@ -313,18 +314,19 @@ BigInteger& BigInteger::operator-(){
     return *this;
 }
 
-BigInteger BigInteger::operator++(int){
-    BigInteger h, g;
+BigInteger& BigInteger::operator++(int){
+    BigInteger h;
     h.numb = {1};
-    g = *this;
+    kostil = *this;
     *this += h;
-    return (g);
+    return (kostil);
 }
 
 BigInteger& BigInteger::operator++() {
     BigInteger h;
     h.numb = {1};
-	return (*this += h);
+    *this = *this + h;
+	return (*this);
 }
 
 

@@ -1,5 +1,47 @@
 #include "biginteger.h"
 
+BigInteger& BigInteger::plus(BigInteger& x,const BigInteger& yy){
+    x.numb.push_back(0);
+    BigInteger y = yy;
+    for(int i = 0; i < y.numb.size(); i++){
+        x.numb[i]+=y.numb[i];
+        if (x.numb[i]>=10){
+            x.numb[i] -= 10;
+            x.numb[i+1]++;
+        }
+    }
+    for(int i = 0; i < x.numb.size(); i++){
+        if (x.numb[i]>=10){
+            x.numb[i] -= 10;
+            x.numb[i+1]++;
+        }
+    }
+    while (x.numb.size() > 1 && x.numb[x.numb.size()-1] == 0){
+        x.numb.pop_back();
+    }
+    return x;
+}
+
+BigInteger& BigInteger::minus(BigInteger& x,const BigInteger& yy){
+    BigInteger y = yy;
+    for(int i = 0; i < y.numb.size(); i++){
+        x.numb[i]-=y.numb[i];
+        if (x.numb[i]<0){
+            x.numb[i] += 10;
+            x.numb[i+1]--;
+        }
+    }
+    for(int i = 0; i < x.numb.size()-1; i++){
+        if (x.numb[i]<0){
+            x.numb[i] += 10;
+            x.numb[i+1]--;
+        }
+    }
+    while (x.numb.size() > 1 && x.numb[x.numb.size()-1] == 0){
+        x.numb.pop_back();
+    }
+    return x;
+}
 //stringy
 BigInteger& BigInteger::operator=(std::string other){
     this->numb.clear();
@@ -58,7 +100,7 @@ BigInteger& BigInteger::operator=(int other){
      return (*this);
  }
 
-bool BigInteger::operator==(BigInteger& other){
+bool BigInteger::operator==(const BigInteger& other){
     return ((this->numb == other.numb) && (this->zn == other.zn));
 }
 
@@ -101,27 +143,93 @@ BigInteger& BigInteger::operator/=(int other){
     return (*this);
 }
 
-BigInteger& BigInteger::operator+=(BigInteger& other){
-    *this = *this + other;
+BigInteger& BigInteger::operator+=(const BigInteger& other){
+    if (other.zn * this->zn < 0){
+        int y = this->zn;
+        this->zn = other.zn;
+        if (this->zn == -1){
+            if (*this <= other){
+                minus(*this, other);
+                this->zn = y;
+            }
+            else{
+                BigInteger x = other;
+                *this = minus(x, *this);
+            }
+        }
+        else{
+            if (*this >= other){
+                minus(*this, other);
+                this->zn = y;
+            }
+            else{
+                BigInteger x = other;
+                *this = minus(x, *this);
+            }
+        }
+    }
+    else{
+        if (this->numb.size() >= other.numb.size()){
+            plus(*this, other);
+        } 
+        else {
+            BigInteger x = other;
+            *this = plus(x, *this);
+        }
+    }
     return *this;
 }
 
-BigInteger& BigInteger::operator/=(BigInteger& other){
+BigInteger& BigInteger::operator/=(const BigInteger& other){
     *this = *this / other;
     return *this;
 }
 
-BigInteger& BigInteger::operator*=(BigInteger& other){
+BigInteger& BigInteger::operator*=(const BigInteger& other){
     *this = *this * other;
     return *this;
 }
 
-BigInteger& BigInteger::operator-=(BigInteger& other){
-    *this = *this - other;
+BigInteger& BigInteger::operator-=(const BigInteger& other){
+    if (other.zn * this->zn == -1){
+        if (this->numb.size() >= other.numb.size()){
+            plus(*this, other);
+        } 
+        else {
+            BigInteger x = other;
+            *this = plus(x, *this);
+        }
+    }
+    else{
+        int y = this->zn;
+        this->zn = other.zn;
+        if (this->zn == -1){
+            if (*this <= other){
+                minus(*this, other);
+                this->zn = y;
+            }
+            else{
+                BigInteger x = other;
+                *this = minus(x, *this);
+                this->zn = 1;
+            }
+        }
+        else{
+            if (*this >= other){
+                minus(*this, other);
+                this->zn = y;
+            }
+            else{
+                BigInteger x = other;
+                *this = minus(x, *this);
+                this->zn = -1;
+            }
+        }
+    }
     return *this;
 }
 
-BigInteger& BigInteger::operator%=(BigInteger& other){
+BigInteger& BigInteger::operator%=(const BigInteger& other){
     *this = *this % other;
     return *this;
 }
@@ -133,7 +241,7 @@ BigInteger& BigInteger::operator=(BigInteger other){
     return *this;
 }
 
-BigInteger BigInteger::operator*(BigInteger& other){
+BigInteger BigInteger::operator*(const BigInteger& other){
     BigInteger y, x, z, n2, nl;
     z = *this;
     x = other;
@@ -163,7 +271,7 @@ BigInteger BigInteger::operator%(BigInteger other){
     return x;
 }
 
-BigInteger BigInteger::operator/(BigInteger& other){
+BigInteger BigInteger::operator/(const BigInteger& other){
     BigInteger y, x, z;
     z.numb = this->numb;
     x.numb = other.numb;
@@ -175,76 +283,18 @@ BigInteger BigInteger::operator/(BigInteger& other){
     return y; 
 }
 
-BigInteger BigInteger::operator+(BigInteger& other){
-    if (other.zn * this->zn < 0){
-            return (*this - other);
-    }
-    BigInteger x, y;
-    if (this->numb.size() > other.numb.size()){
-        x = *this;
-        y = other;
-    } 
-    else {
-        x = other;
-        y = *this;
-    }
-    x.numb.push_back(0);
-    for(int i = 0; i < y.numb.size(); i++){
-        x.numb[i]+=y.numb[i];
-        if (x.numb[i]>=10){
-            x.numb[i] -= 10;
-            x.numb[i+1]++;
-        }
-    }
-    for(int i = 0; i < x.numb.size(); i++){
-        if (x.numb[i]>=10){
-            x.numb[i] -= 10;
-            x.numb[i+1]++;
-        }
-    }
-    while (x.numb[x.numb.size()-1] == 0){
-        x.numb.pop_back();
-    }
-    return x;
+BigInteger BigInteger::operator+(const BigInteger& other){
+    BigInteger x  = *this;
+    return(x+=other);
 }
 
 BigInteger BigInteger::operator-(BigInteger other){
-    other.zn*=-1;
-    BigInteger x, y, z, w;
-    if (other.zn * this->zn > 0){
-        return (*this + other);
-    }
-    z.numb = this->numb;
-    w.numb = other.numb;
-    if (z>w){
-        x = *this;
-        y = other;
-    }
-    else{
-        y = *this;
-        x = other;
-    }
-    for(int i = 0; i < y.numb.size(); i++){
-        x.numb[i]-=y.numb[i];
-        if (x.numb[i]<0){
-            x.numb[i] += 10;
-            x.numb[i+1]--;
-        }
-    }
-    for(int i = 0; i < x.numb.size()-1; i++){
-        if (x.numb[i]<0){
-            x.numb[i] += 10;
-            x.numb[i+1]--;
-        }
-    }
-    while (x.numb.size() > 1 && x.numb[x.numb.size()-1] == 0){
-        x.numb.pop_back();
-    }
-    return x;
+    BigInteger x = *this;
+    return(x-=other);
 }
 
 //Operatory sravneniya
-bool BigInteger::operator>(BigInteger& other){
+bool BigInteger::operator>(const BigInteger& other){
     if (this->zn == 1 && other.zn == -1){
         return true;
     }
@@ -277,19 +327,19 @@ bool BigInteger::operator>(BigInteger& other){
     return k;   
 }
 
-bool BigInteger::operator<(BigInteger& other){
+bool BigInteger::operator<(const BigInteger& other){
     return (!((*this > other) || (*this==other)));
 }
 
-bool BigInteger::operator<=(BigInteger& other){
+bool BigInteger::operator<=(const BigInteger& other){
     return !(*this > other);
 }
 
-bool BigInteger::operator>=(BigInteger& other){
+bool BigInteger::operator>=(const BigInteger& other){
     return ((*this > other) || (*this==other));
 }
 
-bool BigInteger::operator!=(BigInteger& other){
+bool BigInteger::operator!=(const BigInteger& other){
     return (!(*this == other));    
 }
 
@@ -299,7 +349,7 @@ BigInteger BigInteger::operator--(int){
     h.numb = {1};
     g = *this;
     *this -= h;
-    return (*g);
+    return (g);
 }
 
 BigInteger& BigInteger::operator--(){

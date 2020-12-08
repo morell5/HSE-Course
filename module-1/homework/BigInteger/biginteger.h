@@ -11,13 +11,16 @@
 
         BigInteger();
 	    BigInteger(int);   
-        BigInteger(std::string);     
+        BigInteger(std::string);  
 
-        BigInteger operator+(BigInteger& other);
+        BigInteger& plus(BigInteger& x, const BigInteger& y);
+        BigInteger& minus(BigInteger& x, const BigInteger& y);
+
+        BigInteger operator+(const BigInteger& other);
         BigInteger operator%(BigInteger other);
         BigInteger operator-(BigInteger other);
-        BigInteger operator*(BigInteger& other);        
-        BigInteger operator/(BigInteger& other);
+        BigInteger operator*(const BigInteger& other);        
+        BigInteger operator/(const BigInteger& other);
 
         BigInteger& operator=(BigInteger other);
         BigInteger& operator=(int other);
@@ -28,18 +31,18 @@
         BigInteger operator--(int);
         BigInteger& operator-();
 
-        BigInteger& operator+=(BigInteger& other);
-        BigInteger& operator%=(BigInteger& other);
-        BigInteger& operator-=(BigInteger& other);
-        BigInteger& operator*=(BigInteger& other);        
-        BigInteger& operator/=(BigInteger& other);
+        BigInteger& operator+=(const BigInteger& other);
+        BigInteger& operator%=(const BigInteger& other);
+        BigInteger& operator-=(const BigInteger& other);
+        BigInteger& operator*=(const BigInteger& other);        
+        BigInteger& operator/=(const BigInteger& other);
 
-        bool operator<(BigInteger& other);
-        bool operator>(BigInteger& other);
-        bool operator==(BigInteger& other);
-        bool operator<=(BigInteger& other);
-        bool operator>=(BigInteger& other);
-        bool operator!=(BigInteger& other);
+        bool operator<(const BigInteger& other);
+        bool operator>(const BigInteger& other);
+        bool operator==(const BigInteger& other);
+        bool operator<=(const BigInteger& other);
+        bool operator>=(const BigInteger& other);
+        bool operator!=(const BigInteger& other);
 
         BigInteger& operator=(std::string other);
 

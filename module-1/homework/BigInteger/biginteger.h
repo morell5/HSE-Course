@@ -4,10 +4,11 @@
 
     class BigInteger {
 
-        public:
+        private:
+            std::vector<int> numb ;
+            int zn = 1;
 
-        std::vector<int> numb ;
-        int zn = 1;
+        public:       
 
         BigInteger();
 	    BigInteger(int);   

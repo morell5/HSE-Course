@@ -60,20 +60,20 @@ struct Multiplicator {
         }
     }
 
-    void reverseParts(std::vector<int>& r1, std::vector<int>& r2, std::vector<int>& r4) {
-        reverse(r1.begin(), r1.end());
-        reverse(r2.begin(), r2.end());
-        reverse(r4.begin(), r4.end());
+    void reverseParts(std::vector<int>& leftToLeftComposition, std::vector<int>& sumToSumComposition, std::vector<int>& rightToRightComposition) {
+        reverse(leftToLeftComposition.begin(), leftToLeftComposition.end());
+        reverse(sumToSumComposition.begin(), sumToSumComposition.end());
+        reverse(rightToRightComposition.begin(), rightToRightComposition.end());
     }
 
-    void multiplyParts(std::vector<int>& r1, std::vector<int>& r2, 
-                        std::vector<int>& r4, std::vector<int>& al,
+    void multiplyParts(std::vector<int>& leftToLeftComposition, std::vector<int>& sumToSumComposition, 
+                        std::vector<int>& rightToRightComposition, std::vector<int>& al,
                         std::vector<int>& bl, std::vector<int>& kl,
                         std::vector<int>& kr, std::vector<int>& ar,
                         std::vector<int>& br) {
-        multiply(al, bl, r1);
-        multiply(kl, kr, r2);
-        multiply(ar, br, r4);
+        multiply(al, bl, leftToLeftComposition);
+        multiply(kl, kr, sumToSumComposition);
+        multiply(ar, br, rightToRightComposition);
     }
 
     void sumParts(std::vector<int>& al, std::vector<int>& bl, 
@@ -95,27 +95,27 @@ struct Multiplicator {
         std::vector<int> bl;
         std::vector<int> br;
         split(al, ar, bl, br, a, b, mid);
-        std::vector<int> r1;
-        std::vector<int> r2;
-        std::vector<int> r3;
-        std::vector<int> r4;
+        std::vector<int> leftToLeftComposition;
+        std::vector<int> sumToSumComposition;
+        std::vector<int> sumToLeftDifference;
+        std::vector<int> rightToRightComposition;
         std::vector<int> kl;
         std::vector<int> kr;
         sumParts(al, bl, kl, kr, ar, br);
-        multiplyParts(r1, r2, r4, al, bl, kl, kr, ar, br);
-        reverseParts(r1, r2, r4);
-        decrease(r2, r1, r3);
-        decrease(r3, r4, r2);
+        multiplyParts(leftToLeftComposition, sumToSumComposition, rightToRightComposition, al, bl, kl, kr, ar, br);
+        reverseParts(leftToLeftComposition, sumToSumComposition, rightToRightComposition);
+        decrease(sumToSumComposition, leftToLeftComposition, sumToLeftDifference);
+        decrease(sumToLeftDifference, rightToRightComposition, sumToSumComposition);
         for(std::size_t i = 0; i < mid; i++) {
-            r2.push_back(0);
+            sumToSumComposition.push_back(0);
         }
         for(std::size_t i = 0; i < 2 * mid; i++) {
-            r4.push_back(0);
+            rightToRightComposition.push_back(0);
         }
-        reverseParts(r1, r2, r4);
-        sum(r1, r2, res);
+        reverseParts(leftToLeftComposition, sumToSumComposition, rightToRightComposition);
+        sum(leftToLeftComposition, sumToSumComposition, res);
         std::vector<int> res2;
-        sum(res, r4, res2);
+        sum(res, rightToRightComposition, res2);
         res = res2;
     }
 };
@@ -132,30 +132,44 @@ class BigInteger {
             if(a < 0) {
                 negative = 1;
             }
+            base.clear();
+            if(a == 0) {
+                base.push_back(0);
+                return;
+            }
             a = abs(a);
             base.clear();
             while(a != 0) {
                 base.push_back(a % 10);
                 a /= 10;
             }
+            normalizeZero();
         }
 
         BigInteger& operator=(int a) {
             if(a < 0) {
                 negative = 1;
             }
+            base.clear();
+            if(a == 0) {
+                base.push_back(0);
+                return *this;
+            }
             a = abs(a);
             base.clear();
             while(a != 0) {
                 base.push_back(a % 10);
                 a /= 10;
             }
+            return *this;
+            normalizeZero();
         }
 
         BigInteger& operator+= (const BigInteger& int2) {
             BigInteger nw = *this + int2;
             base = nw.base;
             negative = nw.negative;
+            normalizeZero();
             return *this;
         }
 
@@ -163,6 +177,7 @@ class BigInteger {
             BigInteger nw = *this - int2;
             base = nw.base;
             negative = nw.negative;
+            normalizeZero();
             return *this;
         }
 
@@ -170,6 +185,7 @@ class BigInteger {
             BigInteger nw = *this * int2;
             base = nw.base;
             negative = nw.negative;
+            normalizeZero();
             return *this;
         }
 
@@ -177,6 +193,7 @@ class BigInteger {
             BigInteger nw = *this / int2;
             base = nw.base;
             negative = nw.negative;
+            normalizeZero();
             return *this;
         }
 
@@ -184,272 +201,14 @@ class BigInteger {
             BigInteger nw = *this % int2;
             base = nw.base;
             negative = nw.negative;
+            normalizeZero();
             return *this;
         }
 
         BigInteger operator- () {
             negative = !negative;
+            normalizeZero();
             return *this;
-        }
-
-        BigInteger operator+ (const BigInteger& int2) {
-            int next = 0;
-            BigInteger answer;
-            BigInteger a = *this;
-            BigInteger b = int2;
-            if(a.negative == false && b.negative == false) {
-                answer.negative = false;
-            }
-            else if(a.negative  && !b.negative) {
-                a.negative = false;
-                answer = b - a;
-                return answer;
-            }
-            else if(!a.negative && b.negative) {
-                b.negative = false;
-                answer = a - b;
-                return answer;
-            }
-            else {
-                answer.negative = true;
-            }
-            if(a < b) {
-                std::swap(a, b);
-            }
-            for(std::size_t i = 0; i < a.base.size(); i++) {
-                if(i < b.base.size()) {
-                    int num = a.base[i] + b.base[i] + next;
-                    answer.base.push_back(num % 10);
-                    next = (num / 10) % 10;
-                }
-                else {
-                    answer.base.push_back(a.base[i] + next);
-                    next = 0;
-                }
-            }
-            if(next != 0) {
-                answer.base.push_back(next);
-            }
-            return answer;
-        }
-
-        
-
-        BigInteger operator- (const BigInteger& int2) {
-            BigInteger answer;
-            BigInteger a = *this;
-            BigInteger b = int2;
-            if(a.negative == false && b.negative == false) {
-                answer.negative = false;
-            }
-            else if(a.negative && !b.negative) {
-                a.negative = false;
-                answer = a + b;
-                answer.negative = true;
-                return answer;
-            }
-            else if(!a.negative && b.negative) {
-                b.negative = false;
-                answer = a + b;
-                answer.negative = false;
-                return answer;
-            }
-            else {
-                std::swap(a, b);
-                answer.negative = false;
-            }
-            int inverse = 0;
-            if(a < b) {
-                std::swap(a, b);
-                inverse = 1;
-            }
-            int add = 0;
-            for(std::size_t i = 0; i < a.base.size(); i++) {
-                if(i < b.base.size()) {
-                    if(a.base[i] - add >= b.base[i]) {
-                        answer.base.push_back(a.base[i] - add - b.base[i]);
-                    }
-                    else {
-                        answer.base.push_back(a.base[i] - add - b.base[i] + 10);
-                        add = 1;
-                    }
-                }
-                else {
-                    if(a.base[i] >= add) {
-                        answer.base.push_back(a.base[i] - add);
-                        add = 0;
-                    }
-                    else {
-                        answer.base.push_back(10 - add);
-                        add = 1;
-                    }
-                }
-            }
-            while(answer.base.size() && answer.base.back() == 0) {
-                answer.base.pop_back();
-            }
-            if(answer.base.size() == 0) {
-                answer.base.push_back(0);
-            }
-            answer.negative ^= inverse;
-            return answer;
-        }
-
-        BigInteger operator* (const BigInteger& int2) {
-            BigInteger a = *this;
-            BigInteger b = int2;
-            BigInteger answer;
-            Multiplicator multiplicator;
-            multiplicator.multiply(a.base, b.base, answer.base);
-            if(a.negative ^ b.negative) {
-                answer.negative = true;
-            }
-            else {
-                answer.negative = false;
-            }
-            for(std::size_t i = 0; i < answer.base.size() - 1; i++) {
-                if(i < answer.base.size() - 1) {
-                    answer.base[i + 1] += answer.base[i] / 10;
-                    answer.base[i] %= 10;
-                }
-            }
-            while(answer.base.back() != 0) {
-                int cnt = answer.base.back();
-                answer.base[answer.base.size() - 1] %= 10;
-                answer.base.push_back(cnt / 10);
-                
-            }
-            while(answer.base.size() && answer.base.back() == 0) {
-                answer.base.pop_back();
-            }
-            if(answer.base.size() == 0) {
-                answer.base.push_back(0);
-            }
-            return answer;
-        }
-
-        BigInteger operator/ (const BigInteger& int2) {
-            BigInteger a = *this;
-            BigInteger b = int2;
-            BigInteger answer;
-            if(a.negative ^ b.negative) {
-                answer.negative = true;
-            }
-            else {
-                answer.negative = false;
-            }
-            a.negative = false;
-            b.negative = false;
-            int pos = a.base.size() - 1;
-            BigInteger cur = 0;
-            while(pos >= 0) {
-                cur = cur * BigInteger(10) + BigInteger(a.base[pos]);
-                pos--;
-                if(cur >= b) {
-                    int num;
-                    for(int i = 0; i < 10; i++) {
-                        if(b * BigInteger(i) > cur) {
-                            num = i - 1;
-                            break;
-                        }
-                    }
-                    BigInteger bigNum = num;
-                    cur = cur - (b * bigNum);
-                    answer.base.push_back(num);
-                }
-                else {
-                    answer.base.push_back(0);
-                }
-            }
-            reverse(answer.base.begin(), answer.base.end());
-            while(answer.base.size() && answer.base.back() == 0) {
-                answer.base.pop_back();
-            }
-            if(answer.base.size() == 0) {
-                answer.base.push_back(0);
-            }
-            return answer;
-        }
-
-        BigInteger operator% (const BigInteger& int2) {
-            BigInteger a = *this;
-            BigInteger b = int2;
-            BigInteger answer = a;
-            bool negative = a.negative;
-            b.negative = false;
-            int pos = a.base.size() - 1;
-            BigInteger cur = 0;
-            while(pos >= 0) {
-                cur = cur * BigInteger(10) + BigInteger(a.base[pos]);
-                pos--;
-                if(cur >= b) {
-                    int num;
-                    for(int i = 0; i < 10; i++) {
-                        if(b * BigInteger(i) > cur) {
-                            num = i - 1;
-                            break;
-                        }
-                    }
-                    BigInteger bigNum = num;
-                    cur = cur - (b * bigNum);
-                    answer = cur;
-                }
-            }
-            answer.negative = negative;
-            return answer;
-        }
-
-        bool operator!= (const BigInteger& int2) {
-            return !(*this == int2);
-        }
-
-        bool isLess(const BigInteger& int2) {
-            if(base.size() < int2.base.size()) {
-                return true;
-            }
-            if(base.size() > int2.base.size()) {
-                return false;
-            }
-            for(std::size_t i = base.size() - 1; i >= 0; i--) {
-                if(base[i] < int2.base[i]) {
-                    return true;
-                }
-                if(base[i] > int2.base[i]) {
-                    return false;
-                }
-                if(i == 0) {
-                    break;
-                }
-            }
-            return false;
-        }
-
-        bool operator< (const BigInteger& int2) {
-            BigInteger int2Copy = int2;
-            if(*this == BigInteger(0)) {
-                negative = false;
-            }
-            if(int2 == BigInteger(0)) {
-                int2Copy.negative = false;
-            }
-            if(negative != int2Copy.negative) {
-                return ((negative) ? true : false);
-            }
-            else {
-                return (isLess(int2Copy) != negative);
-            }
-        }
-
-        bool operator> (const BigInteger& int2) {
-            return !(*this < int2) && *this != int2;
-        }
-
-        bool operator<= (const BigInteger& int2) {
-            return !(*this > int2);
-        }
-
-        bool operator>= (const BigInteger& int2) {
-            return !(*this < int2);
         }
 
         BigInteger& operator++() {
@@ -501,23 +260,53 @@ class BigInteger {
             return ans;
         }
 
+        void normalizeZero() {
+            if(this != nullptr && *this == BigInteger(0)) {
+                negative = false;
+            }
+        }
+
         friend std::ostringstream& operator<<(std::ostringstream& os, const BigInteger& integer);
-
         friend std::ostream& operator<<(std::ostream& os, const BigInteger& integer);
-
         friend std::istringstream& operator>>(std::istringstream& is, BigInteger& integer);
-
         friend bool operator== (const BigInteger& int1, const BigInteger& int2);
+        friend bool operator!= (const BigInteger& int1, const BigInteger& int2);
+        friend bool operator< (const BigInteger& int1, const BigInteger& int2);
+        friend bool isLess(const BigInteger& int1, const BigInteger& int2);
+        friend bool operator> (const BigInteger& int1, const BigInteger& int2);
+        friend bool operator<= (const BigInteger& int1, const BigInteger& int2);
+        friend bool operator>= (const BigInteger& int1, const BigInteger& int2);
+        friend BigInteger operator+ (const BigInteger& int1, const BigInteger& int2);
+        friend BigInteger operator- (const BigInteger& int1, const BigInteger& int2);
+        friend BigInteger operator* (const BigInteger& int1, const BigInteger& int2);
+        friend BigInteger operator/ (const BigInteger& int1, const BigInteger& int2);
+        friend BigInteger operator% (const BigInteger& int1, const BigInteger& int2);
 
 };
 
-bool checkDifferentSignsZeros(const std::vector<int>& base1, const std::vector<int>& base2) {
-    if(base1.size() == 1 && base1[0] == 0 && base2[0] == 0) {
+bool isLess(const BigInteger& int1, const BigInteger& int2) {
+    if(int1.base.size() < int2.base.size()) {
         return true;
     }
-    else {
+    if(int1.base.size() > int2.base.size()) {
         return false;
     }
+    for(std::size_t i = int1.base.size() - 1; i >= 0; i--) {
+        if(int1.base[i] < int2.base[i]) {
+            return true;
+        }
+        if(int1.base[i] > int2.base[i]) {
+            return false;
+        }
+        if(i == 0) {
+            break;
+        }
+    }
+    return false;
+}
+
+bool checkDifferentSignsZeros(const std::vector<int>& base1, const std::vector<int>& base2) {
+    return base1.size() == 1 && base1[0] == 0 && base2[0] == 0;
 }
 
 bool operator== (const BigInteger& int1, const BigInteger& int2) {
@@ -529,7 +318,7 @@ bool operator== (const BigInteger& int1, const BigInteger& int2) {
     if(checkDifferentSignsZeros(base1, base2)) {
         return true;
     }
-    if(int1.getNegative() != int2.getNegative()) {
+    if(int1.negative != int2.negative) {
         return false;
     }
     for(std::size_t i = 0; i < base1.size(); i++) {
@@ -538,6 +327,10 @@ bool operator== (const BigInteger& int1, const BigInteger& int2) {
         }
     }
     return true;
+}
+
+bool operator!= (const BigInteger& int1, const BigInteger& int2) {
+    return !(int1 == int2);
 }
 
 std::ostringstream& operator<<(std::ostringstream& os, const BigInteger& integer) {
@@ -553,13 +346,11 @@ std::ostringstream& operator<<(std::ostringstream& os, const BigInteger& integer
 }
 
 std::ostream& operator<<(std::ostream& os, const BigInteger& integer) {
-    os << ((integer.getNegative()) ? "-" : "");
-    std::vector<int> base = integer.getBase();
-    for(std::size_t i = base.size() - 1; i >= 0; i--) {
-        os << base[i];
-        if(i == 0) {
-            break;
-        }
+    os << ((integer.negative) ? "-" : "");
+    std::vector<int> base = integer.base;
+    std::cerr << base.size() << '\n';
+    for(std::size_t i = 0; i < base.size(); i++) {
+        os << base[base.size() - 1 - i];
     }
     return os;
 }
@@ -568,8 +359,241 @@ std::istringstream& operator>>(std::istringstream& is, BigInteger& integer) {
     integer.base.clear();
     std::string s;
     is >> s;
-    for(int i = s.size() - 1; i >= 0; i--) {
-        integer.base.push_back(s[i] - '0');
+    for(std::size_t i = 0; i < s.size(); i++) {
+        integer.base.push_back(s[s.size() - 1 - i] - '0');
     }
     return is;
+}
+
+bool operator< (const BigInteger& int1, const BigInteger& int2) {
+    if(int1.negative != int2.negative) {
+        return ((int1.negative) ? true : false);
+    }
+    else {
+        return (isLess(int1, int2) != int1.negative);
+    }
+}
+
+bool operator> (const BigInteger& int1, const BigInteger& int2) {
+    return !(int1 < int2) && int1 != int2;
+}
+
+bool operator<= (const BigInteger& int1, const BigInteger& int2) {
+    return !(int1 > int2);
+}
+
+bool operator>= (const BigInteger& int1, const BigInteger& int2) {
+    return !(int1 < int2);
+}
+
+BigInteger operator+ (const BigInteger& int1, const BigInteger& int2) {
+    int next = 0;
+    BigInteger answer;
+    BigInteger a = int1;
+    BigInteger b = int2;
+    if(a.negative == false && b.negative == false) {
+        answer.negative = false;
+    }
+    else if(a.negative  && !b.negative) {
+        a.negative = false;
+        answer = b - a;
+        return answer;
+    }
+    else if(!a.negative && b.negative) {
+        b.negative = false;
+        answer = a - b;
+        return answer;
+    }
+    else {
+        answer.negative = true;
+    }
+    if(a < b) {
+        std::swap(a, b);
+    }
+    for(std::size_t i = 0; i < a.base.size(); i++) {
+        if(i < b.base.size()) {
+            int num = a.base[i] + b.base[i] + next;
+            answer.base.push_back(num % 10);
+            next = (num / 10) % 10;
+        }
+        else {
+            answer.base.push_back(a.base[i] + next);
+            next = 0;
+        }
+    }
+    if(next != 0) {
+        answer.base.push_back(next);
+    }
+    answer.normalizeZero();
+    return answer;
+}
+
+BigInteger operator- (const BigInteger& int1, const BigInteger& int2) {
+    BigInteger answer;
+    BigInteger a = int1;
+    BigInteger b = int2;
+    if(a.negative == false && b.negative == false) {
+        answer.negative = false;
+    }
+    else if(a.negative && !b.negative) {
+        a.negative = false;
+        answer = a + b;
+        answer.negative = true;
+        return answer;
+    }
+    else if(!a.negative && b.negative) {
+        b.negative = false;
+        answer = a + b;
+        answer.negative = false;
+        return answer;
+    }
+    else {
+        std::swap(a, b);
+        answer.negative = false;
+    }
+    int inverse = 0;
+    if(a < b) {
+        std::swap(a, b);
+        inverse = 1;
+    }
+    int add = 0;
+    for(std::size_t i = 0; i < a.base.size(); i++) {
+        if(i < b.base.size()) {
+            if(a.base[i] - add >= b.base[i]) {
+                answer.base.push_back(a.base[i] - add - b.base[i]);
+            }
+            else {
+                answer.base.push_back(a.base[i] - add - b.base[i] + 10);
+                add = 1;
+            }
+        }
+        else {
+            if(a.base[i] >= add) {
+                answer.base.push_back(a.base[i] - add);
+                add = 0;
+            }
+            else {
+                answer.base.push_back(10 - add);
+                add = 1;
+            }
+        }
+    }
+    while(answer.base.size() && answer.base.back() == 0) {
+        answer.base.pop_back();
+    }
+    if(answer.base.size() == 0) {
+        answer.base.push_back(0);
+    }
+    answer.negative ^= inverse;
+    answer.normalizeZero();
+    return answer;
+}
+
+BigInteger operator* (const BigInteger& int1, const BigInteger& int2) {
+    BigInteger a = int1;
+    BigInteger b = int2;
+    BigInteger answer;
+    Multiplicator multiplicator;
+    multiplicator.multiply(a.base, b.base, answer.base);
+    if(a.negative ^ b.negative) {
+        answer.negative = true;
+    }
+    else {
+        answer.negative = false;
+    }
+    for(std::size_t i = 0; i < answer.base.size() - 1; i++) {
+        if(i < answer.base.size() - 1) {
+            answer.base[i + 1] += answer.base[i] / 10;
+            answer.base[i] %= 10;
+        }
+    }
+    while(answer.base.back() != 0) {
+        int cnt = answer.base.back();
+        answer.base[answer.base.size() - 1] %= 10;
+        answer.base.push_back(cnt / 10);
+        
+    }
+    while(answer.base.size() && answer.base.back() == 0) {
+        answer.base.pop_back();
+    }
+    if(answer.base.size() == 0) {
+        answer.base.push_back(0);
+    }
+    answer.normalizeZero();
+    return answer;
+}
+
+BigInteger operator/ (const BigInteger& int1, const BigInteger& int2) {
+    BigInteger a = int1;
+    BigInteger b = int2;
+    BigInteger answer;
+    if(a.negative ^ b.negative) {
+        answer.negative = true;
+    }
+    else {
+        answer.negative = false;
+    }
+    a.negative = false;
+    b.negative = false;
+    int pos = a.base.size() - 1;
+    BigInteger cur = 0;
+    while(pos >= 0) {
+        std::cerr << cur << '\n';
+        cur = cur * BigInteger(10) + BigInteger(a.base[pos]);
+        
+        pos--;
+        if(cur >= b) {
+            int num;
+            for(int i = 0; i < 10; i++) {
+                if((b * BigInteger(i)) > cur) {
+                    num = i - 1;
+                    break;
+                }
+            }
+            BigInteger bigNum = num;
+            cur = cur - (b * bigNum);
+            answer.base.push_back(num);
+        }
+        else {
+            answer.base.push_back(0);
+        }
+    }
+    reverse(answer.base.begin(), answer.base.end());
+    while(answer.base.size() && answer.base.back() == 0) {
+        answer.base.pop_back();
+    }
+    if(answer.base.size() == 0) {
+        answer.base.push_back(0);
+    }
+    answer.normalizeZero();
+    return answer;
+}
+
+BigInteger operator% (const BigInteger& int1, const BigInteger& int2) {
+    BigInteger a = int1;
+    BigInteger b = int2;
+    BigInteger answer = a;
+    bool negative = a.negative;
+    b.negative = false;
+    int pos = a.base.size() - 1;
+    BigInteger cur = 0;
+    while(pos >= 0) {
+        cur = cur * BigInteger(10) + BigInteger(a.base[pos]);
+        pos--;
+        if(cur >= b) {
+            int num;
+            for(int i = 0; i < 10; i++) {
+                if(b * BigInteger(i) > cur) {
+                    num = i - 1;
+                    break;
+                }
+            }
+            BigInteger bigNum = num;
+            cur = cur - (b * bigNum);
+            answer = cur;
+        }
+    }
+    answer.negative = negative;
+    answer.normalizeZero();
+    return answer;
 }

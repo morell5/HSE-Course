@@ -1,46 +1,13 @@
 #include "list.h"
 #include <iostream>
-void swap(Element* a, Element* b) {
-		if (a == nullptr) {
-			a = b;
-			b = nullptr;
-		}
-		else if (b == nullptr) {
-			b = a;
-			a = nullptr;
-		}
-		else if (a == nullptr && b == nullptr)
-		{
-			return;
-		}
-		else {
-			Element* temp;
-			temp = a->prev;
-			a->prev = b->prev;
-			b->prev = temp;
-			temp = a->next;
-			a->next = b->next;
-			b->next = temp;
-			int t = a->data;
-			a->data = b->data;
-			b->data = t;
-		}
-		}
-	void swap(int& a, int& b) {
-		int c = a;
-		a = b;
-		b = c;
-	}
-	List() {
+List() {
 		first = nullptr;
 	}
 	int& front() {
-		//if (first == nullptr)return;
 		return first->data;
 	}
 	int& back() {
 		Element* e = first;
-		//if (e == nullptr)return ;
 		while (e->next != nullptr)
 			e = e->next;
 		return e->data;
@@ -98,7 +65,7 @@ void swap(Element* a, Element* b) {
 		delete first;
 	}
 	void resize(int new_size) {
-		int i = 0;
+		int temp_size = 0;
 		Element* e = first;
 		Element*e1=nullptr;
 		Element* temp;
@@ -106,34 +73,26 @@ void swap(Element* a, Element* b) {
 		if (e == nullptr)return;
 		while (e!= nullptr)
 		{
-			if (i == new_size)
+			if (temp_size == new_size)
 			{
 				if(e->prev!=nullptr)e->prev->next = nullptr;	
 				temp = e;
 				e = e->next;
 				delete temp;
-				i++;
+				temp_size++;
 				continue;
 			}
 			if (e->next == nullptr)e1 = e;
 			e = e->next;
-			i++;
+			temp_size++;
 		}
-		for (int j = i; j < new_size; j++) {
+		for (size_t j = temp_size; j < new_size; j++) {
 			temp = new Element();
 			temp->prev = e1;
 			temp->next = nullptr;
-			if(e1!=nullptr)e1->next = temp;
+			if(e1!=nullptr)
+				e1->next = temp;
 			e1 = temp;
-		}
-	}
-	void Print() {
-		if (first != nullptr) {
-			Element* e = first;
-			while (e) {
-				std::cout << e->data << ' ';
-				e = e->next;
-			}
 		}
 	}
 	void clear() {
@@ -176,11 +135,11 @@ void swap(Element* a, Element* b) {
 		Element* temp;
 		Element* temp1;
 		int n=this->size();
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n-1; j++) {
+		for (size_t i = 0; i < n; i++) {
+			for (size_t j = 0; j < n-1; j++) {
 				if (e->data > e->next->data)            
 				{
-					swap(e->data, e->next->data); 
+					std::swap(e->data, e->next->data); 
 				}
 				e = e->next;
 			}

@@ -23,10 +23,6 @@ namespace my_std {
 
         map(std::initializer_list<value_type> init) {
             __init__();
-
-            
-            
-            
         }
 
         struct Node {
@@ -73,20 +69,11 @@ namespace my_std {
                     std::cout << "iterator: copy" << std::endl;
                 }
 
-                
-                
-                
-                
-                
-                
-                
-                
                 iterator& operator++() {
                     ptr = ptr->next;
                     return *this;
                 }
 
-                
                 iterator& operator--() {
                     ptr = ptr->prev;
                     return *this;
@@ -98,7 +85,6 @@ namespace my_std {
                     return it;
                 }
 
-                
                 iterator operator--(int) {
                     iterator it(*this);
                     operator--();
@@ -137,9 +123,7 @@ namespace my_std {
        std::pair<iterator, bool> insert(const value_type& val) {
             Node* node = new Node(val);
             std::pair<iterator, bool> p = __recursive__insert__(root, node);
-            if (p.second) {
-                
-                
+            if (p.second) { 
                 __insert_repair__tree__(node);
                 root = node;
                 while (get_parent(root)) {
@@ -150,7 +134,6 @@ namespace my_std {
             }
             return p;
         }
-
         
         iterator begin() { return iterator(head->next); }
         iterator end() { return iterator(tail); }
@@ -190,11 +173,9 @@ namespace my_std {
         }
 
         iterator __find__(Node* cur, const Key& key) {
-            
             if (cur == nullptr) {
                 return end();
             }
-
             
             if (cur->val.first == key) {
                 return iterator(cur);
@@ -286,40 +267,6 @@ namespace my_std {
                 }
             }
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
             node->parent = cur;
             node->left = new LeafNode();
             node->left->parent = node;
@@ -357,130 +304,6 @@ namespace my_std {
             }
             return std::make_pair(iterator(node), true);
         }
-
-        
-
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-
-        
-
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-
-        
-            
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-            
-
-        
-            
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
 
         void __insert_repair__tree__(Node* node) {
             Node* parent = get_parent(node);
@@ -539,6 +362,103 @@ namespace my_std {
         Node* max(Node* node) {
             return (node->right->isLeaf()) ? node : max(node->right);
         }
+        
+        void __replace__node__(Node* node, Node* child) {
+            child->parent = node->parent;
+            
+            if (node->parent->left == node) {
+                node->parent->left = child;
+            } else {
+                node->parent->right = child;
+            }
+        }
+
+        void __remove__one__child__node__(Node* node) {
+            assert(node->left->isLeaf() || node->right->isLeaf());
+            Node* child = (node->left->isLeaf()) ? node->right : node->left;
+            __replace__node__(node, child);
+            if (node->color == BLACK) {
+                if (child->color == RED) {
+                    child->color = BLACK;
+                } else {
+                    __remove__repair__tree__(child);
+                }
+            }
+            node->next->prev = node->prev;
+            node->prev->next = node->next;
+
+            delete node;
+        }
+            
+        void __remove__repair__tree__(Node* node) {
+            if (node->parent) {
+                __remove__case2__(node);
+            }
+        }
+        
+        void __remove__case2__(Node* node) {
+            Node* sibling = get_sibling(node);
+            if (sibling->color == RED) {
+                sibling->color = BLACK;
+                node->parent->color = RED;
+                if (node == node->parent->left) {
+                    rotate_left(node->parent);
+                } else {
+                    rotate_right(node->parent);
+                }
+            }
+            __remove__case3__(node);
+        }
+
+        void __remove__case3__(Node* node) {
+            Node* sibling = get_sibling(node);
+            if (node->parent->color == BLACK && sibling->color == BLACK && sibling->left->color == BLACK && sibling->right->color == BLACK) {
+                sibling->color = RED;
+                __remove__repair__tree__(node->parent);
+            } else {
+                __remove__case4__(node->parent);
+            }
+        }
+        
+        void __remove__case4__(Node* node) {
+            Node* sibling = get_sibling(node);
+            if (node->parent->color == RED && sibling->color == RED && sibling->left->color == BLACK && sibling->right->color == BLACK) {
+                std::swap(node->parent->color, sibling->color);
+            } else {
+                __remove__case5__(node);
+            }
+        }
+
+        void __remove__case5__(Node* node) {
+            Node* sibling = get_sibling(node);
+            if (sibling->color == BLACK) {
+                sibling->color = RED;
+                if (node == node->parent->left && sibling->right->color == BLACK && sibling->left->color == RED) {
+                    sibling->color = RED;
+                    sibling->left->color = BLACK;
+                    rotate_right(sibling);
+                } else if (node == node->parent->right && sibling->left->color == BLACK && sibling->right->color == RED) {
+                    sibling->color = RED;
+                    sibling->right->color = BLACK;
+                    rotate_left(sibling);
+                }
+            }
+            __remove__case6__(sibling);
+        }
+
+        void __remove__case6__(Node* node) {
+            Node* sibling = get_sibling(node);
+
+            sibling->color = node->parent->color;
+            node->parent->color = BLACK;
+            if (node->parent->left == node) {
+                sibling->right->color == BLACK;
+                rotate_left(node->parent);
+            } else {
+                sibling->left->color = BLACK;
+                rotate_right(node->parent);
+            }
+        }
 };
 }
 
@@ -546,6 +466,7 @@ class IntWrapper {
 public:
     IntWrapper() = default;
     IntWrapper(int _x) : x(_x) {}
+    
     
     int get_int() const {  return x;  }
     
@@ -581,7 +502,7 @@ int main() {
         std::cout << "val:" << it->val.first << std::endl;
     }
 
-    std::cout << "num_erased:" << a.erase(3);
+    std::cout << "num_erased:" << a.erase(3) << std::endl;
 
     for (auto it = a.begin(); it != a.end(); ++it) {
         std::cout << "val:" << it->val.first << std::endl;

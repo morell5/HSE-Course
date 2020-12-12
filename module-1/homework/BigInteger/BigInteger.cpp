@@ -20,7 +20,7 @@ BigInteger::BigInteger(std::string str) {
 			str = str.substr(1);
 		}
 		for (int i = str.size(); i > 0; i -= LEN) {
-			num.push_back(std::stoi(str.substr(std::max(i - LEN, 0), LEN)));
+			num.push_back(std::stoi(str.substr((i > LEN ? i - LEN : 0), LEN)));
 		}
 	}
 }
@@ -87,7 +87,7 @@ bool operator==(const BigInteger& a, const BigInteger& b) {
 	if (a.num.size() != b.num.size()) {
 		return false;
 	}
-	for (int i = 0; i < a.num.size(); i++) {
+	for (std::size_t i = 0; i < a.num.size(); i++) {
 		if (a.num[i] != b.num[i]) {
 			return false;
 		}
@@ -112,7 +112,7 @@ bool operator<(const BigInteger& a, const BigInteger& b) {
 	if (a.num.size() != b.num.size()) {
 		return a.num.size() < b.num.size();
 	}
-	for (int i = a.num.size() - 1; i >= 0; i--) {
+	for (std::size_t i = a.num.size() - 1; i >= 0; i--) {
 		if (a.num[i] != b.num[i]) {
 			return a.num[i] < b.num[i];
 		}
@@ -147,7 +147,7 @@ BigInteger& BigInteger::operator+=(const BigInteger& other) {
 	}
 
 	int carry = 0;
-	for (int i = 0; i < std::max(num.size(), other.num.size()) || carry > 0; i++) {
+	for (std::size_t i = 0; i < std::max(num.size(), other.num.size()) || carry > 0; i++) {
 		if (i == num.size()) {
 			num.push_back(0);
 		}
@@ -176,7 +176,7 @@ BigInteger& BigInteger::operator-=(const BigInteger& other) {
 	}
 
 	int carry = 0;
-	for (int i = 0; i < other.num.size() || carry > 0; i++) {
+	for (std::size_t i = 0; i < other.num.size() || carry > 0; i++) {
 		num[i] -= carry + (i < other.num.size() ? other.num[i] : 0);
 		carry = num[i] < 0;
 		if (carry) {
@@ -202,9 +202,9 @@ BigInteger& BigInteger::operator*=(const BigInteger& other) {
 const BigInteger BigInteger::operator*(const BigInteger& other) const {
 	BigInteger res;
 	res.num.resize(num.size() + other.num.size());
-	for (int i = 0; i < num.size(); i++) {
+	for (std::size_t i = 0; i < num.size(); i++) {
 		int carry = 0;
-		for (int j = 0; j < other.num.size() || carry > 0; j++) {
+		for (std::size_t j = 0; j < other.num.size() || carry > 0; j++) {
 			int cur = res.num[i + j] + num[i] * (j < other.num.size() ? other.num[j] : 0) + carry;
 			res.num[i + j] = cur % BASE;
 			carry = cur / BASE;

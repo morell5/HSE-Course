@@ -103,6 +103,7 @@ std::string BigInteger::toString() const {
         }
         answer += std::to_string(big_number[i]);
     }
+    return answer;
 }
 
 void BigInteger::clear_back() {
@@ -152,7 +153,7 @@ bool operator<(const BigInteger& left, const BigInteger& right) {
         return true;
     if (right.big_number.size() < left.big_number.size())
         return false;
-    for (size_t i = 0; i < left.big_number.size(); i++) {
+    for (size_t i = left.big_number.size() - 1; i >= 0 ; i--) {
         if (left.big_number[i] < right.big_number[i])
             return true;
         if (left.big_number[i] > right.big_number[i])
@@ -192,6 +193,7 @@ BigInteger operator-(const BigInteger& left, const BigInteger& right) {
         return -(right - left);
     int carry = 0;
     BigInteger answer;
+    answer.clear();
     answer.sign = BigInteger::POSITIVE;
     for (int i = 0; i < right.big_number.size(); i++) {
         int step_ans = left.big_number[i] - right.big_number[i] - carry;
@@ -222,6 +224,7 @@ BigInteger operator+(const BigInteger& left, const BigInteger& right) {
         return -((-left) + (-right));
     BigInteger answer;
     int carry = 0;
+    answer.clear();
     answer.sign = BigInteger::POSITIVE;
     for (size_t i = 0; i < left.big_number.size(); i++) {
         int step_ans = carry + left.big_number[i] + right.big_number[i];

@@ -57,9 +57,9 @@ private:
     bool check_string_to_num(const std::string& input);
 
     //Here will be some consts
-    static const int MAX_VALUE = 1e8;
-    static const int POS_IN_MAX_VALUE = 8;
-    static const char POSITIVE = '+';
-    static const char NEGATIVE = '-';
-    static const char NEUTRAL = '0';
+    static constexpr int MAX_VALUE = 1e8;
+    static constexpr int POS_IN_MAX_VALUE = 8;
+    static constexpr char POSITIVE = '+';
+    static constexpr char NEGATIVE = '-';
+    static constexpr char NEUTRAL = '0';
 };

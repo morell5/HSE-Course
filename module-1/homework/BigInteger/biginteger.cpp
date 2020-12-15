@@ -250,7 +250,9 @@ BigInteger operator*(const BigInteger& left, const BigInteger& right) {
     for (size_t i = 0; i < left.big_number.size(); i++) {
         int carry = 0;
         for (int j = 0; j < right.big_number.size() || carry > 0; j++) {
-            long long step_ans = (j >= right.big_number.size() ? 0 : left.big_number[i] * right.big_number[j]) + carry;
+            long long step_ans = ans_num[i + j] + 
+                (j >= right.big_number.size() ? 0 : static_cast<long long>(left.big_number[i]) * right.big_number[j]) 
+                + carry;
             carry = step_ans / BigInteger::MAX_VALUE;
             step_ans %= BigInteger::MAX_VALUE;
             ans_num[i + j] = static_cast<int>(step_ans);

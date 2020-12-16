@@ -34,25 +34,25 @@ task::list& task::list::operator=(const list& other) {
 }
  
 int& task::list::front() {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to get front element in empty list!");
     return head->value;
 }
  
 const int& task::list::front() const {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to get front element in empty list!");
     return head->value;
 }
  
 int& task::list::back() {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to get back element in empty list!");
     return tail->value;
 }
  
 const int& task::list::back() const {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to get back element in empty list!");
     return tail->value;
 }
@@ -88,7 +88,7 @@ void task::list::push_back(const int& value) {
 }
  
 void task::list::pop_back() {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to pop element in empty list!");
     remove_node(tail);
 }
@@ -111,7 +111,7 @@ void task::list::push_front(const int& value) {
 }
  
 void task::list::pop_front() {
-    if (size() == 0)
+    if (empty())
         throw std::runtime_error("Trying to pop element in empty list!");
     remove_node(head);
 }

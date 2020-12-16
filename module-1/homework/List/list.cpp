@@ -158,9 +158,9 @@ void task::list::unique() {
 }
  
 void task::list::sort() {
-    for (int i = 0; i < size(); i++) {
+    for (size_t i = 0; i < size(); i++) {
         node* cur_node = head;
-        for (int j = 0; j < size() - 1; j++) {
+        for (size_t j = 0; j < size() - 1; j++) {
             if (cur_node->value > cur_node->next_node->value)
                 swap(cur_node->value, cur_node->next_node->value);
             cur_node = cur_node->next_node;

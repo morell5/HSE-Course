@@ -41,36 +41,23 @@ public:
     void unique();
     void sort();
 
-    // Your code goes here?..
-
 private:
 
-    //Node with value in node and a link to next node
         struct node {
-            //The value, which is in node
             int value;
- 
-            //The link to the next node
             node* next_node;
- 
-            //The link to the previous node
             node* prev_node;
  
         };
  
-        //The size of the list
         size_t sz;
  
-        //The head node
         node* head;
  
-        //The tail node
         node* tail;
  
-        //The method, which removes the node from the list
         void remove_node(node* rm_node);
  
-        //The method to swap anything
         template <typename T>
         void swap(T& first, T& second);
     };

@@ -25,7 +25,6 @@ task::list& task::list::operator=(const list& other) {
     if (this != &other) {
         clear();
         node* next_to_copy = other.head;
-        //Copying each element from other list
         for (size_t i = 0; i < other.size(); i++) {
             push_back(next_to_copy->value);
             next_to_copy = next_to_copy->next_node;
@@ -72,18 +71,15 @@ void task::list::clear() {
 }
  
 void task::list::push_back(const int& value) {
-    //Creating new node
     node* new_node = new node;
     new_node->value = value;
     new_node->next_node = nullptr;
     new_node->prev_node = nullptr;
     if (empty()) {
-        //If list is empty - create new node
         head = new_node;
         tail = new_node;
     }
     else {
-        //If list is not empty - putting new node in back of list
         tail->next_node = new_node;
         new_node->prev_node = tail;
         tail = new_node;
@@ -98,18 +94,15 @@ void task::list::pop_back() {
 }
  
 void task::list::push_front(const int& value) {
-    //Creating new node
     node* new_node = new node;
     new_node->value = value;
     new_node->next_node = nullptr;
     new_node->prev_node = nullptr;
     if (empty()) {
-        //If list is empty - create new node
         head = new_node;
         tail = new_node;
     }
     else {
-        //If list is not empty - putting new node in front of list
         head->prev_node = new_node;
         new_node->next_node = head;
         head = new_node;
@@ -124,11 +117,8 @@ void task::list::pop_front() {
 }
  
 void task::list::resize(size_t count) {
-    //if count is smaller than size, when we reduce the size of the list
     while (size() > count)
         pop_back();
- 
-    //if count is bigger than sizz, when we push default nodes in the list
     while (size() < count)
         push_back(0);
 }
@@ -140,9 +130,6 @@ void task::list::swap(list& other) {
 }
  
 void task::list::remove(const int& value) {
-    //!Really interesting
-    //If we keep to check for equality with value - when we will delete Node with it - it will be UB
-    //Due to there is some trash in memory now, so we need to remember the original value
     int val = value;
     if (!empty()) {
         node* cur_node = head;
@@ -153,7 +140,6 @@ void task::list::remove(const int& value) {
             }
         }
     }
-    //Using this algorithm - we won't check tail, so we do it now
     if (!empty())
         if (tail->value == val)
             pop_back();

@@ -47,13 +47,10 @@ private:
             int value;
             node* next_node;
             node* prev_node;
- 
         };
  
         size_t sz;
- 
         node* head;
- 
         node* tail;
  
         void remove_node(node* rm_node);

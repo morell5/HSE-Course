@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/mnt/d/C++_projects/TypeList/build",
+  "command": "/bin/g++-9   -I/mnt/d/C++_projects/TypeList/typelist -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/include -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest  -g   -o CMakeFiles/runner.dir/tests.cpp.o -c /mnt/d/C++_projects/TypeList/tests.cpp",
+  "file": "/mnt/d/C++_projects/TypeList/tests.cpp"
+},
+{
+  "directory": "/mnt/d/C++_projects/TypeList/build/googletest-build/googlemock",
+  "command": "/bin/g++-9   -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/include -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googlemock -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/include -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest  -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/src/gmock_main.cc",
+  "file": "/mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/src/gmock_main.cc"
+},
+{
+  "directory": "/mnt/d/C++_projects/TypeList/build/googletest-build/googlemock",
+  "command": "/bin/g++-9   -I/mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/include -I/mnt/d/C++_projects/TypeList/build/googletest-src/googlemock -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/include -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest  -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/src/gmock-all.cc",
+  "file": "/mnt/d/C++_projects/TypeList/build/googletest-src/googlemock/src/gmock-all.cc"
+},
+{
+  "directory": "/mnt/d/C++_projects/TypeList/build/googletest-build/googletest",
+  "command": "/bin/g++-9   -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/include -isystem /mnt/d/C++_projects/TypeList/build/googletest-src/googletest  -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/src/gtest_main.cc",
+  "file": "/mnt/d/C++_projects/TypeList/build/googletest-src/googletest/src/gtest_main.cc"
+},
+{
+  "directory": "/mnt/d/C++_projects/TypeList/build/googletest-build/googletest",
+  "command": "/bin/g++-9   -I/mnt/d/C++_projects/TypeList/build/googletest-src/googletest/include -I/mnt/d/C++_projects/TypeList/build/googletest-src/googletest  -g   -Wall -Wshadow -Werror -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /mnt/d/C++_projects/TypeList/build/googletest-src/googletest/src/gtest-all.cc",
+  "file": "/mnt/d/C++_projects/TypeList/build/googletest-src/googletest/src/gtest-all.cc"
+}
+]

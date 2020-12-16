@@ -1,0 +1,1 @@
+/bin/g++-9  -g   CMakeFiles/runner.dir/tests.cpp.o  -o runner  lib/libgtest_maind.a lib/libgtestd.a -lpthread 

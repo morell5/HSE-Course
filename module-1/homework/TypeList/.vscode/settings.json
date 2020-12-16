@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ratio": "cpp",
+        "type_traits": "cpp"
+    }
+}

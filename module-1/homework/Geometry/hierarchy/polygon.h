@@ -4,13 +4,15 @@
 
 
 class Polygon : public Shape{
+   protected:
+   
+   std::vector<Point> getVertices;
    public:
 
    virtual ~Polygon() {}
    Polygon(const std::vector<Point>& m);
    
    
-   std::vector<Point> getVertices;
    bool isConvex() const;
    int verticesCount() const;
 

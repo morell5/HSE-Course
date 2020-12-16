@@ -8,8 +8,6 @@ const double pi = 3.1415926;
 class Point{
 
     public:
-        double x = 0;
-        double y = 0;
         
         Point(double a, double b);
         Point();
@@ -23,12 +21,14 @@ class Point{
         Point operator/(const double& a) const;
         Point& operator+=(const Point& a);
         Point abc() const;
+        Point& rotate_1(const Point& g2);
+        double x = 0;
+        double y = 0;
 };
 
 class Vector{
     public:
     double x = 0, y = 0;
-
     Vector();
     Vector(const Point& a, const Point& b);
     

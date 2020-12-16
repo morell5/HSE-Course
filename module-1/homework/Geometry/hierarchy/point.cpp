@@ -57,6 +57,12 @@ Point Point::operator/(const double& a) const{
     return b;
 }
 
+ Point& Point::rotate_1(const Point& g2){
+    x+=g2.x;
+    y+=g2.y;
+    return *this;
+}
+
 Point Point::abc() const{
     Point b = *this;
     if (b.x<0) b.x*=-1;

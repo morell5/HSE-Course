@@ -8,7 +8,7 @@ std::pair<Point,Point> Ellipse::focuses() const{
 }
 
 std::pair<Line, Line> Ellipse::directrices() const{
-    return(std::pair<Line, Line>(Line(Point(1, a/e), Point(2, a/e)), Line(Point(1, -a/e), Point(2, -a/e))));
+    return(std::pair<Line, Line>(Line(Point(1, aa()/e), Point(2, aa()/e)), Line(Point(1, -aa()/e), Point(2, -aa()/e))));
 }
 
 double Ellipse::eccentricity() const{
@@ -59,7 +59,7 @@ Shape& Ellipse::rotate(const Point& center, const double& angle){
     const auto* another2 = dynamic_cast<const Ellipse*>(this);
     double rad = angle * pi / 180.0;
     Vector g2;
-    Vector g = Vector(f1, center);
+    Vector g = Vector(f11(), center);
     g2.x = g.x*cos(rad) - g.y*sin(rad);
     g2.y = g.x*sin(rad) + g.y*cos(rad);
     f1.x+=g2.x;
@@ -99,7 +99,7 @@ double Ellipse::cc() const {
     return Vector(f1,f2).lengh()/2;
 }
 double Ellipse::bb() const {
-    return sqrt(a*a - c*c);
+    return sqrt(aa()*aa() - cc()*cc());
 }
 double Ellipse::aa() const {
     return rade/2;

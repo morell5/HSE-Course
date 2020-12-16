@@ -58,6 +58,19 @@ BigInteger::BigInteger(const std::string& num) {
     }
 }
 
+bool BigInteger::is_negative() const {
+    return (this->sign == NEGATIVE);
+}
+
+bool BigInteger::is_positive() const {
+    return (this->sign == POSITIVE);
+}
+
+bool BigInteger::is_neutral() const {
+    return (this->sign == NEUTRAL);
+}
+
+
 BigInteger::BigInteger(const char s, const std::vector<int>& big_num) {
     sign = s;
     big_number = big_num;
@@ -87,7 +100,7 @@ void BigInteger::clear() {
 
 std::string BigInteger::toString() const {
     std::string answer;
-    if (sign == NEGATIVE)
+    if (is_negative())
         answer.push_back('-');
     for (int i = big_number.size() - 1; i >= 0; i--) {
         if (i != big_number.size() - 1) {
@@ -143,11 +156,11 @@ bool operator!=(const BigInteger& left, const BigInteger& right) {
 }
 
 bool operator<(const BigInteger& left, const BigInteger& right) {
-    if (left.sign == BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE)
+    if (left.is_negative() && right.is_negative())
         return (-right) < (-left);
-    if (left.sign == BigInteger::NEGATIVE && right.sign != BigInteger::NEGATIVE)
+    if (left.is_negative() && !right.is_negative())
         return true;
-    if (left.sign != BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE)
+    if (!left.is_negative() && right.is_negative())
         return false;
     if (right.big_number.size() > left.big_number.size())
         return true;
@@ -175,19 +188,19 @@ bool operator>=(const BigInteger& left, const BigInteger& right) {
 }
 
 BigInteger& BigInteger::operator-() const{
-    if (sign == NEGATIVE)
+    if (is_negative())
         return *(new BigInteger(POSITIVE, big_number));
-    if (sign == POSITIVE)
+    if (is_positive())
         return *(new BigInteger(NEGATIVE, big_number));
     return *(new BigInteger(NEUTRAL, big_number));
 }
 
 BigInteger operator-(const BigInteger& left, const BigInteger& right) {
-    if (left.sign == BigInteger::NEGATIVE && right.sign != BigInteger::NEGATIVE)
+    if (left.is_negative() && !right.is_negative())
         return -((-left) + right);
-    if (left.sign != BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE)
+    if (!left.is_negative() && right.is_negative())
         return (left + (-right));
-    if (left.sign == BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE) 
+    if (left.is_negative() && right.is_negative()) 
         return (-right) - (-left);
     if (right > left)
         return -(right - left);
@@ -220,9 +233,9 @@ BigInteger operator-(const BigInteger& left, const BigInteger& right) {
 BigInteger operator+(const BigInteger& left, const BigInteger& right) {
     if (left > right)
         return right + left;
-    if (left.sign == BigInteger::NEGATIVE && right.sign != BigInteger::NEGATIVE) 
+    if (left.is_negative() && !right.is_negative()) 
         return right - (-left);
-    if (left.sign == BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE)
+    if (left.is_negative() && right.is_negative())
         return -((-left) + (-right));
     BigInteger answer;
     int carry = 0;
@@ -246,7 +259,7 @@ BigInteger operator+(const BigInteger& left, const BigInteger& right) {
 }
 
 BigInteger operator*(const BigInteger& left, const BigInteger& right) {
-    if (left.sign == BigInteger::NEUTRAL || right.sign == BigInteger::NEUTRAL)
+    if (left.is_neutral() || right.is_neutral())
         return BigInteger();
     std::vector<int> ans_num(left.big_number.size() + right.big_number.size());
     for (size_t i = 0; i < left.big_number.size(); i++) {
@@ -261,8 +274,8 @@ BigInteger operator*(const BigInteger& left, const BigInteger& right) {
         }
     }
     BigInteger answer = BigInteger(BigInteger::NEGATIVE, ans_num);
-    if ((left.sign != BigInteger::NEGATIVE && right.sign != BigInteger::NEGATIVE) ||
-     (left.sign == BigInteger::NEGATIVE && right.sign == BigInteger::NEGATIVE))
+    if ((!left.is_negative() && !right.is_negative()) ||
+        (left.is_negative() && right.is_negative()))
         answer.sign = BigInteger::POSITIVE;
     answer.clear_back();
     return answer;
@@ -276,7 +289,7 @@ BigInteger BigInteger::abs(const BigInteger& big_num) {
 }
 
 BigInteger BigInteger::division(const BigInteger& left, const BigInteger& right, bool is_div) {
-    if (right.sign == NEUTRAL)
+    if (right.is_neutral())
         throw std::overflow_error("Division by zero!");
     BigInteger divider = abs(right);
     std::vector<int> ans_num(left.big_number.size());
@@ -306,7 +319,7 @@ BigInteger BigInteger::division(const BigInteger& left, const BigInteger& right,
         cur_ans.big_number.push_back(0);
     }
     char ans_sign = POSITIVE;
-    if ((left.sign == NEGATIVE && right.sign != NEGATIVE) || (left.sign != NEGATIVE && right.sign == NEGATIVE))
+    if ((left.is_negative() && !right.is_negative()) || (!left.is_negative() && right.is_negative()))
         ans_sign = NEGATIVE;
     BigInteger ans(ans_sign, ans_num);
     ans.clear_back();

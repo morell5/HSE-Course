@@ -47,6 +47,9 @@ public:
     BigInteger& operator--();
 
     static BigInteger abs(const BigInteger& big_num);
+    bool is_negative() const;
+    bool is_positive() const;
+    bool is_neutral() const;
 
     operator bool() const;
 

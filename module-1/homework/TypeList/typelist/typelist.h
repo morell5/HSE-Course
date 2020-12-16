@@ -1,6 +1,13 @@
 #pragma once
 
-template<typename Head, typename Tail> 
+template<typename Head, typename Tail>
 struct TypeList;
 
-struct NullType {};
+struct NullType {
+};
+
+template<typename Head, typename Tail>
+struct TypeList {
+    using head = Head;
+    using tail = Tail;
+};

@@ -2,10 +2,7 @@
 #include <iostream>
 #include <stdexcept>
  
-task::list::list() {
-    sz = 0;
-    head = nullptr;
-    tail = nullptr;
+task::list::list() : sz(0), head(nullptr), tail(nullptr) {
 }
  
 task::list::list(size_t count, const int& value): list() {

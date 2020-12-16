@@ -62,7 +62,7 @@ TEST(Arithmetic, Test1) {
 
     bigint_a /= 42;
     a /= 42;
-    
+
     bigint_a %= 100;
     a %= 100;
 
@@ -74,7 +74,7 @@ TEST(Arithmetic, Test1) {
 TEST(TypeCast, Test1) {
     BigInteger bigint_val = 42;
     ASSERT_TRUE(bool(bigint_val));
-    
+
     bigint_val = 0;
     ASSERT_FALSE(bool(bigint_val));
 }
@@ -93,8 +93,7 @@ TEST(InStream, Test1) {
 
 TEST(Comparison, Test1) {
 
-   std::istringstream iss("9325492345983274589758023847509283745827349587212938129"
-                              "348762838512387487213648172639471269348172397461297");
+   std::istringstream iss("9325492345983274589758023847509283745827349587212938129 348762838512387487213648172639471269348172397461297");
     BigInteger a;
     BigInteger b;
     iss >> a >> b;

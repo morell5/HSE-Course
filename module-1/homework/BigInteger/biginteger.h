@@ -46,6 +46,8 @@ public:
     BigInteger& operator++();
     BigInteger& operator--();
 
+    static BigInteger abs(const BigInteger& big_num);
+
     operator bool() const;
 
 private:
@@ -55,6 +57,8 @@ private:
 
     void clear_back();
     bool check_string_to_num(const std::string& input);
+
+    static BigInteger division(const BigInteger& left, const BigInteger& right, bool is_div);   
 
     //Here will be some consts
     static constexpr int MAX_VALUE = 1e8;

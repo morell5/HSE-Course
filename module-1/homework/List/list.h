@@ -1,51 +1,112 @@
 #pragma once
+
 #include <cstddef>
 
 
 namespace task {
 
 
-class list {
+    class list {
 
-public:
+    public:
 
-    list();
-    list(size_t count, const int& value = int());
+        list();
 
-    ~list();
-    list& operator=(const list& other);
+        list(size_t count, const int &value = int());
 
+        list(const list &other);
 
-    int& front();
-    const int& front() const;
+        ~list();
 
-    int& back();
-    const int& back() const;
+        list &operator=(const list &other);
 
 
-    bool empty() const;
-    size_t size() const;
-    void clear();
+        int &front();
+
+        const int &front() const;
+
+        int &back();
+
+        const int &back() const;
 
 
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
+        bool empty() const;
+
+        size_t size() const;
+
+        void clear();
 
 
-    void remove(const int& value);
-    void unique();
-    void sort();
+        void push_back(const int &value);
 
-    // Your code goes here?..
+        void pop_back();
 
-private:
+        void push_front(const int &value);
 
-    // Your code goes here...
+        void pop_front();
 
-};
+        void resize(size_t count);
 
-}  // namespace task
+        void swap(list &other);
+
+
+        void remove(const int &value);
+
+        void unique();
+
+        void sort();
+
+        // Your code goes here?..
+
+    private:
+        class Node {
+        public:
+            explicit Node(int value, Node *next = nullptr, Node *prev = nullptr) {
+                this->value = value;
+                this->next = next;
+                this->prev = prev;
+            }
+
+            int getValue() const {
+                return value;
+            }
+
+            int &getValueRefer() {
+                return value;
+            }
+
+            Node *getNext() {
+                return next;
+            }
+
+            Node *getPrev() {
+                return prev;
+            }
+
+            void setNext(Node *newNext) {
+                next = newNext;
+            }
+
+            void setPrev(Node *newPrev) {
+                prev = newPrev;
+            }
+
+            ~Node() {
+                next = nullptr;
+                prev = nullptr;
+            }
+
+        private:
+            int value;
+            Node *prev;
+            Node *next;
+        };
+
+        Node *NIL = new Node(0);
+        size_t size_ = 0;
+
+        void remove(Node *);
+
+        static list &merge(list &, list &);
+    };
+}

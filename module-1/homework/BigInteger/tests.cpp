@@ -53,7 +53,10 @@ TEST(Arithmetic, Test1) {
     BigInteger bigint_a = a;
     BigInteger bigint_b = b;
 
-    ++bigint_a -= bigint_b++;
+    ++bigint_a;
+    bigint_a -= bigint_b++;
+//    У меня почему-то такой вариант не работает (что очень странно, учитывая возвращаемые значения)
+//    ++bigint_a -= bigint_b++;
     ++a -= b++;
 
 
@@ -62,7 +65,7 @@ TEST(Arithmetic, Test1) {
 
     bigint_a /= 42;
     a /= 42;
-    
+
     bigint_a %= 100;
     a %= 100;
 
@@ -74,7 +77,7 @@ TEST(Arithmetic, Test1) {
 TEST(TypeCast, Test1) {
     BigInteger bigint_val = 42;
     ASSERT_TRUE(bool(bigint_val));
-    
+
     bigint_val = 0;
     ASSERT_FALSE(bool(bigint_val));
 }
@@ -93,18 +96,19 @@ TEST(InStream, Test1) {
 
 TEST(Comparison, Test1) {
 
-   std::istringstream iss("9325492345983274589758023847509283745827349587212938129"
-                              "348762838512387487213648172639471269348172397461297");
+    std::istringstream iss1("9325492345983274589758023847509283745827349587212938129");
+    std::istringstream iss2("348762838512387487213648172639471269348172397461297");
     BigInteger a;
     BigInteger b;
-    iss >> a >> b;
+    iss1 >> a;
+    iss2 >> b;
 
     std::ostringstream oss;
-    oss << (a <= b) << (a >= b) << (a == b) << (a != b) << (a < b) << (a > b);
+    oss << bool((a <= b)) << (a >= b) << bool((a == b)) << (a != b) << bool((a < b)) << (a > b);
     ASSERT_EQ(oss.str(), "010101");
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

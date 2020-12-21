@@ -59,7 +59,7 @@ private:
     char sign;
 
     void clear_back();
-    bool check_string_to_num(const std::string& input);
+    bool check_string_to_num(const std::string& input) const;
 
     static BigInteger division(const BigInteger& left, const BigInteger& right, bool is_div);   
 

@@ -76,7 +76,7 @@ BigInteger::BigInteger(const char s, const std::vector<int>& big_num) {
     big_number = big_num;
 }
 
-bool BigInteger::check_string_to_num(const std::string& input) {
+bool BigInteger::check_string_to_num(const std::string& input) const {
     if (input.size() == 0)
         return 0;
     size_t i = 0;

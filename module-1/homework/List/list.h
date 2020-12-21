@@ -4,12 +4,20 @@
 
 namespace task {
 
+struct node {
+    int value;
+    node* prev;
+    node* next;
+
+    node(node* p, node* n, int val);
+};
 
 class list {
 
 public:
 
     list();
+    list(const list& other);
     list(size_t count, const int& value = int());
 
     ~list();
@@ -40,11 +48,11 @@ public:
     void unique();
     void sort();
 
-    // Your code goes here?..
-
 private:
 
-    // Your code goes here...
+    node* first = nullptr;
+    node* last = nullptr;
+    size_t _size = 0;
 
 };
 

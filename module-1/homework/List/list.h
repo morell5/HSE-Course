@@ -1,51 +1,60 @@
 #pragma once
 #include <cstddef>
-
+#include <iostream>
 
 namespace task {
 
+	class list {
+	public:
 
-class list {
+		list();
+		list(size_t count, const int& value = int());
+		list(const list& other);
 
-public:
-
-    list();
-    list(size_t count, const int& value = int());
-
-    ~list();
-    list& operator=(const list& other);
-
-
-    int& front();
-    const int& front() const;
-
-    int& back();
-    const int& back() const;
+		~list();
+		list& operator=(const list& other);
 
 
-    bool empty() const;
-    size_t size() const;
-    void clear();
+		int& front();
+		const int& front() const;
+
+		int& back();
+		const int& back() const;
 
 
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
+		bool empty() const;
+		size_t size() const;
+		void clear();
 
 
-    void remove(const int& value);
-    void unique();
-    void sort();
+		void push_back(const int& value);
+		void pop_back();
+		void push_front(const int& value);
+		void pop_front();
+		void resize(size_t count);
+		void swap(list& other);
 
-    // Your code goes here?..
 
-private:
+		void remove(const int& value);
+		void unique();
+		void sort();
 
-    // Your code goes here...
 
-};
 
-}  // namespace task
+	private:
+
+		struct Node {
+
+			int num;
+			Node* prev;
+			Node* next;
+
+		};
+
+		Node* head = nullptr;
+		Node* tail = nullptr;
+		size_t len = 0;
+
+	};
+
+}  

@@ -1,0 +1,19 @@
+name: ci
+
+on: [pull_request]
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v2
+        
+            - name: tests 
+              env:
+                TITLE: ${{github.event.pull_request.title}}
+              working-directory: ./module-1/homework/
+              run:  prname=${TITLE} &&
+                    cmake -B ${prname}/build -S ${prname} &&
+                    cmake --build ${prname}/build && 
+                    ./${prname}/build/runner

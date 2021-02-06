@@ -144,7 +144,7 @@ public:
 
         iterator operator++(int) {
             iterator copy(*this);
-            (*this)++;
+            ++(*this);
             return copy;
         }
 
@@ -155,7 +155,7 @@ public:
 
         iterator operator--(int) {
             iterator copy(*this);
-            (*this)--;
+            --(*this);
             return copy;
         }
 

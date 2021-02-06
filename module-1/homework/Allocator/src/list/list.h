@@ -144,7 +144,7 @@ public:
 
         iterator operator++(int) {
             iterator copy(*this);
-            operator++();
+            (*this)++;
             return copy;
         }
 
@@ -155,7 +155,7 @@ public:
 
         iterator operator--(int) {
             iterator copy(*this);
-            operator--();
+            (*this)--;
             return copy;
         }
 
@@ -315,8 +315,7 @@ void task::list<T, Allocator>::push_front(const T& value) {
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::pop_front() {
     if (NIL->getNext() == NIL) {
-        //throw std::runtime_error("Pop front in empty list");
-        return;
+        throw std::runtime_error("Pop front in empty list");
     }
     Node* curr_front = NIL->getNext();
     Node* second = curr_front->getNext();
@@ -343,7 +342,7 @@ void task::list<T, Allocator>::remove(const T& value) {
     Node* curr = NIL->getNext();
     std::vector<Node*> to_delete;
     while (curr != NIL) {
-        if (curr->getValue() == value) {
+        if (curr->getValueRef() == value) {
             to_delete.push_back(curr);
             Node* prev = curr->getPrev();
             prev->setNext(curr->getNext());
@@ -366,7 +365,7 @@ void task::list<T, Allocator>::unique() {
 
     while (curr->getPrev() != NIL) {
         Node* prev = curr->getPrev();
-        if (prev != NIL && prev->getValue() == curr->getValue()) {
+        if (prev != NIL && prev->getValueRef() == curr->getValueRef()) {
             Node* next = curr->getNext();
             prev->setNext(next);
             next->setPrev(prev);
@@ -445,22 +444,22 @@ task::list<T, Allocator> task::list<T, Allocator>::merge(const task::list<T, All
     const Node* curr_right = right.NIL->getNext();
 
     while (curr_left != left.NIL && curr_right != right.NIL) {
-        if (curr_left->getValue() < curr_right->getValue()) {
-            result.push_back(curr_left->getValue());
+        if (curr_left->getValueRef() < curr_right->getValueRef()) {
+            result.push_back(std::move(curr_left->getValueRef()));
             curr_left = curr_left->getNext();
         } else {
-            result.push_back(curr_right->getValue());
+            result.push_back(std::move(curr_right->getValueRef()));
             curr_right = curr_right->getNext();
         }
     }
 
     while (curr_left != left.NIL) {
-        result.push_back(curr_left->getValue());
+        result.push_back(std::move(curr_left->getValueRef()));
         curr_left = curr_left->getNext();
     }
 
     while (curr_right != right.NIL) {
-        result.push_back(curr_right->getValue());
+        result.push_back(std::move(curr_right->getValueRef()));
         curr_right = curr_right->getNext();
     }
 
@@ -476,11 +475,11 @@ std::pair<task::list<T, Allocator>*, task::list<T, Allocator>*> task::list<T, Al
     Node* curr = source.NIL->getNext();
 
     for (int i = 0; i < size / 2; ++i, curr = curr->getNext()) {
-        left->push_back(curr->getValue());
+        left->push_back(std::move(curr->getValueRef()));
     }
 
     for (int i = size / 2; i < size; ++i, curr = curr->getNext()) {
-        right->push_back(curr->getValue());
+        right->push_back(std::move(curr->getValueRef()));
     }
 
     return {left, right};
@@ -574,7 +573,7 @@ void task::list<T, Allocator>::sort() {
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::swap(task::list<T, Allocator>& other) noexcept {
     if (!node_alloc_traits::propagate_on_container_swap::value && alloc != other.alloc) {
-        throw std::runtime_error("Pop back in empty list");
+        throw std::runtime_error("Swap with different allocators");
     }
     if (node_alloc_traits::propagate_on_container_swap::value) {
         std::swap(alloc, other.alloc);

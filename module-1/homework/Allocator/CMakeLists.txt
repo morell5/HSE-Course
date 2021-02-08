@@ -4,6 +4,8 @@ include(GoogleTest)
 
 project("runner")
 
+set(CMAKE_CXX_STANDARD 14)
+
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

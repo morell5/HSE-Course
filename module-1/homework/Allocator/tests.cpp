@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <list>
+#include <memory>
 #include <string>
 #include <random>
 
@@ -7,6 +8,7 @@
 #include "src/list/list.h"
 
 #include "gtest/gtest.h"
+//#define CustomAllocator std::allocator
 
 TEST(CopyAssignment, Test) {
     task::list<std::string, CustomAllocator<std::string>> actual;
@@ -30,7 +32,7 @@ TEST(MoveAssignment, Test1) {
     l2 = std::move(l1);
     l3.push_back("hello");
     l4 = std::move(l3);
-    
+
     ASSERT_TRUE(std::equal(l1.begin(), l1.end(), l3.begin(), l3.end()));
     ASSERT_TRUE(std::equal(l2.begin(), l2.end(), l4.begin(), l4.end()));
 }
@@ -38,7 +40,7 @@ TEST(MoveAssignment, Test1) {
 TEST(Front, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     actual.push_back("hello");
     expected.push_back("hello");
 
@@ -56,7 +58,7 @@ TEST(Front, Test1) {
 TEST(Clear, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.push_back("hello");
         expected.push_back("hello");
@@ -69,16 +71,15 @@ TEST(Clear, Test1) {
 
 TEST(Swap, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
+    task::list<std::string, CustomAllocator<std::string>> actual2(actual);
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+    std::list<std::string, CustomAllocator<std::string>> expected2(expected);
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.push_back("hello");
         expected.push_back("hello");
     }
 
-    task::list<std::string, CustomAllocator<std::string>> actual2;
-    std::list<std::string, CustomAllocator<std::string>> expected2;
-    
     for (std::size_t i = 0; i < 10; i++) {
         actual2.push_back("world");
         expected2.push_back("world");
@@ -94,18 +95,19 @@ TEST(PushBack, Test) {
     std::vector<std::string> expected_v(10, "hello");
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.push_back(std::move(actual_v[i]));
         expected.push_back(std::move(expected_v[i]));
     }
+
     ASSERT_TRUE(std::equal(actual.begin(), actual.end(), expected.begin(), expected.end()));
 }
 
 TEST(EmplaceBack, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.emplace_back("hello");
         expected.emplace_back("hello");
@@ -116,7 +118,7 @@ TEST(EmplaceBack, Test1) {
 TEST(PopBack, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.emplace_back("hello");
         expected.emplace_back("hello");
@@ -134,7 +136,7 @@ TEST(PushFront, Test1) {
     std::vector<std::string> expected_v(10, "hello");
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.push_front(actual_v[i]);
         expected.push_front(expected_v[i]);
@@ -147,18 +149,18 @@ TEST(PushFront, Test2) {
     std::vector<std::string> expected_v(10, "hello");
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.push_front(std::move(actual_v[i]));
         expected.push_front(std::move(expected_v[i]));
     }
     ASSERT_TRUE(std::equal(actual.begin(), actual.end(), expected.begin(), expected.end()));
-}   
+}
 
 TEST(EmplaceFront, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.emplace_front("hello");
         expected.emplace_front("hello");
@@ -169,7 +171,7 @@ TEST(EmplaceFront, Test1) {
 TEST(PopFront, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 10; i++) {
         actual.emplace_back("hello");
         expected.emplace_back("hello");
@@ -209,6 +211,11 @@ TEST(Unique, Test1) {
     std::list<std::string, CustomAllocator<std::string>> expected;
     expected.push_back("hello");
     expected.push_back("world");
+
+    for (auto it = actual.begin(); it != actual.end(); ++it) {
+        std::cout << *it << ' ';
+    }
+
     ASSERT_TRUE(std::equal(actual.begin(), actual.end(), expected.begin(), expected.end()));
 }
 
@@ -232,7 +239,7 @@ TEST(Sort, Test1) {
 TEST(Mixed, Test1) {
     task::list<std::string, CustomAllocator<std::string>> actual;
     std::list<std::string, CustomAllocator<std::string>> expected;
-    
+
     for (std::size_t i = 0; i < 5; i++) {
         actual.push_back("hello");
         expected.push_back("hello");

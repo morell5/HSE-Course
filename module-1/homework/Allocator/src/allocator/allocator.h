@@ -44,8 +44,8 @@ public:
 
 private:
     void* arena_;
-    int* arena_offset;
-    int* curr_arena_ref_count;
+    int* arena_offset_;
+    int* curr_arena_ref_count_;
 };
 
 template<typename T, typename U>
@@ -61,44 +61,44 @@ bool operator!=(const CustomAllocator<T>& lhs, const CustomAllocator<U>& rhs) no
 template<typename T>
 CustomAllocator<T>::CustomAllocator() {
     arena_ = ::operator new(40000 * sizeof(T));
-    arena_offset = new int(0);
-    curr_arena_ref_count = new int(1);
+    arena_offset_ = new int(0);
+    curr_arena_ref_count_ = new int(1);
 }
 
 template<typename T>
 CustomAllocator<T>::CustomAllocator(const CustomAllocator& other) noexcept :
     arena_(other.arena_),
-    curr_arena_ref_count(other.curr_arena_ref_count),
-    arena_offset(other.arena_offset)
+    curr_arena_ref_count_(other.curr_arena_ref_count_),
+    arena_offset_(other.arena_offset_)
 {
-    (*curr_arena_ref_count)++;
+    (*curr_arena_ref_count_)++;
 }
 
 template<typename T>
 template<typename U>
 CustomAllocator<T>::CustomAllocator(const CustomAllocator<U>& other) noexcept :
     arena_(other.arena_),
-    curr_arena_ref_count(other.curr_arena_ref_count),
-    arena_offset(other.arena_offset)
+    curr_arena_ref_count_(other.curr_arena_ref_count_),
+    arena_offset_(other.arena_offset_)
 {
-    (*curr_arena_ref_count)++;
+    (*curr_arena_ref_count_)++;
 }
 
 template<typename T>
 CustomAllocator<T>::~CustomAllocator() {
-    (*curr_arena_ref_count)--;
-    if (*curr_arena_ref_count == 0) {
+    (*curr_arena_ref_count_)--;
+    if (*curr_arena_ref_count_ == 0) {
         ::operator delete(arena_);
-        delete curr_arena_ref_count;
-        delete arena_offset;
+        delete curr_arena_ref_count_;
+        delete arena_offset_;
     }
 }
 
 template<typename T>
 T* CustomAllocator<T>::allocate(std::size_t n) {
-    int offset = *arena_offset;
+    int offset = *arena_offset_;
 
-    *arena_offset += n;
+    *arena_offset_ += n;
     return static_cast<pointer>(arena_) + offset;
 }
 

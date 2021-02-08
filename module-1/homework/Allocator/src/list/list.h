@@ -81,7 +81,7 @@ public:
     void sort();
 
     allocator_type get_allocator() const noexcept {
-        return allocator_type(alloc);
+        return allocator_type(alloc_);
     }
 
 private:
@@ -173,7 +173,7 @@ private:
     typedef typename std::allocator_traits<node_allocator> node_alloc_traits;
 
 
-    node_allocator alloc;
+    node_allocator alloc_;
 
     Node* NIL;
 
@@ -189,20 +189,20 @@ private:
 }
 
 template<typename T, typename Allocator>
-task::list<T, Allocator>::list(): NIL(alloc.allocate(1)) {
+task::list<T, Allocator>::list(): NIL(alloc_.allocate(1)) {
     size_ = 0;
-    alloc.construct(NIL);
+    alloc_.construct(NIL);
     NIL->setNext(NIL);
     NIL->setPrev(NIL);
 }
 
 template<typename T, typename Allocator>
 task::list<T, Allocator>::list(const task::list<T, Allocator>& other):
-        alloc(node_alloc_traits::select_on_container_copy_construction(other.alloc)),
-        NIL(alloc.allocate(1))
+        alloc_(node_alloc_traits::select_on_container_copy_construction(other.alloc_)),
+        NIL(alloc_.allocate(1))
 {
     size_ = 0;
-    alloc.construct(NIL);
+    alloc_.construct(NIL);
     NIL->setNext(NIL);
     NIL->setPrev(NIL);
 
@@ -210,7 +210,7 @@ task::list<T, Allocator>::list(const task::list<T, Allocator>& other):
 }
 
 template<typename T, typename Allocator>
-task::list<T, Allocator>::list(const task::list<T, Allocator>& other, const Allocator& alloc): alloc(alloc), NIL(alloc.allocate(1)) {
+task::list<T, Allocator>::list(const task::list<T, Allocator>& other, const Allocator& alloc): alloc_(alloc), NIL(alloc.allocate(1)) {
     alloc.construct(NIL);
     NIL->setPrev(NIL);
     NIL->setNext(NIL);
@@ -228,21 +228,21 @@ task::list<T, Allocator>::~list() {
     while (curr && curr->getNext() != NIL) {
         Node* to_delete = curr;
         curr = curr->getNext();
-        alloc.destroy(to_delete);
-        alloc.deallocate(to_delete, 1);
+        alloc_.destroy(to_delete);
+        alloc_.deallocate(to_delete, 1);
     }
-    alloc.destroy(NIL);
-    alloc.deallocate(NIL, 1);
+    alloc_.destroy(NIL);
+    alloc_.deallocate(NIL, 1);
 }
 
 template<typename T, typename Allocator>
 task::list<T, Allocator>& task::list<T, Allocator>::operator=(const task::list<T, Allocator>& other) {
     if (this != &other) {
         if (node_alloc_traits::propagate_on_container_copy_assignment::value) {
-            if (alloc != other.alloc) {
+            if (alloc_ != other.alloc_) {
                 clear();
             }
-            alloc = other.alloc;
+            alloc_ = other.alloc_;
 
         }
         clear();
@@ -274,8 +274,8 @@ template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_back(const T& value) {
     Node* curr_last = NIL->getPrev();
     Node* begin = NIL;
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, value);
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, value);
 
     new_node->setNext(begin);
     new_node->setPrev(curr_last);
@@ -294,15 +294,15 @@ void task::list<T, Allocator>::pop_back() {
     Node* prevLast = last->getPrev();
     prevLast->setNext(NIL);
     NIL->setPrev(prevLast);
-    alloc.destroy(last);
-    alloc.deallocate(last, 1);
+    alloc_.destroy(last);
+    alloc_.deallocate(last, 1);
     --size_;
 }
 
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_front(const T& value) {
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, value);
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, value);
     Node* curr_front = NIL->getNext();
     NIL->setNext(new_node);
     new_node->setPrev(NIL);
@@ -321,8 +321,8 @@ void task::list<T, Allocator>::pop_front() {
     Node* second = curr_front->getNext();
     NIL->setNext(second);
     second->setPrev(NIL);
-    alloc.destroy(curr_front);
-    alloc.deallocate(curr_front, 1);
+    alloc_.destroy(curr_front);
+    alloc_.deallocate(curr_front, 1);
     size_--;
 }
 
@@ -354,8 +354,8 @@ void task::list<T, Allocator>::remove(const T& value) {
         }
     }
     for (auto& el : to_delete) {
-        alloc.destroy(el);
-        alloc.deallocate(el, 1);
+        alloc_.destroy(el);
+        alloc_.deallocate(el, 1);
     }
 }
 
@@ -373,8 +373,8 @@ void task::list<T, Allocator>::unique() {
             Node* to_delete = curr;
             curr = curr->getNext();
 
-            alloc.destroy(to_delete);
-            alloc.deallocate(to_delete, 1);
+            alloc_.destroy(to_delete);
+            alloc_.deallocate(to_delete, 1);
         } else {
             curr = curr->getNext();
         }
@@ -385,8 +385,8 @@ template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_back(T&& value) {
     Node* curr_last = NIL->getPrev();
     Node* begin = NIL;
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, std::forward<T>(value));
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, std::forward<T>(value));
 
     new_node->setNext(begin);
     new_node->setPrev(curr_last);
@@ -398,8 +398,8 @@ void task::list<T, Allocator>::push_back(T&& value) {
 template<typename T, typename Allocator>
 template<typename... Args>
 void task::list<T, Allocator>::emplace_back(Args&& ... args) {
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, std::forward<Args>(args)...);
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, std::forward<Args>(args)...);
     Node* curr_front = NIL->getNext();
     NIL->setNext(new_node);
     new_node->setPrev(NIL);
@@ -411,8 +411,8 @@ void task::list<T, Allocator>::emplace_back(Args&& ... args) {
 
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_front(T&& value) {
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, std::forward<T>(value));
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, std::forward<T>(value));
     Node* curr_front = NIL->getNext();
     NIL->setNext(new_node);
     new_node->setPrev(NIL);
@@ -425,8 +425,8 @@ void task::list<T, Allocator>::push_front(T&& value) {
 template<typename T, typename Allocator>
 template<typename... Args>
 void task::list<T, Allocator>::emplace_front(Args&& ... args) {
-    Node* new_node = static_cast<Node*>(alloc.allocate(1));
-    alloc.construct(new_node, std::forward<Args>(args)...);
+    Node* new_node = static_cast<Node*>(alloc_.allocate(1));
+    alloc_.construct(new_node, std::forward<Args>(args)...);
     Node* curr_front = NIL->getNext();
     NIL->setNext(new_node);
     new_node->setPrev(NIL);
@@ -496,7 +496,7 @@ task::list<T, Allocator> task::list<T, Allocator>::sorted(const task::list<T, Al
 
 template<typename T, typename Allocator>
 task::list<T, Allocator>::list(task::list<T, Allocator>&& other, const Allocator& alloc) :
-    alloc(alloc),
+    alloc_(alloc),
     NIL(other.NIL)
 {
     other.NIL = nullptr;
@@ -504,7 +504,7 @@ task::list<T, Allocator>::list(task::list<T, Allocator>&& other, const Allocator
 
 template<typename T, typename Allocator>
 task::list<T, Allocator>::list(task::list<T, Allocator>&& other) noexcept :
-    alloc(std::move(other.alloc)),
+    alloc_(std::move(other.alloc_)),
     NIL(other.NIL)
 {
     other.NIL = nullptr;
@@ -514,10 +514,10 @@ template<typename T, typename Allocator>
 task::list<T, Allocator>& task::list<T, Allocator>::operator=(task::list<T, Allocator>&& other) noexcept {
     clear();
     if (node_alloc_traits::propagate_on_container_move_assignment::value) {
-        alloc = std::move(other.alloc);
+        alloc_ = std::move(other.alloc_);
         NIL = other.NIL;
         other.NIL = nullptr;
-    } else if (node_alloc_traits::is_always_equal::value || alloc == other.alloc) {
+    } else if (node_alloc_traits::is_always_equal::value || alloc_ == other.alloc_) {
         NIL = other.NIL;
         other.NIL = nullptr;
     } else  {
@@ -572,11 +572,11 @@ void task::list<T, Allocator>::sort() {
 
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::swap(task::list<T, Allocator>& other) noexcept {
-    if (!node_alloc_traits::propagate_on_container_swap::value && alloc != other.alloc) {
+    if (!node_alloc_traits::propagate_on_container_swap::value && alloc_ != other.alloc_) {
         throw std::runtime_error("Swap with different allocators");
     }
     if (node_alloc_traits::propagate_on_container_swap::value) {
-        std::swap(alloc, other.alloc);
+        std::swap(alloc_, other.alloc_);
     }
     std::swap(NIL, other.NIL);
 }

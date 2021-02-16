@@ -39,11 +39,18 @@ public:
     template<class U = T>
     constexpr optional_destruct_helper(U&& value): value(std::forward<U>(value)), isEngaged(true) {}
 
-    void reset() {
+protected:
+    void _reset() {
         isEngaged = false;
     }
 
-protected:
+    template<class U = T>
+    void setValue(U&& value) {
+        this->value = std::forward<U>(value);
+        isEngaged = true;
+    }
+
+
     union {
         T value;
         char __nullValue;
@@ -69,12 +76,6 @@ public:
             value(std::forward<U>(value)),
             isEngaged(true) {}
 
-    void reset() {
-        if (this->isEngaged) {
-            value.~T();
-        }
-        isEngaged = false;
-    }
 
     ~optional_destruct_helper() {
         if (this->isEngaged) {
@@ -83,6 +84,22 @@ public:
     }
 
 protected:
+    void _reset() {
+        if (this->isEngaged) {
+            value.~T();
+        }
+        isEngaged = false;
+    }
+
+    template<class U = T>
+    void setValue(U&& value) {
+        if (this->isEngaged) {
+            this->value.~T();
+        }
+        this->value = std::forward<U>(value);
+        isEngaged = true;
+    }
+
     union {
         T value;
         char __nullValue;
@@ -108,6 +125,13 @@ public:
 
     template<class... _Args>
     constexpr explicit optional(in_place_t, _Args&& ... __args);
+
+    optional& operator=(nullopt_t) noexcept;
+
+    template<class U = T>
+    optional& operator=( U&& value );
+
+    void reset() noexcept;
 
     template<typename U>
     constexpr T value_or(U&& default_value) const&;
@@ -197,4 +221,22 @@ constexpr const typename task::optional<T>::value_type&& task::optional<T>::oper
 template<typename T>
 constexpr typename task::optional<T>::value_type&& task::optional<T>::operator*()&& {
     return this->value;
+}
+
+template<typename T>
+task::optional<T>& task::optional<T>::operator=(task::nullopt_t) noexcept {
+    this->reset();
+    return *this;
+}
+
+template<typename T>
+template<class U>
+task::optional<T>& task::optional<T>::operator=(U&& value) {
+    this->setValue(std::forward<U>(value));
+    return *this;
+}
+
+template<typename T>
+void task::optional<T>::reset() noexcept {
+    this->_reset();
 }

@@ -6,6 +6,20 @@
 
 #include "gtest/gtest.h"
 
+struct MyTestStruct {
+    int a;
+    int b;
+};
+
+TEST(Ctor, Test1) {
+    task::optional<MyTestStruct> testStruct(task::nullopt);
+    ASSERT_FALSE(testStruct.has_value());
+    testStruct = {1, 2};
+    ASSERT_TRUE(testStruct.has_value());
+    ASSERT_EQ(testStruct->a, 1);
+    ASSERT_EQ(testStruct->b, 2);
+}
+
 TEST(ValueOR, Test1) {
   task::optional<std::string> opt("Hello world");
   ASSERT_EQ(opt.value_or("empty"), "Hello world");

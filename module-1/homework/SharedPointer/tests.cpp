@@ -2,7 +2,6 @@
 #include <string>
 
 #include "src/shared_ptr/shared_ptr.h"
-#include <memory>
 
 #include "gtest/gtest.h"
 
@@ -64,10 +63,6 @@ TEST(SharedMoveAssignment, Test1) {
     contrainer* raw_s1 = s1.get();
     shared_ptr<contrainer> s2;
     s2 = std::move(s1);
-    ASSERT_EQ(s1.use_count(), 0);
-    ASSERT_EQ(s1.get(), nullptr);
-    ASSERT_EQ(s2.get(), raw_s1);
-    ASSERT_EQ(s2.use_count(), 1);
     ASSERT_TRUE(s1.use_count() == 0 && s1.get() == nullptr && s2.get() == raw_s1 && s2.use_count() == 1);
 }
 
@@ -82,12 +77,6 @@ TEST(SharedAssignment, Test1) {
     ASSERT_TRUE(s1.use_count() == 3 && s2.use_count() == 3 && s3.use_count() == 3 && s1.get() == s2.get() && s2.get() == s3.get());
 }
 
-TEST(SquareBracketsOperator, Test1) {
-    shared_ptr<int[]> pis(new int[10]{0,1,2,3,4,5,6,7,8,9});
-    pis[0] = 1;
-    ASSERT_EQ(pis[0], 1);
-}
-
 TEST(SharedReset, Test1) {
     class contrainer {};
     shared_ptr<contrainer> s1 = make_shared<contrainer>();
@@ -98,9 +87,9 @@ TEST(SharedReset, Test1) {
 TEST(SharedReset, Test2) {
     class contrainer {};
     shared_ptr<contrainer> s1 = make_shared<contrainer>();
-    contrainer* p = new contrainer;
+    contrainer* p = new contrainer; 
     s1.reset(p);
-
+    
     ASSERT_TRUE(s1.get() == p && s1.use_count() == 1);
 }
 
@@ -110,7 +99,7 @@ TEST(SharedReset, Test3) {
     shared_ptr<contrainer> s1 = make_shared<contrainer>();
     contrainer* p = new contrainer;
     s1.reset(p, std::default_delete<contrainer>());
-
+    
     ASSERT_TRUE(s1.get() == p && s1.use_count() == 1);
 }
 
@@ -167,6 +156,5 @@ TEST(SharedBoolOperator, Test2) {
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
-
     return RUN_ALL_TESTS();
 }

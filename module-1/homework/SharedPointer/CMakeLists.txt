@@ -35,6 +35,7 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 add_subdirectory(src/shared_ptr)
+add_subdirectory(src/control)
 add_executable(runner tests.cpp)
 
 target_link_libraries(runner LINK_PUBLIC shared_ptr gtest_main)

@@ -42,7 +42,7 @@ protected:
 
 public:
     //explicit shared_weak_count(size_t count = 1) noexcept: weak_count(count), shared_count(count) {}
-    shared_weak_count(size_t weak = 1, size_t strong = 0) noexcept: weak_count(weak), shared_count(strong) {}
+    shared_weak_count(size_t weak = 0, size_t strong = 0) noexcept: weak_count(weak), shared_count(strong) {}
 
     shared_weak_count(const shared_weak_count& c) = delete;
     shared_weak_count(shared_weak_count&& c) = delete;

@@ -203,7 +203,7 @@ public:
     weak_ptr& operator=(const weak_ptr& other) noexcept;
     weak_ptr& operator=(weak_ptr&& other) noexcept;
 
-    ~weak_ptr() = default;
+    ~weak_ptr();
 
     // Modifiers
     void reset() noexcept;
@@ -288,6 +288,8 @@ weak_ptr<T>& weak_ptr<T>::operator=(const shared_ptr<Y>& other) {
     if (control_ptr) {
         control_ptr->retain_weak();
     }
+
+    return *this;
 }
 
 template<typename T>
@@ -314,4 +316,11 @@ weak_ptr<T>& weak_ptr<T>::operator=(weak_ptr&& other) noexcept {
     other.value_ptr = nullptr;
 
     return *this;
+}
+
+template<typename T>
+weak_ptr<T>::~weak_ptr() {
+    if (control_ptr) {
+        control_ptr->release_weak();
+    }
 }

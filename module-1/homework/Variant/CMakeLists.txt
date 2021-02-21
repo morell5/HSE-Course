@@ -4,7 +4,7 @@ include(GoogleTest)
 
 project("runner")
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)

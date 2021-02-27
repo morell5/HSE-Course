@@ -20,7 +20,8 @@ TEST(is_constructible, Test1) {
         Foo(int n, double f) noexcept : v1(n), v2(f) {}
     };
 
-    static_assert(is_constructible<Foo, int>::value, "expected true");
+    static_assert(is_constructible<Foo, int>::type::value, "expected true");
+    static_assert(is_constructible<Foo, int, double>::value, "expected true");
 }
 
 TEST(is_constructible, Test2) {
@@ -29,7 +30,7 @@ TEST(is_constructible, Test2) {
 }
 
 TEST(is_constructible, Test3) {
- 
+
     struct Base {};
 
     struct Derived : Base {};
@@ -40,7 +41,7 @@ TEST(is_constructible, Test3) {
 }
 
 TEST(is_constructible, Test4) {
- 
+
     struct Foo {};
 
     static_assert(!is_constructible<Foo&, Foo>::value, "expected false");
@@ -51,7 +52,7 @@ TEST(is_constructible, Test4) {
 }
 
 TEST(is_constructible, Test5) {
- 
+
     struct Foo {};
 
     static_assert(is_constructible<Foo&&, Foo>::value, "expected true");
@@ -62,7 +63,7 @@ TEST(is_constructible, Test5) {
 }
 
 TEST(is_constructible, Test6) {
- 
+
     struct Foo {};
 
     static_assert(is_constructible<Foo, Foo>::value, "expected true");
@@ -73,7 +74,7 @@ TEST(is_constructible, Test6) {
 }
 
 TEST(is_nothrow_move_constructible, Test1) {
- 
+
     struct Foo {
         std::string str;
     };
@@ -82,7 +83,7 @@ TEST(is_nothrow_move_constructible, Test1) {
 }
 
 TEST(is_nothrow_move_constructible, Test2) {
- 
+
     struct Foo {
         int n;
         Foo(Foo&&) = default;
@@ -92,7 +93,7 @@ TEST(is_nothrow_move_constructible, Test2) {
 }
 
 TEST(is_nothrow_move_constructible, Test3) {
- 
+
     struct Foo {
         Foo(const Foo&) {}
     };
@@ -101,7 +102,7 @@ TEST(is_nothrow_move_constructible, Test3) {
 }
 
 TEST(move_if_noexcept, Test1) {
-    
+
     struct ThrowFoo {
         bool copy = false;
         ThrowFoo() = default;
@@ -109,12 +110,12 @@ TEST(move_if_noexcept, Test1) {
         ThrowFoo(const ThrowFoo&) { copy = true; };
     };
     ThrowFoo foo;
-    ThrowFoo foo2 = move_if_noexcept(foo); 
+    ThrowFoo foo2 = move_if_noexcept(foo);
     ASSERT_TRUE(foo2.copy);
 }
 
 TEST(move_if_noexcept, Test2) {
- 
+
     struct NonThrowFoo {
         bool copy = false;
         NonThrowFoo() = default;
@@ -122,6 +123,13 @@ TEST(move_if_noexcept, Test2) {
         NonThrowFoo(const NonThrowFoo&) noexcept { copy = true; };
     };
     NonThrowFoo foo;
-    NonThrowFoo foo2 = move_if_noexcept(foo); 
+    NonThrowFoo foo2 = move_if_noexcept(foo);
     ASSERT_FALSE(foo2.copy);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    std::cout << std::is_same_v<add_const_t<int&>, const int&>;
+    std::cout << typeid(add_const_t<int&>).name();
+    return RUN_ALL_TESTS();
 }

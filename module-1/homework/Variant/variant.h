@@ -3,14 +3,17 @@
 
 #pragma once
 
-template <auto val>
-constexpr void static_print() {
-#if !defined(__GNUC__) || defined(__clang__)
-    int static_print_is_implemented_only_for_gcc = 0;
-#else
-    int unused = 0;
-#endif
-};
+template<class From, class To>
+auto test_implicitly_convertible(int) -> decltype(
+void(std::declval<void(&)(To)>()(std::declval<From>())), std::true_type{}
+);
+
+template<class, class>
+auto test_implicitly_convertible(...) -> std::false_type;
+
+template<class From, class To>
+struct is_implicitly_convertible : std::integral_constant<bool,
+        decltype(test_implicitly_convertible<From, To>(0))::value> {};
 
 template<std::size_t Index, typename... Types>
 union __union;
@@ -35,8 +38,8 @@ struct __union_helper {
     static void set(U&& value, std::in_place_index_t<0>, __union<UnIdx, Head, Tail...>& u) {
         if (std::is_same_v<Head, U>) {
             u.head = value;
-        } else if (std::is_convertible_v<U, Head>) {
-            u.head = (Head)value;
+        } else if (is_implicitly_convertible<U, Head>::value) {
+            u.head = value;
         }
     }
 
@@ -80,17 +83,6 @@ using variant_alternative_t = typename variant_alternative<Idx, T>::type;
 
 static constexpr int not_founded = -1;
 
-template<class From, class To>
-auto test_implicitly_convertible(int) -> decltype(
-    void(std::declval<void(&)(To)>()(std::declval<From>())), std::true_type{}
-);
-
-template<class, class>
-auto test_implicitly_convertible(...) -> std::false_type;
-
-template<class From, class To>
-struct is_implicitly_convertible : std::integral_constant<bool,
-         decltype(test_implicitly_convertible<From, To>(0))::value> {};
 
 template<std::size_t SizeofFounded>
 constexpr std::size_t find_type_pos(
@@ -172,7 +164,6 @@ template<typename T>
 variant<Types...>& variant<Types...>::operator=(T&& t) noexcept {
     constexpr auto value = find_exactly_one_t<T, Types...>::valueForAssignment;
     static_assert(value != -1);
-    static_print<value>();
     __union_helper::set<value>(std::forward<T>(t), std::in_place_index<value>, this->data_);
     return *this;
 }

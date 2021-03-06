@@ -2,6 +2,8 @@
 
 #pragma once
 
+namespace task {
+
 template<typename... Types>
 class variant;
 
@@ -43,3 +45,5 @@ constexpr T& get(variant<Types...>& v);
 
 template<typename T, typename... Types>
 constexpr T&& get( variant<Types...>&& v );
+
+};

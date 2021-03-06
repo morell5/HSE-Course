@@ -2,6 +2,9 @@
 #include <type_traits>
 
 #pragma once
+
+namespace task {
+
 struct nullopt_t {
      // Your code goes here;
 };
@@ -51,4 +54,6 @@ class optional {
 
     private:
       // Your code goes here;
+};
+
 };

@@ -65,7 +65,7 @@ public:
             head.~T();
         }
         if (!std::is_trivially_destructible_v<decltype(tail)>) {
-            tail.~decltype(tail)();
+            tail.~__union<Index + 1, Types...>();
         }
     }
 

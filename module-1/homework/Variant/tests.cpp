@@ -6,25 +6,34 @@
 #include "gtest/gtest.h"
 
 TEST(Get, Test1) {
-    task::variant<int, double, std::string> v;
+    variant<int, double, std::string> v;
+    //v = std::string("Hello world");
+
     v = "Hello world";
-    ASSERT_EQ(std::get<std::string>(v),"Hello world");
+    ASSERT_EQ(get<std::string>(v),"Hello world");
+}
+
+TEST(Get, Test1_1) {
+    variant<int, double, std::string> v;
+    v = std::string("Hello world");
+    ASSERT_EQ(get<std::string>(v),"Hello world");
 }
 
 TEST(Get, Test2) {
-    task::variant<int, double, std::string> v;
+    variant<int, double, std::string> v;
     v = 12.0;
-    ASSERT_NEAR(std::get<double>(v), 12.0, 1e-5);
+    ASSERT_NEAR(get<double>(v), 12.0, 1e-5);
 }
 
+
 TEST(Get, Test3) {
-    task::variant<int, double, std::string> v;
+    variant<int, double, std::string> v;
     v = "Hello world";
-    ASSERT_EQ(std::get<2>(v), "Hello world");
+    ASSERT_EQ(get<2>(v), "Hello world");
 }
 
 TEST(Get, Test4) {
-    task::variant<int, double, std::string> v;
+    variant<int, double, std::string> v;
     v = 12.0;
-    ASSERT_NEAR(std::get<1>(v), 12.0, 1e-5);
+    ASSERT_NEAR(get<1>(v), 12.0, 1e-5);
 }

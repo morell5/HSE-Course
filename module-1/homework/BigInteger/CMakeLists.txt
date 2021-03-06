@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 include(GoogleTest)
 
-project("BigInteger")
+project("runner")
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 

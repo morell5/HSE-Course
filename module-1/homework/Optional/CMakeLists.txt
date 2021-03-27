@@ -7,6 +7,10 @@ project("runner")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+message("ENV{CLANG_FORMAT_SUBMODULE}")
+message($ENV{CLANG_FORMAT_SUBMODULE})
+
+################ gtest ################
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -24,24 +28,29 @@ if(result)
   message(FATAL_ERROR "Build step for googletest failed: ${result}")
 endif()
 
-# Prevent overriding the parent project's compiler/linker
-# settings on Windows
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
-                 EXCLUDE_FROM_ALL)
+                ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
+                EXCLUDE_FROM_ALL)
 
-# The gtest/gtest_main targets carry header search path
-# dependencies automatically when using CMake 2.8.11 or
-# later. Otherwise we have to add them here ourselves.
 if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-# Now simply link against gtest or gtest_main as needed. Eg
+################  Sanitizers  ################
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold -fsanitize=undefined,address -fno-sanitize-recover=all -O2 -Wall -Werror -Wsign-compare")
+
+################  clang-tidy  ################
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;--fix;-header-filter=.")
+
 add_executable(runner tests.cpp optional.h)
-target_link_libraries(runner gtest_main)
+
+################ clang-format ################
+list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+include(ClangFormat)
+target_clangformat_setup(runner)
+
+target_link_libraries(runner LINK_PUBLIC gtest_main)
+
 add_test(NAME runner_test COMMAND runner)

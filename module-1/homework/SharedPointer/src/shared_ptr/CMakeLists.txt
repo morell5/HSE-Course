@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
-project("runner")
+project(runner)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(shared_ptr shared_ptr.h)
+set_target_properties(shared_ptr PROPERTIES LINKER_LANGUAGE CXX)
 
-add_library(shared_ptr INTERFACE)
-
-target_include_directories(shared_ptr INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR})
+################ clang-format ################
+list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+include(ClangFormat)
+target_clangformat_setup(shared_ptr)

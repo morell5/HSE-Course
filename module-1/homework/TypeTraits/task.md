@@ -3,9 +3,9 @@
 ## Задание
 
 Реализовать:
-* [std::is_copy_constructible](https://en.cppreference.com/w/cpp/types/is_copy_constructible)
-* [std::is_nothrow_move_constructible](https://en.cppreference.com/w/cpp/types/is_move_constructible)
-* [std::move_if_noexcept](https://en.cppreference.com/w/cpp/utility/move_if_noexcept)
+* [IsCopyConstructible](https://en.cppreference.com/w/cpp/types/is_copy_constructible)
+* [IsNoThrowMoveConstructible](https://en.cppreference.com/w/cpp/types/is_move_constructible)
+* [MoveIfNoExcept](https://en.cppreference.com/w/cpp/utility/move_if_noexcept)
 
 Реализация в соответсвующих header файлах
 

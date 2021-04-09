@@ -1,42 +1,38 @@
-# pragma once
+#pragma once
 
 #include <type_traits>
 #include <utility>
 
 #include "utility.h"
 
-template<typename T, typename... Args>
-struct is_constructible_impl;
+template <typename T, typename... Args>
+struct LibCppIsConstructible;
 
-template<typename Derived, typename Base>
-struct is_invalid_base_to_derived_cast {
-   ...
+template <typename Derived, typename Base>
+struct IsInvalidBaseToDerivedCast {
+    // Your code goes here
 };
 
-template<typename To, typename From>
-struct is_invalid_lvalue_to_rvalue_cast : std::false_type {
-    ...
+template <typename To, typename From>
+struct IsInvalidLvalueToRvalueCast : std::false_type {
+    // Your code goes here
 };
 
-template<typename RefTo, typename RefFrom>
-struct is_invalid_lvalue_to_rvalue_cast<RefTo&&, RefFrom&> {
-    ...
+template <typename RefTo, typename RefFrom>
+struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
+    // Your code goes here
 };
 
-struct is_constructible_helper {
-    ...
+struct IsConstructibleHelper {
+    // Your code goes here
 };
 
-template<typename T, typename... Args>
-struct is_constructible_impl {
-    ...
-};
+// LibCppIsConstructible - partial specializations
+// Your code goes here
+// LibCppIsConstructible - partial specializations
 
-// is_constructible_impl - partial specializations
-...
+template <typename T, typename... Args>
+struct IsConstructible : // Your code goes here {...}
 
-template<typename T, typename... Args>
-struct is_constructible {...};
-
-template<typename T>
-struct is_copy_constructible {...};
+template <typename T>
+struct IsCopyConstructible : // Your code goes here {...}

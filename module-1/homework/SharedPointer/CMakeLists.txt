@@ -4,9 +4,10 @@ include(GoogleTest)
 
 project("runner")
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+################ gtest ################
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -34,10 +35,19 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_subdirectory(src/shared_ptr)
-add_subdirectory(src/control)
+################  clang-tidy  ################
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-header-filter=.")
+
 add_executable(runner tests.cpp)
 
-target_link_libraries(runner LINK_PUBLIC shared_ptr gtest_main)
+################ clang-format ################
+list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+include(ClangFormat)
+target_clangformat_setup(runner)
+
+add_subdirectory(src/control)
+add_subdirectory(src/shared_ptr)
+
+target_link_libraries(runner LINK_PUBLIC control shared_ptr gtest_main)
 
 add_test(NAME runner_test COMMAND runner)

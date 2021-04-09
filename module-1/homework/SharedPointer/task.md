@@ -2,7 +2,7 @@
 
 ## Задание
 
-Реализовать control_block в `control.h`
+Реализовать `ControlBlock` в `control.h`
 * без аллокатора
 * счетчик ссылок
     
@@ -10,57 +10,57 @@
     std::atomic<std::size_t>
     ```
 
-Написать класс [shared_ptr](https://en.cppreference.com/w/cpp/memory/shared_ptr)
+Написать класс [SharedPtr](https://en.cppreference.com/w/cpp/memory/shared_ptr)
 
 Реализовать:
 * **Special member functions**
 
     ```c++
-    constexpr shared_ptr() noexcept = default;
+    constexpr SharedPtr() noexcept = default;
 
     template<typename Y>
-    shared_ptr(Y* p);
+    SharedPtr(Y* p);
 
     template<typename Y, typename Deleter>
-    shared_ptr(Y* p, Deleter deleter) noexcept;
+    SharedPtr(Y* p, Deleter deleter) noexcept;
 
-    shared_ptr(const shared_ptr& other) noexcept;
+    SharedPtr(const SharedPtr& other) noexcept;
 
-    shared_ptr(shared_ptr&& other) noexcept;
+    SharedPtr(SharedPtr&& other) noexcept;
 
-    shared_ptr& operator=( const shared_ptr& r ) noexcept;
-
-    template<typename Y>
-    shared_ptr& operator=( const shared_ptr<Y>& r ) noexcept;
-
-    shared_ptr& operator=( shared_ptr&& r ) noexcept;
+    SharedPtr& operator=( const SharedPtr& r ) noexcept;
 
     template<typename Y>
-    shared_ptr& operator=( shared_ptr<Y>&& r ) noexcept;
+    SharedPtr& operator=( const SharedPtr<Y>& r ) noexcept;
 
-    ~shared_ptr();
+    SharedPtr& operator=( SharedPtr&& r ) noexcept;
+
+    template<typename Y>
+    SharedPtr& operator=( SharedPtr<Y>&& r ) noexcept;
+
+    ~SharedPtr();
     ```
 
 * **Modifiers**
 
     ```c++
-    void reset() noexcept;
+    void Reset() noexcept;
 
     template<typename Y>
-    void reset(Y* p) noexcept;
+    void Reset(Y* p) noexcept;
 
     template<typename Y, typename Deleter>
-    void reset(Y*p, Deleter deleter) noexcept;
+    void Reset(Y*p, Deleter deleter) noexcept;
 
-    void swap(shared_ptr& other) noexcept;
+    void Swap(SharedPtr& other) noexcept;
     ```
 
 * **Observers**
 
     ```c++
-    T* get() const noexcept;
+    T* Get() const noexcept;
 
-    long use_count() const noexcept;
+    long UseCount() const noexcept;
 
     T& operator*() const noexcept;
 
@@ -72,41 +72,41 @@
     ```
 
 
-Написать класс [weak_ptr](https://en.cppreference.com/w/cpp/memory/weak_ptr)
+Написать класс [WeakPtr](https://en.cppreference.com/w/cpp/memory/weak_ptr)
 
 Реализовать:
 * **Special member functions**
 
     ```c++
-    constexpr weak_ptr() noexcept = default;
+    constexpr WeakPtr() noexcept = default;
     
     template<typename Y>
-    weak_ptr(const shared_ptr<Y>& other);
+    WeakPtr(const SharedPtr<Y>& other);
     
-    weak_ptr(const weak_ptr& other) noexcept;
+    WeakPtr(const WeakPtr& other) noexcept;
     
-    weak_ptr(weak_ptr&& other) noexcept;
+    WeakPtr(WeakPtr&& other) noexcept;
     
     template<typename Y>
-    weak_ptr& operator=(const shared_ptr<Y>& other);
+    WeakPtr& operator=(const SharedPtr<Y>& other);
     
-    weak_ptr& operator=(const weak_ptr& other) noexcept;
+    WeakPtr& operator=(const WeakPtr& other) noexcept;
     
-    weak_ptr& operator=(weak_ptr&& other) noexcept;
+    WeakPtr& operator=(WeakPtr&& other) noexcept;
 
-    ~weak_ptr();
+    ~WeakPtr();
     ```
 
 * **Modifiers**
 
     ```c++
-    void reset() noexcept;
-    void swap(weak_ptr<T>& other) noexcept;
+    void Reset() noexcept;
+    void Swap(WeakPtr<T>& other) noexcept;
     ```
 
 * **Observers**
 
     ```c++
-    bool expired() noexcept;
-    shared_ptr<T> lock() const noexcept;
+    bool Expired() noexcept;
+    SharedPtr<T> Lock() const noexcept;
     ```

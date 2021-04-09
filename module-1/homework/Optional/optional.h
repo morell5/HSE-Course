@@ -5,55 +5,60 @@
 
 namespace task {
 
-struct nullopt_t {
-     // Your code goes here;
+struct NullOpt {
+    // Your code goes here;
 };
 
-constexpr nullopt_t // Your code goes here;
+constexpr NullOpt kNullOpt = // Your code goes here;
 
-struct in_place_t {
-     // Your code goes here;
+struct InPlace {
+    // Your code goes here;
 };
 
-constexpr in_place_t  // Your code goes here;
+constexpr InPlace kInPlace =  //Your code goes here;
 
-template<typename T>
-class optional {
-    public:
-    
-        using value_type =  // Your code goes here;
+template <typename T>
+class Optional : public // Your code goes here; {
+public:
+    using value_type =  // Your code goes here;
 
-        constexpr optional() noexcept;
-        template < class U = value_type >
-        constexpr optional( U&& value );
-        constexpr optional(nullopt_t) noexcept;
-        template<class... _Args>
-        constexpr explicit optional(in_place_t, _Args&&... __args);
-    
-        template<typename U>
-        constexpr T value_or(U&& default_value) const&;
+    constexpr Optional() noexcept;
 
-        template<typename U>
-        constexpr T value_or(U&& default_value) &&;
+    template <typename U = value_type>
+    constexpr explicit Optional(U&& value);
 
-        constexpr bool has_value() const noexcept;
+    constexpr explicit Optional(NullOpt) noexcept;
 
-        constexpr explicit operator bool() const noexcept;
+    template <typename... Args>
+    constexpr explicit Optional(InPlace, Args&&... args);
 
-        constexpr std::add_pointer_t<const value_type> operator->() const;
+    Optional& operator=(NullOpt) noexcept;
 
-        constexpr std::add_pointer_t<value_type> operator->();
+    template <typename U = T>
+    Optional& operator=(U&& value);
 
-        constexpr const value_type& operator*() const&;
+    void Reset() noexcept;
 
-        constexpr value_type& operator*() &;
+    template <typename U>
+    constexpr T ValueOr(U&& default_value) const&;
 
-        constexpr const value_type&& operator*() const&&;
+    template <typename U>
+    constexpr T ValueOr(U&& default_value) &&;
 
-        constexpr value_type&& operator*() &&;
+    constexpr bool HasValue() const noexcept;
 
-    private:
-      // Your code goes here;
+    constexpr explicit operator bool() const noexcept;
+
+    constexpr std::add_pointer_t<const value_type> operator->() const;
+
+    constexpr std::add_pointer_t<value_type> operator->();
+
+    constexpr const value_type& operator*() const&;
+
+    constexpr value_type& operator*() &;
+
+    constexpr const value_type&& operator*() const&&;
+
+    constexpr value_type&& operator*() &&;
 };
-
-};
+}  // namespace task

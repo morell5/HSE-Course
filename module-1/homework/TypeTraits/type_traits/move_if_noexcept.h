@@ -1,4 +1,4 @@
-# pragma once
+#pragma once
 
 #include <type_traits>
 #include <utility>
@@ -7,16 +7,23 @@
 #include "is_nothrow_move_constructible.h"
 #include "utility.h"
 
-// conditional
-template<bool condition, typename T, typename F>
-struct conditional {
-    ...
+template <bool condition, typename T, typename F>
+struct Conditional {
+    // Your code goes here
 };
 
-// conditional - partial specialization
-...
+// Conditional - partial specialization
+// Your code goes here
+// Conditional - partial specialization
 
-template<bool condition, typename T, typename F>
-using conditional_v = ...
+template <typename T, typename F>
+struct Conditional<true, T, F> {
+    using type = T;
+};
 
-// move_if_noexcept
+template <bool condition, typename T, typename F>
+using conditional_v = // Your code goes here
+
+// MoveIfNoExcept
+// Your code goes here
+// MoveIfNoExcept

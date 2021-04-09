@@ -4,16 +4,19 @@ on: [pull_request]
 
 jobs:
     ci:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
         steps:
             - name: checkout
               uses: actions/checkout@v2
         
             - name: tests 
               env:
+                CLANG_FORMAT_SUBMODULE: /home/runner/work/HSE-Course-Private/HSE-Course-Private/clangformat-cmake
                 TITLE: ${{github.event.pull_request.title}}
               working-directory: ./module-1/homework/
-              run:  prname=${TITLE} &&
+              run:  sudo apt-get install -y clang-tidy &&
+                    git submodule update --init --recursive &&
+                    prname=${TITLE} &&
                     cmake -B ${prname}/build -S ${prname} &&
-                    cmake --build ${prname}/build && 
+                    cmake --build ${prname}/build --target runner clangformat &&
                     ./${prname}/build/runner

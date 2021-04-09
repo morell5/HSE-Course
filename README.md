@@ -2,8 +2,7 @@
 
 ## Структура репозитория
 
-`module-1` - задания и семинары за 1-ое учебное полугодие</br>
-`module-2` - задания и семинары за 2-ое учебное полугодие</br>
+`module-1` - задания и семинары</br>
 
 ## Сдача заданий
 
@@ -23,4 +22,4 @@
 
 ## Связь
 
-[Slack Workspace](https://join.slack.com/t/1c-hseworkspace/shared_invite/zt-h4q9ff3l-oKj26qGMHhmoLH5G7hDpYA)
+[Slack Workspace](https://join.slack.com/t/1c-hseworkspace/shared_invite/zt-n67k87vo-d~ypzAzri~Tu4e15zQLSBw)

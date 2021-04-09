@@ -3,133 +3,138 @@
 #include <iostream>
 #include <string>
 
+#include "gtest/gtest.h"
 #include "type_traits/is_copy_constructible.h"
 #include "type_traits/is_nothrow_move_constructible.h"
 #include "type_traits/move_if_noexcept.h"
 
-#include "gtest/gtest.h"
-
-TEST(is_constructible, Test1) {
+TEST(IsConstructible, Test1) {
 
     class Foo {
-    private:
-        int v1;
-        double v2;
     public:
-        Foo(int n) : v1(n), v2() {}
-        Foo(int n, double f) noexcept : v1(n), v2(f) {}
+        explicit Foo(int32_t n) : v1_(n), v2_() {
+        }
+        Foo(int32_t n, double f) noexcept : v1_(n), v2_(f) {
+        }
+        void Bar() {
+            v1_ = 0;
+            v2_ = 0;
+        }
+
+    private:
+        int32_t v1_;
+        double v2_;
     };
 
-    static_assert(is_constructible<Foo, int>::type::value, "expected true");
-    static_assert(is_constructible<Foo, int, double>::value, "expected true");
+    static_assert(IsConstructible<Foo, int32_t>::value, "expected true");
 }
 
-TEST(is_constructible, Test2) {
+TEST(IsConstructible, Test2) {
 
-    static_assert(is_constructible<int, double>::value, "expected true");
+    static_assert(IsConstructible<int32_t, double>::value, "expected true");
 }
 
-TEST(is_constructible, Test3) {
+TEST(IsConstructible, Test3) {
 
     struct Base {};
 
     struct Derived : Base {};
 
-    static_assert(!is_constructible<Derived, Base>::value, "expected false");
+    static_assert(!IsConstructible<Derived, Base>::value, "expected false");
 
-    static_assert(is_constructible<Base, Derived>::value, "expected true");
+    static_assert(IsConstructible<Base, Derived>::value, "expected true");
 }
 
-TEST(is_constructible, Test4) {
+TEST(IsConstructible, Test4) {
 
     struct Foo {};
 
-    static_assert(!is_constructible<Foo&, Foo>::value, "expected false");
+    static_assert(!IsConstructible<Foo&, Foo>::value, "expected false");
 
-    static_assert(is_constructible<Foo&, Foo&>::value, "expected true");
+    static_assert(IsConstructible<Foo&, Foo&>::value, "expected true");
 
-    static_assert(!is_constructible<Foo&, Foo&&>::value, "expected false");
+    static_assert(!IsConstructible<Foo&, Foo&&>::value, "expected false");
 }
 
-TEST(is_constructible, Test5) {
+TEST(IsConstructible, Test5) {
 
     struct Foo {};
 
-    static_assert(is_constructible<Foo&&, Foo>::value, "expected true");
+    static_assert(IsConstructible<Foo&&, Foo>::value, "expected true");
 
-    static_assert(!is_constructible<Foo&&, Foo&>::value, "expected false");
+    static_assert(!IsConstructible<Foo&&, Foo&>::value, "expected false");
 
-    static_assert(is_constructible<Foo&&, Foo&&>::value, "expected true");
+    static_assert(IsConstructible<Foo&&, Foo&&>::value, "expected true");
 }
 
-TEST(is_constructible, Test6) {
+TEST(IsConstructible, Test6) {
 
     struct Foo {};
 
-    static_assert(is_constructible<Foo, Foo>::value, "expected true");
+    static_assert(IsConstructible<Foo, Foo>::value, "expected true");
 
-    static_assert(is_constructible<Foo, Foo&>::value, "expected true");
+    static_assert(IsConstructible<Foo, Foo&>::value, "expected true");
 
-    static_assert(is_constructible<Foo, Foo&&>::value, "expected true");
+    static_assert(IsConstructible<Foo, Foo&&>::value, "expected true");
 }
 
-TEST(is_nothrow_move_constructible, Test1) {
+TEST(IsNoThrowMoveConstructible, Test1) {
 
     struct Foo {
         std::string str;
     };
 
-    static_assert(is_nothrow_move_constructible<Foo>::value, "expected true");
+    static_assert(IsNoThrowMoveConstructible<Foo>::value, "expected true");
 }
 
-TEST(is_nothrow_move_constructible, Test2) {
+TEST(IsNoThrowMoveConstructible, Test2) {
 
     struct Foo {
-        int n;
         Foo(Foo&&) = default;
+
+        int32_t n;
     };
 
-    static_assert(is_nothrow_move_constructible<Foo>::value, "expected true");
+    static_assert(IsNoThrowMoveConstructible<Foo>::value, "expected true");
 }
 
-TEST(is_nothrow_move_constructible, Test3) {
+TEST(IsNoThrowMoveConstructible, Test3) {
 
     struct Foo {
-        Foo(const Foo&) {}
+        Foo(const Foo&) {
+        }
     };
 
-    static_assert(!is_nothrow_move_constructible<Foo>::value, "expected true");
+    static_assert(!IsNoThrowMoveConstructible<Foo>::value, "expected true");
 }
 
-TEST(move_if_noexcept, Test1) {
+TEST(MoveIfNoExcept, Test1) {
 
     struct ThrowFoo {
         bool copy = false;
         ThrowFoo() = default;
-        ThrowFoo(ThrowFoo&&) {};
-        ThrowFoo(const ThrowFoo&) { copy = true; };
+        ThrowFoo(ThrowFoo&&){};
+        ThrowFoo(const ThrowFoo&) {
+            copy = true;
+        };
     };
     ThrowFoo foo;
-    ThrowFoo foo2 = move_if_noexcept(foo);
+    ThrowFoo foo2 = MoveIfNoExcept(foo);
     ASSERT_TRUE(foo2.copy);
 }
 
-TEST(move_if_noexcept, Test2) {
+TEST(MoveIfNoExcept, Test2) {
 
     struct NonThrowFoo {
-        bool copy = false;
         NonThrowFoo() = default;
         NonThrowFoo(NonThrowFoo&&) noexcept {};
-        NonThrowFoo(const NonThrowFoo&) noexcept { copy = true; };
+        NonThrowFoo(const NonThrowFoo&) noexcept {
+            copy = true;
+        };
+
+        bool copy = false;
     };
     NonThrowFoo foo;
-    NonThrowFoo foo2 = move_if_noexcept(foo);
+    NonThrowFoo foo2 = MoveIfNoExcept(foo);
     ASSERT_FALSE(foo2.copy);
-}
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    std::cout << std::is_same_v<add_const_t<int&>, const int&>;
-    std::cout << typeid(add_const_t<int&>).name();
-    return RUN_ALL_TESTS();
 }

@@ -6,75 +6,76 @@
 
 namespace task {
 
-template<typename T, typename Allocator=std::allocator<T>>
-class list {
+template <typename T, typename Allocator = std::allocator<T>>
+class List {
 
 public:
-    
     using value_type = T;
     // Your code goes here
 
     // Special member functions
-    list();
+    List(){};
 
-    list(const list& other) {
+    List(const List& other) {
         // Your code goes here
     }
-    list(const list& other, const Allocator& alloc);
-    
-    list(list&& other) :  lst(std::move(other.lst));
-    list(list&& other, const Allocator& alloc);
+    List(const List& other, const Allocator& alloc);
 
-    ~list();
+    List(List&& other);
+    List(List&& other, const Allocator& alloc);
 
-    list& operator=(const list& other);
+    ~List();
 
-    list& operator=(list&& other) noexcept;
+    List& operator=(const List& other);
+
+    List& operator=(List&& other) noexcept;
 
     // Element access
-    reference front();
-    const_reference front() const;
-    reference back();
-    const_reference back() const;
+    reference Front();
+    const_reference Front() const;
+    reference Back();
+    const_reference Back() const;
 
     // Iterators
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
+    iterator Begin() noexcept;
+    const_iterator Begin() const noexcept;
 
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
+    iterator End() noexcept;
+    const_iterator End() const noexcept;
 
     // Capacity
-    bool empty() const noexcept;
-    size_type size() const noexcept;
-    size_type max_size() const noexcept;
+    bool Empty() const noexcept;
+
+    size_type Size() const noexcept;
+    size_type MaxSize() const noexcept;
 
     // Modifiers
-    void clear();
-    void swap(list& other) noexcept;
+    void Clear();
+    void Swap(List& other) noexcept;
 
-    void push_back(const T& value);
-    void push_back(T&& value);
-    template<typename... Args>
-    void emplace_back(Args&&... args);
-    void pop_back();
-    void push_front(const T& value);
-    void push_front(T&& value);
-    template<typename... Args>
-    void emplace_front(Args&&... args);
-    void pop_front();
+    void PushBack(const T& value);
+    void PushBack(T&& value);
+    
+    template <typename... Args>
+    void EmplaceBack(Args&&... args);
+    void PopBack();
+    void PushFront(const T& value);
+    void PushFront(T&& value);
+    template <typename... Args>
+    void EmplaceFront(Args&&... args);
+    void PopFront();
 
-    void resize(size_type count);
+    void Resize(size_type count);
 
     // Operations
-    void remove(const T& value);
-    void unique();
-    void sort();
+    void Remove(const T& value);
+    void Unique();
+    void Sort();
 
-    allocator_type get_allocator() const noexcept;
+    allocator_type GetAllocator() const noexcept;
 
 private:
     // Your code goes here
 };
 
-}
+}  // namespace task

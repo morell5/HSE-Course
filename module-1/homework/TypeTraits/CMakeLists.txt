@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 include(GoogleTest)
 
 project("runner")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+################ gtest ################
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -34,8 +35,21 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_subdirectory(type_traits)
+################  Sanitizers  ################
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold -fsanitize=undefined,address -fno-sanitize-recover=all -O2 -Wall -Werror -Wsign-compare")
+
+################  clang-tidy  ################
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-header-filter=.")
+
 add_executable(runner tests.cpp)
+
+################ clang-format ################
+list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+include(ClangFormat)
+target_clangformat_setup(runner)
+
+add_subdirectory(type_traits)
+
 target_link_libraries(runner LINK_PUBLIC type_traits gtest_main)
 
 add_test(NAME runner_test COMMAND runner)

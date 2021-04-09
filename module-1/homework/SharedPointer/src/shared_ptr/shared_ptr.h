@@ -2,109 +2,107 @@
 
 #include "../control/control.h"
 
-// shared_ptr
-template<typename T>
-class weak_ptr;
+// SharedPtr
+template <typename T>
+class WeakPtr;
 
-template<typename T>
-class shared_ptr {
-    public:
-        using element_type = T;
-
-        constexpr shared_ptr() noexcept = default;
-        ~shared_ptr();
-      
-        template<typename Y>
-        shared_ptr(Y* p);
-
-        template<typename Y, typename Deleter>
-        shared_ptr(Y* p, Deleter deleter) noexcept;
-        
-        shared_ptr(const shared_ptr& other) noexcept;
-        shared_ptr(shared_ptr&& other) noexcept;
-
-        shared_ptr& operator=( const shared_ptr& r ) noexcept;
-
-        template<typename Y>
-        shared_ptr& operator=( const shared_ptr<Y>& r ) noexcept;
-
-        shared_ptr& operator=( shared_ptr&& r ) noexcept;
-
-        template<typename Y>
-        shared_ptr& operator=( shared_ptr<Y>&& r ) noexcept;
-        
-        // Modifiers
-        void reset() noexcept;
-        
-        template<typename Y>
-        void reset(Y* p) noexcept;
-        
-        template<typename Y, typename Deleter>
-        void reset(Y*p, Deleter deleter) noexcept;
-
-        void swap(shared_ptr& other) noexcept;
-
-        // Observers
-        T* get() const noexcept;
-        long use_count() const noexcept;
-        T& operator*() const noexcept;
-        T* operator->() const noexcept;
-        element_type& operator[](std::ptrdiff_t idx) const;
-        explicit operator bool() const noexcept;
-
-    private:
-        // Your code goes here...
-};
-
-// make_shared
-
-// Your code goes here...
-
-// make_shared
-
-// shared_ptr
-
-// Your code goes here...
-
-// shared_ptr
-
-template<typename T>
-class weak_ptr {
-    
-    using element_type = T;
-    
+template <typename T>
+class SharedPtr {
 public:
+    using element_type =     // Your code goes here...
 
-    // Special-member functions
-    constexpr weak_ptr() noexcept = default;
-    template<typename Y>
-    weak_ptr(const shared_ptr<Y>& other);
-    weak_ptr(const weak_ptr& other) noexcept;
-    weak_ptr(weak_ptr&& other) noexcept;
-    template<typename Y>
-    weak_ptr& operator=(const shared_ptr<Y>& other);
-    weak_ptr& operator=(const weak_ptr& other) noexcept;
-    weak_ptr& operator=(weak_ptr&& other) noexcept;
+    constexpr SharedPtr() noexcept = default;
+    ~SharedPtr();
 
-    ~weak_ptr() = default;
+    template <typename Y>
+    explicit SharedPtr(Y* p);
+
+    template <typename Y, typename Deleter>
+    SharedPtr(Y* p, Deleter deleter) noexcept;
+
+    SharedPtr(const SharedPtr& other) noexcept;
+    SharedPtr(SharedPtr&& other) noexcept;
+
+    SharedPtr& operator=(const SharedPtr& r) noexcept;
+
+    template <typename Y>
+    SharedPtr& operator=(const SharedPtr<Y>& r) noexcept;
+
+    SharedPtr& operator=(SharedPtr&& r) noexcept;
+
+    template <typename Y>
+    SharedPtr& operator=(SharedPtr<Y>&& r) noexcept;
 
     // Modifiers
-    void reset() noexcept;
-    void swap(weak_ptr<T>& other) noexcept;
+    void Reset() noexcept;
+
+    template <typename Y>
+    void Reset(Y* p) noexcept;
+
+    template <typename Y, typename Deleter>
+    void Reset(Y* p, Deleter deleter) noexcept;
+
+    void Swap(SharedPtr& other) noexcept;
 
     // Observers
-    bool expired() noexcept;
-    shared_ptr<T> lock() const noexcept;
+    T* Get() const noexcept;
+    int64_t UseCount() const noexcept;
+    T& operator*() const noexcept;
+    T* operator->() const noexcept;
+    element_type& operator[](std::ptrdiff_t idx) const;
+    explicit operator bool() const noexcept;
 
-    template<typename U> friend class shared_ptr;
+    template <typename U>
+    friend class WeakPtr;
+
+private:
+    // Your code goes here...
+};
+
+
+// MakeShared
+// Your code goes here...
+// MakeShared
+
+// SharedPtr
+// Your code goes here...
+// SharedPtr
+
+// WeakPtr
+template <typename T>
+class WeakPtr {
+
+public:
+    using element_type =     // Your code goes here...
+
+    // Special-member functions
+    constexpr WeakPtr() noexcept = default;
+    template <typename Y>
+    explicit WeakPtr(const SharedPtr<Y>& other);
+    WeakPtr(const WeakPtr& other) noexcept;
+    WeakPtr(WeakPtr&& other) noexcept;
+    template <typename Y>
+    WeakPtr& operator=(const SharedPtr<Y>& other);
+    WeakPtr& operator=(const WeakPtr& other) noexcept;
+    WeakPtr& operator=(WeakPtr&& other) noexcept;
+
+    ~WeakPtr();
+
+    // Modifiers
+    void Reset() noexcept;
+    void Swap(WeakPtr<T>& other) noexcept;
+
+    // Observers
+    bool Expired() noexcept;
+    SharedPtr<T> Lock() const noexcept;
+
+    template <typename U>
+    friend class SharedPtr;
 
 public:
     // Your code goes here...
 };
 
-
-// weak_ptr
-
+// WeakPtr
 // Your code goes here...
-
-// weak_ptr
+// WeakPtr

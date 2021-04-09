@@ -1,49 +1,48 @@
 #include <cstdlib>
+#include <utility>
 
 #pragma once
 
 namespace task {
 
-template<typename... Types>
-class variant;
+template <typename... Types>
+class Variant;
 
-template<std::size_t Idx, typename _Tp>
-struct variant_alternative;
+template <size_t Idx, typename T>
+struct VariantAlternative;
 
-template<std::size_t Idx, typename T>
-using variant_alternative_t = typename variant_alternative<Idx, T>::type;
+template <size_t Idx, typename T>
+using variant_alternative_t = typename VariantAlternative<Idx, T>::type;
 
-template<std::size_t Idx, class... _Types>
-struct variant_alternative<Idx, variant<_Types...>> {
+template <size_t Idx, typename... Types>
+struct VariantAlternative<Idx, Variant<Types...>> {
   using type =  // Your code goes here
 };
 
-template<typename... Types>
-class variant {
-
-    public:
-    
+template <typename... Types>
+class Variant {
+public:
     // Special member functions
-    constexpr variant() noexcept;
-    
-    template<typename T>
-    variant& operator=( T&& t ) noexcept;
-    
-    private:
+    constexpr Variant() noexcept;
+
+    template <typename T>
+    Variant& operator=(T&& t) noexcept;
+
+private:
     // Your code goes here
 };
 
 // Non-member functions
-template<std::size_t I, typename... Types>
-constexpr variant_alternative_t<I, variant<Types...>>& get(variant<Types...>& v);
+template <size_t I, typename... Types>
+constexpr const variant_alternative_t<I, Variant<Types...>>& Get(Variant<Types...>& v);
 
-template<std::size_t I, typename... Types>
-constexpr variant_alternative_t<I, variant<Types...>>&& get(variant<Types...>&& v);
+template <size_t I, typename... Types>
+constexpr variant_alternative_t<I, Variant<Types...>>&& Get(Variant<Types...>&& v);
 
-template<typename T, typename... Types>
-constexpr T& get(variant<Types...>& v);
+template <typename T, typename... Types>
+constexpr const T& Get(Variant<Types...>& v);
 
-template<typename T, typename... Types>
-constexpr T&& get( variant<Types...>&& v );
+template <typename T, typename... Types>
+constexpr T&& Get(Variant<Types...>&& v);
 
-};
+};  // namespace task

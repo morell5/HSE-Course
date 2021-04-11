@@ -7,9 +7,6 @@ project("runner")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
-include(ClangFormat)
-
 ################ gtest ################
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
@@ -47,7 +44,8 @@ set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-header-filter=.")
 add_executable(runner tests.cpp variant.h)
 
 ################ clang-format ################
-
+list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+include(ClangFormat)
 target_clangformat_setup(runner)
 
 target_link_libraries(runner LINK_PUBLIC gtest_main)

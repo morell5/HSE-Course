@@ -45,9 +45,9 @@ add_executable(runner tests.cpp variant.h)
 
 ################ clang-format ################
 message(STATUS "STATUS $ENV{CLANG_FORMAT_SUBMODULE}" )
-list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
-include(ClangFormat)
-target_clangformat_setup(runner)
+#list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
+#include(ClangFormat)
+#target_clangformat_setup(runner)
 
 target_link_libraries(runner LINK_PUBLIC gtest_main)
 

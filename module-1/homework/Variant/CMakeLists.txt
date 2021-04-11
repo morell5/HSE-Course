@@ -7,6 +7,9 @@ project("runner")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+message(ENV_VARIABLE:)
+message($ENV{CLANG_FORMAT_SUBMODULE})
+
 ################ gtest ################
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
@@ -44,7 +47,7 @@ set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-header-filter=.")
 add_executable(runner tests.cpp variant.h)
 
 ################ clang-format ################
-message(STATUS "STATUS $ENV{CLANG_FORMAT_SUBMODULE}" )
+
 #list(APPEND CMAKE_MODULE_PATH $ENV{CLANG_FORMAT_SUBMODULE}/cmake)
 #include(ClangFormat)
 #target_clangformat_setup(runner)

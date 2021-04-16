@@ -52,7 +52,10 @@ TEST(IsConstructible, Test4) {
     static_assert(!IsConstructible<Foo&, Foo>::value, "expected false");
 
     static_assert(IsConstructible<Foo&, Foo&>::value, "expected true");
-
+    //IsConstructibleHelper::TestUnary<Foo&, Foo&>(0);
+//    Foo f = Foo{};
+//    IsConstructibleHelper::ImplicitCast<Foo&>(f);
+//    std::cout << IsConstructibleHelper::TypeCast<Foo&, Foo&>().value;
     static_assert(!IsConstructible<Foo&, Foo&&>::value, "expected false");
 }
 
@@ -119,7 +122,11 @@ TEST(MoveIfNoExcept, Test1) {
         };
     };
     ThrowFoo foo;
+    std::cout << foo.copy << '\n';
     ThrowFoo foo2 = MoveIfNoExcept(foo);
+    std::cout << foo2.copy << '\n';
+    std::cout << IsNoThrowMoveConstructible<ThrowFoo>::value;
+
     ASSERT_TRUE(foo2.copy);
 }
 

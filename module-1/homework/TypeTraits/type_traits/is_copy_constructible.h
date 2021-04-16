@@ -40,15 +40,15 @@ struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
 };
 
 struct IsConstructibleHelper {
-    template<typename To>
+    template <typename To>
     static void ImplicitCast(To);
 
     //могу ли я неявно привести From к To, проверяем через приведение From к параметру To при вызове implicit_cast(To)
-    template<typename To, typename From, typename = decltype(ImplicitCast<To>(Declval<From>()))>
+    template <typename To, typename From, typename = decltype(ImplicitCast<To>(Declval<From>()))>
     static std::true_type TypeCast(int);
 
     //если можно явно привести From к To
-    template<typename To, typename From, typename = decltype(static_cast<To>(Declval<From>()))>
+    template <typename To, typename From, typename = decltype(static_cast<To>(Declval<From>()))>
     static std::integral_constant<bool,
             !IsInvalidBaseToDerivedCast<To, From>::value &&
             !IsInvalidLvalueToRvalueCast<To, From>::value> TypeCast(int64_t);
@@ -71,13 +71,13 @@ struct IsConstructibleHelper {
 };
 
 // LibCppIsConstructible - partial specializations
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 struct LibCppIsConstructible {
     using type = decltype(IsConstructibleHelper::TestNary<T, Args...>(0));
 };
 
 //конструктор с 1 аргументом
-template<typename T, typename A>
+template <typename T, typename A>
 struct LibCppIsConstructible<T, A> {
     using type = decltype(IsConstructibleHelper::TestUnary<T, A>(0));
 };

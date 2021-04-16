@@ -3,34 +3,34 @@
 #include <type_traits>
 #include <utility>
 
-template<typename T>
+template <typename T>
 struct Removecv {
     using type = T;
 };
-template<typename T>
+template <typename T>
 struct Removecv<const T> {
     using type = T;
 };
-template<typename T>
+template <typename T>
 struct Removecv<volatile T> {
     using type = T;
 };
-template<typename T>
+template <typename T>
 struct Removecv<const volatile T> {
     using type = T;
 };
 
-template<typename T>
+template <typename T>
 struct RemoveReference {
     using type = T;
 };
 
-template<typename T>
+template <typename T>
 struct RemoveReference<T&> {
     using type = T;
 };
 
-template<typename T>
+template <typename T>
 struct RemoveReference<T&&> {
     using type = T;
 };

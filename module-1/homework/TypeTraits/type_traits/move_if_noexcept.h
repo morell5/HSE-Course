@@ -13,7 +13,7 @@ struct Conditional {
 };
 
 // Conditional - partial specialization
-template<typename T, typename F>
+template <typename T, typename F>
 struct Conditional<false, T, F> {
     using type = F;
 };
@@ -29,7 +29,7 @@ using conditional_v = typename Conditional<condition, T, F>::type;
 
 // MoveIfNoExcept
 
-template<typename T>
+template <typename T>
 conditional_v<
         !IsNoThrowMoveConstructible<T>::value && IsCopyConstructible<T>::value,
         const T&,

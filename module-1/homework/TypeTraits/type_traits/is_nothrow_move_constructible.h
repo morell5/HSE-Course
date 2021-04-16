@@ -10,23 +10,23 @@ template <bool, bool, typename T, typename... Args>
 struct LibCppIsNoThrowConstructible;
 
 struct LibCppIsNoThrowConstructibleHelper {
-    template<typename To>
+    template <typename To>
     static void ImplicitCast(To);
 };
 
 //если не ссылка, то смотрим на noexcept(expression), где expression - наш конструктор
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 struct LibCppIsNoThrowConstructible<true, false, T, Args...> {
     using type = std::integral_constant<bool, noexcept(T(Declval<Args>()...))>;
 };
 
 //если это ссылка, то проверяем каст
-template<typename T, typename A>
+template <typename T, typename A>
 struct LibCppIsNoThrowConstructible<true, true, T, A> {
     using type = std::integral_constant<bool, noexcept(LibCppIsNoThrowConstructibleHelper::ImplicitCast<T>(Declval<A>()))>;
 };
 
-template<bool IsRef, typename T, typename... Args>
+template <bool IsRef, typename T, typename... Args>
 struct LibCppIsNoThrowConstructible<false, IsRef, T, Args...> {
     using type = std::false_type;
 };

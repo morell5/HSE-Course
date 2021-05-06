@@ -1,0 +1,3 @@
+[submodule "clangformat-cmake"]
+	path = clangformat-cmake
+	url = https://github.com/morell5/clangformat-cmake.git

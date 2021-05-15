@@ -11,7 +11,7 @@ jobs:
         
             - name: tests 
               env:
-                CLANG_FORMAT_SUBMODULE: /home/runner/work/HSE-Course-Private/HSE-Course-Private/clangformat-cmake
+                CLANG_FORMAT_SUBMODULE: /home/runner/work/HSE-Course/HSE-Course/clangformat-cmake
                 TITLE: ${{github.event.pull_request.title}}
               working-directory: ./module-1/homework/
               run:  

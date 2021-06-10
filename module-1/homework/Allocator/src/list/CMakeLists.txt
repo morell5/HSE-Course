@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(runner)
 
-add_library(list list.h)
+add_library(list OBJECT list.h)
 set_target_properties(list PROPERTIES LINKER_LANGUAGE CXX)
 
 ################ clang-format ################

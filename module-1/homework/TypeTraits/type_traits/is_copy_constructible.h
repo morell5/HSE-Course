@@ -14,10 +14,10 @@ struct IsInvalidBaseToDerivedCast {
     using derived = uncvref_t<Derived>;
 
     static std::integral_constant<bool,
-                                 !std::is_same_v<base, derived> &&
-                                 std::is_base_of_v<base, derived> &&
-                                 !LibCppIsConstructible<derived, Base>::type::value>
-                                 value_;
+                                  !std::is_same_v<base, derived> &&
+                                  std::is_base_of_v<base, derived> &&
+                                  !LibCppIsConstructible<derived, Base>::type::value>
+                                  value_;
 };
 
 template <typename To, typename From>
@@ -29,8 +29,8 @@ struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
     using from = uncvref_t<RefFrom>;
     using to = uncvref_t<RefTo>;
     using value =
-        std::integral_constant<bool, 
-                               std::is_same_v<from, to> && 
+        std::integral_constant<bool,
+                               std::is_same_v<from, to> &&
                                std::is_base_of_v<to, from>>;
 };
 

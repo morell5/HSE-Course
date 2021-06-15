@@ -5,35 +5,29 @@
 
 #include "utility.h"
 
+
 template <typename T, typename... Args>
 struct LibCppIsConstructible;
 
 template <typename Derived, typename Base>
 struct IsInvalidBaseToDerivedCast {
-    using base = uncvref_t<Base>;
     using derived = uncvref_t<Derived>;
-
-    static std::integral_constant<bool,
-        !std::is_same_v<base, derived> &&
-        std::is_base_of_v<base, derived> &&
-        !LibCppIsConstructible<derived, Base>::type::value>
-    value_;
+    using base = uncvref_t<Base>;
+    using value =
+        std::integral_constant<bool, !std::is_same_v<base, derived> &&
+                                         std::is_base_of_v<base, derived> &&
+                                         !LibCppIsConstructible<derived, base>::type::value>;
 };
 
 template <typename To, typename From>
-struct IsInvalidLvalueToRvalueCast : std::false_type {
-    // Your code goes here
-};
+struct IsInvalidLvalueToRvalueCast : std::false_type {};
 
 template <typename RefTo, typename RefFrom>
 struct IsInvalidLvalueToRvalueCast<RefTo&&, RefFrom&> {
-    using from = uncvref_t<RefFrom>;
     using to = uncvref_t<RefTo>;
-
-    static std::integral_constant<bool,
-            std::is_same_v<from, to> &&
-            std::is_base_of_v<to, from>>
-            value_;
+    using from = uncvref_t<RefFrom>;
+    using value =
+        std::integral_constant<bool, std::is_same_v<from, to> && std::is_base_of_v<to, from>>;
 };
 
 struct IsConstructibleHelper {

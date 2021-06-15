@@ -5,7 +5,6 @@
 
 #include "utility.h"
 
-
 template <typename T, typename... Args>
 struct LibCppIsConstructible;
 

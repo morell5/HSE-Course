@@ -36,7 +36,7 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 ################  Sanitizers  ################
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold -fsanitize=undefined,address -fno-sanitize-recover=all -O2 -Wall -Werror -Wsign-compare")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address -fno-sanitize-recover=all -O2 -Wall -Werror -Wsign-compare")
 
 ################  clang-tidy  ################
 set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-header-filter=.")

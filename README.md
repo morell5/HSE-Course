@@ -2,7 +2,10 @@
 
 ## Структура репозитория
 
-`module-1` - задания и семинары</br>
+* `homework` - задания
+* `lectures` - слайды лекций за 1 семестр
+* `seminars` - семинары за 1 и 2 семестр
+* [syllabus](https://docs.google.com/document/d/1tOMEcT4M0BeS75psBUGpSPhlk_CjwdCpbVxEpKyDxS4/edit#) - программа курса
 
 ## Сдача заданий
 

@@ -1,36 +1,36 @@
-# Сдача заданий
+# Assignments submitting guide
 
-## Начало работы
+## Getting started
 
-1. Сделать `fork` репозитория
-2. Склонировать `fork` репозитория
+1. Fork the repo
+2. Clone forked repo
 
     ```
     git clone https://github.com/<your username>/HSE-Course.git
     ```
-3.  Перейти в директорию
+3.  Go to the directory
 
     ```
     cd  HSE-Course
     ``` 
-4. Синхронизировать `fork` с репозиторием курса
+4. Syncronize the fork with the course repo
 
     ```
      git remote add upstream https://github.com/morell5/HSE-Course.git
     ```
-4. Вывести `remote`
+4. Print the current `remote`
 
     ```
     git remote -v
     ```
  
-5. Запретить `push` в репозиторий курса
+5. Block `push` to the course repository
 
     ```
     git remote set-url --push upstream no_push
     ```
 
-6. Сверить вывод в терминале
+6. Verify the terminal ouput
 
     ```
     origin  https://github.com/morell0809/HSE-Course.git (fetch)
@@ -39,20 +39,21 @@
     upstream        no_push (push)
     ```
 
-## Работа в репозитории
-1. Из `master` ветки создать ветку под задачу
+## Working in the repo
+
+1. Create a branch for the assignment from `master` branch
 
     ```
-    git checkout -b <название задачи>
+    git checkout -b <task name>
     ```
-2. Перейти в директорию с задачей
+2. Go to problem's directory
 
-    Пример: `homework/BigInteger`
-3. Прочитать условие задачи `task.md`
-4. Написать решение задачи в файлах
-    * `<имя задачи>.cpp` (реализация)
-    * `<имя задачи>.h` (интерфейс)
-5. Протестировать решение
+    Example: `homework/BigInteger`
+3. Read the problem statement `task.md`
+4. Write down the solution in files
+    * `<task name>.cpp` (implementation)
+    * `<task name>.h` (interface)
+5. Run tests
 
     ```
     cmake -G "Unix Makefiles" -B build -S.
@@ -62,55 +63,53 @@
     cmake --build build
     ```
 
-6. Добавить файлы на удаленный репозиторий
+6. Push files to remote repo
 
     ```
-    git add <имя задачи>.h <имя задачи>.cpp
-    git commit -m "ваше сообщение"
+    git add <task name>.h <task name>.cpp
+    git commit -m "your message"
     git push
     ```
-7. После выполнения задания сделать `PR` в `master`
+7. **After completing the assignment make a** `PR` **into** `master`
 
-`Замечание:` ветка с задачей не будет вливаться в `master` ветку
+## Fetching updates from course repo
 
-## Подкачивание изменений из основного репозитория
-
-1. В любой папке директории выполнить:
+1. Run the following command:
 
     ```
     git fetch upstream
     ```
-2. Перейти в `master` ветку на локали
+2. Go to `master` branch on the local repo
 
     ```
     git checkout master
     ```
-3. Подкачать измения из `master` ветки репозитория курса
+3. Fetching updates from the course's repo `master` branch
 
     ```
     git merge upstream/master master
     ```
-4. Приступить к решению новой задачи
+4. Start to solve new assignment
 
-## Если Вы изменили master в fork
+## If you have changed master in the fork
 
-1. Перейти в `master`
+1. Go to `master` branch
 
     ```
     git checkout master
     ```
-2. Подкачать обновления с репозитория курса
+2. Fetch updates from course's repo
     
     ```
     git fetch upstream
     ```
-3. Перейти к актуальному `master`
+3. Go to update `master` branch
     
     ```
     git reset --hard upstream/master
     ```
 
-4. Переписать изменения в `fork`
+4. Rewrite update in the `fork`
 
     ```
     git push -f

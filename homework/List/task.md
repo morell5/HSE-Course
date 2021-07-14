@@ -1,11 +1,12 @@
 # List
 
-## Задание
-Напишите класс list, хранящий `int` числа.</br>
-В файле `list.h` описан базовый интерфейс, заполните его.</br>
-Реализацию оформите в `list.cpp`.
+## Task
 
-Реализовать операции ([описание](https://en.cppreference.com/w/cpp/container/list)):
+You  std::list whose nodes store `int` numbers.</br>
+The interface in the `list.h`</br>
+The implementation in the `list.cpp`
+
+You should implement following operations ([description](https://en.cppreference.com/w/cpp/container/list)):
 * `front()`
 * `back()`
 * `empty()`

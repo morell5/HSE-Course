@@ -20,7 +20,7 @@ class SimpleAllocator {
         using pointer_difference = std::ptrdiff_t;
         using propagate_on_container_move_assignment = std::false_type;
         using propagate_on_container_copy_assignment = std::false_type;
-        using propogate_on_container_swap = std::false_type;
+        using propagate_on_container_swap = std::false_type;
         using is_always_equal = std::false_type;
 
         SimpleAllocator();

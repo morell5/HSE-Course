@@ -186,7 +186,7 @@ template<typename T, typename Allocator>
 void task::list<T, Allocator>::swap(list& other) noexcept 
 {   
     // использовал decltype, чтобы не писать __node_allocator
-    if (!std::allocator_traits<decltype(alloc)>::propogate_on_container_swap::value && get_allocator() != other.get_allocator()) {
+    if (!std::allocator_traits<decltype(alloc)>::propagate_on_container_swap::value && get_allocator() != other.get_allocator()) {
         std::exit(0);
     }
     // стандарт запрещает делать swap на элементах контейнера

@@ -1,7 +1,6 @@
 template<typename T, typename A = ...>
 class vector {
 public:
-    //
     vector& operator=(const vector& rhs);
 };
 

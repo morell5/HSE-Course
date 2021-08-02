@@ -18,8 +18,9 @@ class container {
 };
 
 template<typename T, typename Arg>
-unique<T> make_unique( Arg&&  arg) {
-    return unique<T>(new T(arg));
+unique<T> make_unique(Arg&& arg) {
+    // depending on Arg std::forward<Arg>(arg) is either lvalue or xvalue
+    return unique<T>(new T(std::forward<Arg>(arg)));
 }
 
 struct Test { Test(int&) {}; };
@@ -27,8 +28,6 @@ struct Test { Test(int&) {}; };
 int main() {
     container c;
 
-    // передаем в make_unique lvalue, получаем вызов copy: OK!
     unique<container> p1 = make_unique<container>(c);
-    // передаем в make_unique rvalue, но получаем вызов copy: не ОК, хотим move конструктор
     unique<container> p2 = make_unique<container>(std::move(c));
 }

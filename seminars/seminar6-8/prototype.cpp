@@ -1,5 +1,4 @@
 
-// прототип объектов, которые не требуется часто создавать, но надо получать
 #include <iostream>
 #include <string>
 #include <unordered_map>

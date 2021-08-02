@@ -1,31 +1,25 @@
 # Seminar
 
-Разобран паттерн [Builder](https://refactoring.guru/design-patterns/builder)
+The [Builder](https://refactoring.guru/design-patterns/builder) pattern was studied.
 
-Код не сохранился
+**"Moscow trains"** problem statement:
 
-Формулировка задачи:
+You need to track on the map train locations. More concreate you track the head car.</br>
+The train consist of 8 cars.</br>
+You work in a local coordinate system and assume that the earth is a surface.</br>
+Ostankino television tower is taken as the origin.
 
+Each Builder overrides the following methods:
+* create a seat
+* create a window
+* create a roof
+* create a wheel
 
-Требуется на карте отслеживать:
-* расположение имеющихся поездов
-* поезда из 8 вагонов
-* отслеживание по  координатам головного вагона
-* система координат локальная: считаем землю плоской
-* начало отсчета от красной площади
+Cars hierarchy:
+* head
+* ordinary
 
-Начинаем создавать инфраструктуру, описывающую задачу: классы и логику их взаимодействия
-
-Каждый Builder переопределяет методы для:
-* построения сидений
-* построения окон
-* построение крыши
-* построение колеса
-
-Иерархия вагонов: 
-* головной 
-* обычный
-
-Замечание:
-* поезд хранит список вагонов и координаты головного
-* builder собирает вагон по частям далее вагон добавляется в поезд
+Implementation notes:
+* A train stores a list of cars and coordinates of the head car
+* The Builder pattern performs a step by step construction of the car
+* After the construction the car is added to the train

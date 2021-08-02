@@ -13,20 +13,22 @@ class container {
     public:
         container(const container& c) : arg(c.arg) { std::cout << "hello"; };
         container(int _arg) : arg(_arg) {}
-    
+
     private:
         int arg;
 };
 
 template<typename T, typename Arg>
-unique<T> make_unique(Arg& arg) {
+unique<T> make_unique(Arg&& arg) {
     return unique<T>(new T(arg));
 }
 
+struct Test { 
+    Test(int&) {}; 
+};
+
 int main() {
-    container c(1);
-    // так ок
-    unique<container> p = make_unique<container>(c);
-    // но тут CE т.к. 1 literal => prvalue => lvalue-ref не инициализируется 
-    unique<int> p = make_unique<int>(1);
+    int i = 1;
+    // OK: Test's конструктор int& and Arg&& is deduced to int&
+    unique<Test> p1 = make_unique<Test>(i);
 }

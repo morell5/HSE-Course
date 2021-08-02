@@ -6,7 +6,7 @@ void foo(Widget& && x) {
     puts( "foo(T&&)" );
 }
 
-// Reference collapsing (продемонстрировать правило на cppreference)
+// Reference collapsing
 // & & -> &
 // && & -> &
 // & && -> &

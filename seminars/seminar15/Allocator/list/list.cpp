@@ -39,10 +39,6 @@ task::list<T, Allocator>::list(const task::list<T, Allocator>& other, const Allo
 
 template<typename T, typename Allocator>
 task::list<T, Allocator>::list(list&& other) :
-    // тут сценарии
-    // 1. вызывается user-defined(нами опеределенный) move constructor decltype(alloc)
-    // 2. вызывается move constructor decltype(alloc)
-    // 3. вызывается copy constructor decltype(alloc) т.к. const lvalue-ref может быть проиницализирована с rvalue expression
     alloc(std::move(other.alloc)),
     head(other.head),
     tail(other.tail)
@@ -129,7 +125,7 @@ template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_back(const T& value) 
 {
     Node* p = static_cast<Node*>(alloc.allocate(1));
-    // Передаем value в construct -> вызываем copy constructor Node<T>
+    // we pass the "value" to the construct -> we call the copy constructor of a Node<T>
     alloc.construct(p, value);
     p->next = tail;
     p->prev = tail->prev;
@@ -142,8 +138,9 @@ template<typename T, typename Allocator>
 void task::list<T, Allocator>::push_back(T&& value) 
 {
     Node* p = static_cast<Node*>(alloc.allocate(1));
-    // forward т.к. надо передать reference collapsing на место аругмента
-    // move сделал бы все expressions вида xvalue expression
+    // for a lvalue value we need to call copy constructor
+    // for a rvalue value we need to call move constructor
+    // thus we need to use std::forward
     alloc.construct(p, std::forward<T>(value));
     p->next = tail;
     p->prev = tail->prev;
@@ -185,12 +182,11 @@ typename task::list<T, Allocator>::allocator_type task::list<T, Allocator>::get_
 template<typename T, typename Allocator>
 void task::list<T, Allocator>::swap(list& other) noexcept 
 {   
-    // использовал decltype, чтобы не писать __node_allocator
+    // we use decltype to get the type of the alloc
     if (!std::allocator_traits<decltype(alloc)>::propogate_on_container_swap::value && get_allocator() != other.get_allocator()) {
         std::exit(0);
     }
-    // стандарт запрещает делать swap на элементах контейнера
-    // но head, tail - это хелперы, требования на них не распространяются
+
     utility::__swap_allocator(alloc, other.alloc);
     std::swap(head, other.head);
     std::swap(tail, other.tail);

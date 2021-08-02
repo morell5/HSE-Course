@@ -18,9 +18,9 @@ struct Fib<0> {
 # define my_static_assert(expr) {char x[(expr) ? 1 : -1]; }
 
 int main() {
-    // раньше:
+    // Before C++11 static_assert had to be implemented:
     my_static_assert(Fib<1>::val == 1);
-    // сейчас:
+    // since C++11:
     static_assert(Fib<1>::val == 1);
     return 0;
 }

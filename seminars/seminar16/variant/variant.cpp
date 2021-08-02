@@ -49,7 +49,6 @@ struct __access_union {
     
     template<typename U, std::size_t Idx>
     static constexpr auto&& __get_alt(U&& __v, in_place_index_t<Idx>) {
-        // Логика __get_alt: выдать Idx шагов -> идти вправо по tail-> шаг сделан -> Idx - 1 -> на Idx=0 проверить есть ли head
         return __get_alt(std::forward<U>(__v).__tail, in_place_index<Idx - 1>);
     }
 };
@@ -80,8 +79,6 @@ template<typename TargetType, typename... Types>
 struct _find_exactly_one_checked_ {
     constexpr static bool founded[sizeof...(Types)] = {std::is_same<TargetType, Types>::value...}; 
     constexpr static std::size_t value = __check_dublicates__(0, founded);
-    // static_assert(value != not_founded, "type not found in type list" );
-    // static_assert(value != ambiguity, "type occurs more than once in type list");
 };
 
 template<typename T>
@@ -143,7 +140,6 @@ struct  variant_alternative;
 
 template <std::size_t I, typename... Types>
 struct variant_alternative<I, my_variant<Types...>> {
-    // my_variant_alternative_t<Idx, my_variant<Types...>> - это упаковать Types... в TypeList / tuple и применить TypeAt 
     using type = typename TypeAt<I, Typelist<Types...>>::Result;
 };
 template <std::size_t I, typename... Types>
@@ -153,8 +149,6 @@ using my_variant_alternative_t = typename variant_alternative<I, Types...>::type
 //----------------Getters----------------
 template<std::size_t Idx, typename T>
 auto&& generic_get(T&& v) {
-    // __my_variant друг my_variant => _my_variant может обратиться к полям my_variant
-    // друг может обратиться к полям my_variant  
     return __my_variant::__get_alt<Idx>(std::forward<T>(v))._value;
 }
 
@@ -165,10 +159,7 @@ my_variant_alternative_t<Idx, my_variant<Types...>>& get(my_variant<Types...>& v
 
 template<typename T, typename... Types>
 T& get(my_variant<Types...>& v) {
-    std::cout << "get";
-    const auto x = _find_exactly_one_t<Types...>::value;
-    int y = 3;
-    return y;
+    return get<_find_exactly_one_t<Types...>::value>(v);
 }
 
 template<typename T, typename... Types>
@@ -178,19 +169,12 @@ T&& get(my_variant<Types...>&& v) {
 //----------------Getters----------------
 
 int main() {
-        // План:
-        // 1. Разименовали строчку, добавили необходимый функционал (максимально общий / generic)
-
-        // Нужен union с произвольным числом типов
-        // Реш: TypeList to the rescue! см __uinion
         my_variant<const char*, int, double> v, w;
-        // // нужен operator=, с правым операндом любого типа
-        // // Реш: добавляем operator=, принимающий по universal reference (converting assignment)
         v = 1000;
         
         std::cout << v.__data.tail.head;
         
-        // get: Segfault
-        //int i = get<int>(v);
+        // we get a segfault
+        // int i = get<int>(v);
         return 0;
 }

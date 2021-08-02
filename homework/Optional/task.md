@@ -2,7 +2,7 @@
 
 ## Task
 
-In this task you will implement the [`Optional`](https://en.cppreference.com/w/cpp/utility/optional) class.</br>
+In this task you will implement the [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional) class.</br>
 Optional is a class that provides functionality of an optional storage</br>
  of the given value / default value
 

@@ -2,7 +2,7 @@
 
 ## Task
 
-You  std::list whose nodes store `int` numbers.</br>
+You will implement an std::list with nodes storing `int` numbers.</br>
 The interface in the `list.h`</br>
 The implementation in the `list.cpp`
 

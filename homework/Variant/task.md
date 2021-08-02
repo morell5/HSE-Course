@@ -2,9 +2,9 @@
 
 ## Task
 
-In this task you will implement the [`Variant`](https://en.cppreference.com/w/cpp/utility/variant).
+In this task you will implement the [`std::variant`](https://en.cppreference.com/w/cpp/utility/variant).
 
-`Variant` is a generalization of a **union** type
+`std::variant` is a generalization of a **union** type
 
 You should implement following functions:
 * [`Get`](https://en.cppreference.com/w/cpp/utility/variant/get) - returns the reference to the value by index

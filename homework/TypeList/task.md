@@ -1,142 +1,142 @@
 # TypeList
 
-## Задание
+## Task
 
-`TypeList` - структура данных для хранения типов.</br>
-Реализовать операции над TypeList посредством специализаций.</br>
+`TypeList` - the data structure for storing types</br>
+Implement operation under TypeList using specializations</br>
 
-В файле `type_list.h` сделаны предобъявления.
-В файле `type_list.h` реализуйте специализации.
+There are predefinitions in the `type_list.h`
+Implement specializations in the `type_list.h`
 
-Реализовать специализации:
-* `Length` : структура для подсчета числа типов в списке
+You should implement following implementations:
+* `Length` : a structure for counting number of types in the list
 
-    Параметры:
-    * `TList` : список типов
+    Parameters:
+    * `TList` : the list of types
 
-    Поля:
-    * `length` : длина списка типов
+    Fields:
+    * `length` : the length of the list
 
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template <typename TList> 
     struct Length;
     ```
 
-* `TypeAt` : структура для получения типа по индексу
+* `TypeAt` : the structure to get the type from list by index
 
-    Параметры:
-    * `TList` : список типов
-    * `index` : позиция типа в списке
+    Parameters:
+    * `TList` : type list
+    * `index` : the type position in the list
 
-    Поля:
-    * `TargetType` : искомый тип
+    Fields:
+    * `TargetType` : the type that you are looking
 
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template<typename TList, unsigned int index>
     struct TypeAt;
     ```
 
-* `IndexOf` : структура для получения индекса типа в списке (при отсутствии возвращает -1)
+* `IndexOf` : the structure to get type of the index in the list (if there is no type than it returns -1)
 
-    Параметры:
-    * `TList` : список типов
-    * `TargetType` : искомый тип
+    Parameters:
+    * `TList` : type list
+    * `TargetType` : the type that you are looking
 
-    Поля:
-    * `pos` : позиция типа в списке
+    Fields:
+    * `pos` : the type position in the list
 
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template<typename TList, typename TargetType>
     struct IndexOf;
     ```
 
-* `Append` : структура для добавления типа в список типов
+* `Append` : the structure to add types to the list of types
 
-    Параметры:
-    * `TList` : список типов
-    * `NewType` : добавляемый тип
+    Parameters:
+    * `TList` : the type list
+    * `NewType` : the type to add
        
-    Поля:
-    * `NewTypeList` : новый список типов
+    Fields:
+    * `NewTypeList` : new list of types
     
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template<typename TList, typename NewType>
     struct Append;
     ```
 
-* `Erase` : структура для удаления первого вхождения типа в список
+* `Erase` : the structure to remove first type entry to the list
 
-    Параметры:
-    * `TList` : список типов
-    * `TargetType` : удаляемый тип
+    Parameters:
+    * `TList` : the type list
+    * `TargetType` : the type that you are erasing
     
-    Поля:
-    * `NewTypeList` : новый список типов
+    Fields:
+    * `NewTypeList` : the new type list
     
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template<typename TList, typename TargetType>
     struct Erase;
     ```
       
-* `EraseAll` : структура для удаления всех вхождений типа в список
+* `EraseAll` : the structure to remove all type entries to the list
 
-    Параметры:
-    * `TList` : список типов
-    * `TargetType` : удаляемый тип
+    Parameters:
+    * `TList` : the type list
+    * `TargetType` : the removal type
     
-    Поля:
-    * `NewTypeList` : новый список типов
+    Fields:
+    * `NewTypeList` : the new type list
     
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template<typename TList, typename TargetType>
     struct EraseAll;
     ```
       
-* `NoDuplicates` : структура для удаления типов повторяющихся в списке
+* `NoDuplicates` : the structure to remove duplicates in the list
 
-    Параметры:
-    * `TList` : список типов
+    Parameters:
+    * `TList` : the type list
 
-    Поля:
-    * `NewTypeList` : новый список типов
+    Fields:
+    * `NewTypeList` : the new type list
 
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template <typename TList>
     struct NoDuplicates;
     ```
        
-* `Replace` : структура для замены типа `OldType` типом `NewType`
+* `Replace` : the structure to replace `OldType` with the type `NewType`
     
-    Параметры:
-    * `TList` : список типов
-    * `OldType` : заменяемый тип
-    * `NewType` : новый тип
+    Parameters:
+    * `TList` : the type list
+    * `OldType` : the replacable type
+    * `NewType` : new type in the list
 
-    Поля:
-    * `NewTypeList` : новый список типов
+    Fields:
+    * `NewTypeList` : the new type list
 
-    Предобъявление:
+    Predefinitions:
 
     ```c++
     template <typename TList, typename OldType, typename NewType> 
     struct Replace;
     ```
 
-## В помощь
+## Recommended to read
 
 [Modern C++ Design: Generic Programming and Design Patterns Applied](https://drive.google.com/drive/folders/1jeZCxdpFG0cA0PVwRW3kXThitbQnHUSn) 
 * **Chapter 3: Typelists** 

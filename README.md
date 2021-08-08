@@ -1,28 +1,28 @@
-# ВШЭ: курс по C/C++
+# HSE: C/C++ course
 
-## Структура репозитория
+## Repo structure
 
-* `homework` - задания
-* `lectures` - слайды лекций за 1 семестр
-* `seminars` - семинары за 1 и 2 семестр
-* [syllabus](https://docs.google.com/document/d/1tOMEcT4M0BeS75psBUGpSPhlk_CjwdCpbVxEpKyDxS4/edit#) - программа курса
+* `homework` - assignments
+* `lectures` - 1st term lectures
+* `seminars` - 1st 2nd terms seminars
+* [syllabus](https://docs.google.com/document/d/1tOMEcT4M0BeS75psBUGpSPhlk_CjwdCpbVxEpKyDxS4/edit#) - lectures plan
 
-## Сдача заданий
+## Assignments info
 
-[Документ с описанием](docs/submitting.md)
+[Assignments submitting guide](docs/submitting.md)
 
-## Окружение
+## Environemnt
 
-* `ОC:` Ubuntu:20.04
+* `OS:` Ubuntu: 20.04
 
-## Код стайл
+## Coding style
 
 * [`Google Code Style`](https://google.github.io/styleguide/cppguide.html)
 
-## Результаты
+## Results
 
-Таблица с [оценками](https://docs.google.com/spreadsheets/d/135Sc1STb6vrWEQqt6RVSmQmCwK8M7J7ywcRZyaxgCy0/edit?usp=sharing)
+Table with [marks](https://docs.google.com/spreadsheets/d/135Sc1STb6vrWEQqt6RVSmQmCwK8M7J7ywcRZyaxgCy0/edit?usp=sharing)
 
-## Связь
+## Contact
 
 [Slack Workspace](https://join.slack.com/t/1c-hseworkspace/shared_invite/zt-n67k87vo-d~ypzAzri~Tu4e15zQLSBw)

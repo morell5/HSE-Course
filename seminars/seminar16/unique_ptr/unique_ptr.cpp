@@ -7,7 +7,7 @@
 // auto_ptr depreceted
 void seg_fault() {
     std::auto_ptr<int> w1(new int(1));
-    // делегировали содержимое w2 w1
+    // propagating the content of the w2 to the w1
     std::auto_ptr<int> w2 = w1;
     std::cout << *w1;
 }
@@ -142,8 +142,6 @@ void evolution_of_consciousness() {
     // Step3
     // no delete, no explicit new
     auto w3 = std::make_shared<Widget>();
-
-    
 }
 
 // my_make_shared

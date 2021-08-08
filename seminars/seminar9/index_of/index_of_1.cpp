@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 
-// для отсуттствующего типа, выводится -1
-
 struct NullType {};
 
 template<typename Head, typename Tail>
@@ -11,9 +9,10 @@ struct TypeList {
     typedef Tail T;
 };
 
-
 template<typename TList, typename TargetType>
 struct IndexOf;
+
+// In the abcence of the TargetType in the list by defintion we put pos=-1
 
 template<typename TargetType>
 struct IndexOf<NullType, TargetType> {

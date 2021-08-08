@@ -2,11 +2,11 @@
 
 int main(int argc, char** argv) {
     int number;
-    // выводим строку с запросом в поток 
+    // output the string to the stream 
     std::cout << "Your number: ";
-    // считывает число из потока
+    // read a number from the stream
     std::cin >> number;
-    // выводим число в поток
+    // output the number to the stream
     std::cout << "Value : " << number  << std::endl;
     return 0;
 }

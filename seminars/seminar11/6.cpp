@@ -1,8 +1,6 @@
 std::vector<int> v = {1, 2 , 3 , 4 ,5};
 std::vector<int> v2;
 v2 = v;
-
-// реализовать 
 v2 = std::move(v);
 
 
@@ -12,7 +10,8 @@ typename std::remove_reference<T>::type&& move(T&& arg) {
     return static_cast<typename std::remove_reference<T>::type&&>(arg);
 }
 
-// до 11 стандарта вызов createVector отправлялся в operartor=, но этого не надо т.к. createVector временный объект
+// Before C++11 the call of createVector is redirected to operartor=, 
+// but we don't need it, because createVector is a temporary object
 
 #include <iostream>
 #include <type_traits>
@@ -45,9 +44,14 @@ int main() {
     return 0;
 }
 
-// введение T&& посзволяет перенаправить вызовы createVector в operator=
-// Итог: move нужен для перенаправления присваивания
-// Реализуется: приведением типа аргумента к rvalue-reference
+// Rvalue references T&& and new value categories "xvalue", "prvalue"
+// that were introduced in C++11, solves above mentioned problem.
+// We  with
+// std::move function
+
+// Summary: we use std::move to redirect the createVector call to operator=(T&&)
+// std::move implementat: it's just a cast of argument type to 
+// the rvalue-reference type
 
 #include <iostream>
 #include <type_traits>
@@ -92,7 +96,7 @@ int main() {
 }
 
 
-// container - rule of zero
+// Rule of Zero
 
 #include <iostream>
 #include <memory>
@@ -113,8 +117,12 @@ int main() {
     return 0;
 }
 
-// при работе с сырыми ресурсами требуется переопределять move-contructor, move-operator
-// иначе double free
+// Working with raw system resources we need 
+// to provide user defined move-assignment/move constructor
+// special member functions, otherwise double free error may occur
+
+// Reason: the default / implicitly generated move-assignment 
+// version is equal to copy-assignment
 #include <iostream>
 #include <memory>
 
@@ -133,11 +141,9 @@ int main() {
     container x;
     container y = std::move(x);
     delete x.pi;
-    delete y.pi;
+    delete y.pi; // double free
     return 0;
 }
-// 
-
 
 // std::exchange с C++14
 #include <iostream>
@@ -187,10 +193,13 @@ class container {
             s  = std::move(w.s);
             pi = std::move(w.pi);
             w.pi  = nullptr
-            // или можно так, но ресурсы pi будут в w.pi
+
+            // alternatively we can do the following
             i = std::move(w.i);
             s  = std::move(w.s);
             std::swap(pi, w.pi);
+            // but pi resources in the w.pi
+
             return *this;
         }
 };  
@@ -202,4 +211,3 @@ int main() {
     delete y.pi;
     return 0;
 }
-// 

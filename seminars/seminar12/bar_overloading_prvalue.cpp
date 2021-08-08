@@ -34,11 +34,11 @@ void bar(const T&&) {
     std::cout << 6;   
 }
 
-const container make_container() {
+container make_container() {
     return container();
 }
 
 int main() {
-    // 4->6->5->3
+    // 2->5->4->6->3
     bar(make_container());
 }

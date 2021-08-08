@@ -1,22 +1,22 @@
 # Allocator
 
-## Задание
+## Problem
 
-Взять свою имплементацию `list` из задания `List`
+Take your `std::list` implementation from the `List` problem
 
-Добавить:
+Add:
 * move-constructor
 * move-assignment operator
-* iterator (должен удовлетворять категории `LegacyBidirectionalIterator`)
-* allocator для `Node`(должен удовлетворять [Allocator requirements](https://en.cppreference.com/w/cpp/named_req/Allocator))
-    * алгоритм размещения `Node` по одному из [алгоритмов](https://github.com/mtrebi/memory-allocators)
-    * интерфейс по `C++11`
+* iterator (it must admit `LegacyBidirectionalIterator`)
+* allocator for a `Node` type (it must admit [Allocator requirements](https://en.cppreference.com/w/cpp/named_req/Allocator))
+    * you should choose one of [algorithms](https://github.com/mtrebi/memory-allocators)
+    * `C++11` interface
 
-Должно быть:
-* `list.h` - интерфейс и имплементация из задания `List`
-* `allocator.h` - интерфейс и имплементация аллокатора по `C++11`
+Inside the header files should be the following:
+* `list.h` - interface and implementation from the `List` problem
+* `allocator.h` - interface and implementation must admit `C++11` interface
 
-Упрощение: для шаблонного параметра `T` предполагается
+Simplification: it's expected for the type template parameter `T` that
 
 ```c++
 std::is_trivially_constructible<T>::value <- true

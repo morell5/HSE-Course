@@ -162,16 +162,16 @@ private:
     PrinterWorker* printer;
 };
 
-// int main() {
+int main() {
     
-//     std::filesystem::path path = "./input.txt";
-//     DataLoaderWorker* dataloader = new DataLoaderWorker(path);
-//     SortingWorker* qsort_worker = new QuickSortWorker;
-//     PrinterWorker* print_worker = new PrinterWorker;
-//     Decorator* qsort_docrator = new Decorator(qsort_worker);
+    std::filesystem::path path = "./input.txt";
+    DataLoaderWorker* dataloader = new DataLoaderWorker(path);
+    SortingWorker* qsort_worker = new QuickSortWorker;
+    PrinterWorker* print_worker = new PrinterWorker;
+    Decorator* qsort_docrator = new Decorator(qsort_worker);
 
-//     SortMediator* qsort_mediator = new SortMediator(dataloader, qsort_docrator, print_worker);
-//     dataloader->Load();
+    SortMediator* qsort_mediator = new SortMediator(dataloader, qsort_docrator, print_worker);
+    dataloader->Load();
     
-//     return 0;
-// }
+    return 0;
+}

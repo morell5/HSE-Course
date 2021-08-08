@@ -1,15 +1,14 @@
 # Seminar
 
-Разобран паттерн [Composite](https://refactoring.guru/design-patterns/builder)
+The pattern [Composite](https://refactoring.guru/design-patterns/composite) was studied
 
-Код не сохранился
+"Investment company" problem statement:
 
-Формулировка задачи:
+You need to implement the following hierarchy:  Managing Director <- Senior VP <- VP <- Banking Associate <- Banking Analyst
 
-Иерархия:  Managing Director <- Senior VP <- VP <- Banking Associate <- Banking Analyst
+Classes have methods:
 
-Классы облажают методами:
-* Banking Analyst:
+Banking Analyst:
 * MakePresentation
 * GetCompanyIndicator
 

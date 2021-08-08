@@ -1,10 +1,12 @@
 # Optional
 
-## Задание
+## Task
 
-[`Optional`](https://en.cppreference.com/w/cpp/utility/optional) - контейнер, реализующий функциональность опионального хранения</br> заданного значения / пустого значения (отдельно выделенного)
+In this task you will implement the [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional) class.</br>
+Optional is a class that provides functionality of an optional storage</br>
+ of the given value / default value
 
-Конструкторы:
+Constructors:
 
 ````c++
 constexpr Optional() noexcept;
@@ -24,18 +26,17 @@ template<class... _Args>
 constexpr explicit Optional(in_place_t, _Args&&... __args);
 ```
 
-Реализовать операторы:
-* `->` - разыменования с обращением к полю / методу 
-* `*` - разыменования
-* `bool()` - преобразование к `bool`
+You should implement the following operations:
+* `->` - arrow 
+* `*` - indirection
+* `bool()` - conversion to `bool`
 
-Методы:
-* `HasValue` - проверка наличия значения
-* `ValueOr` - возвращает хранимое значение при его наличии или передаваемый аргумент</br>
-при отсутствии хранимого значения
-* `Reset` - вызов деструктора у хранимого значении при наличии деструктора у типа этого значения
+Methods:
+* `HasValue` - checking the presence of the value
+* `ValueOr` -  returns stored value if it exists otherwise returns the argument</br>
+* `Reset` - calls destructor of the stoed value if the type has the destructor
 
-Можно использовать:
+You can use:
 * `std::is_trivially_destructible`
 * `std::addressof`
 * `std::add_pointer_t`

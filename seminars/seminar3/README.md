@@ -1,5 +1,5 @@
 # Seminar
 
-Разобран паттерн [Flyweight](https://refactoring.guru/design-patterns/flyweight).
+The [Flyweight](https://refactoring.guru/design-patterns/flyweight) pattern was studied.
 
-Реализовали [пример](https://refactoring.guru/design-patterns/flyweight/cpp/example)
+The following [example](https://refactoring.guru/design-patterns/flyweight/cpp/example) was implemted

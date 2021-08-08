@@ -56,8 +56,7 @@ bool operator!=(const SimpleAllocator<T>& lhs, const SimpleAllocator<U>& rhs) no
 template<typename T>
 template<typename... Args>
 void SimpleAllocator<T>::construct(void* p, Args&&... args) {
-    // new(p) - это new expression (конкретнее placement new expression),  
-    // который вызывает new operator
+    // new(p) is a "new expression" which calls new operator
 
     new(p) value_type(std::forward<Args>(args)...);
 }

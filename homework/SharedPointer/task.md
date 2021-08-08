@@ -1,18 +1,18 @@
 # SharedPointer
 
-## Задание
+## Task
 
-Реализовать `ControlBlock` в `control.h`
-* без аллокатора
-* счетчик ссылок
+Implement `ControlBlock` in the `control.h`
+* with reference counting
+* without allocator
     
     ```c++
     std::atomic<std::size_t>
     ```
 
-Написать класс [SharedPtr](https://en.cppreference.com/w/cpp/memory/shared_ptr)
+For the class [SharedPtr](https://en.cppreference.com/w/cpp/memory/shared_ptr)
 
-Реализовать:
+You should implement the following operations:
 * **Special member functions**
 
     ```c++
@@ -72,9 +72,9 @@
     ```
 
 
-Написать класс [WeakPtr](https://en.cppreference.com/w/cpp/memory/weak_ptr)
+For the class [WeakPtr](https://en.cppreference.com/w/cpp/memory/weak_ptr)
 
-Реализовать:
+You should implement:
 * **Special member functions**
 
     ```c++

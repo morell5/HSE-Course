@@ -14,7 +14,7 @@ int main() {
     // 0xFFFFFFF
     // stack
     // v2
-    // адрес возврата createVector
+    // createVector's return address
     // 
     // _tmp_ 0xFFFFFFCC
     // stack

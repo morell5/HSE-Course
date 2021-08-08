@@ -36,7 +36,6 @@ class McDonalds : public Restourant {
 };
 
 
-int  main() {
-   
+int  main() {  
     return 0;
 }
